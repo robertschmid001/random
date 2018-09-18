@@ -1,4 +1,4 @@
-# project-courtier
+# Random
 
 ## Project setup
 ```
