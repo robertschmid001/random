@@ -1,0 +1,27 @@
+
+.button {
+    padding: 0;
+    max-width: 250px;
+    border-style: none;
+    background-color: rgb(4, 151, 151);
+    color: white;
+    border-radius: 7px;
+    height: 35px;
+}
+.pointer {
+    cursor: pointer;
+}
+.error {
+    color: rgba(255, 0, 0, 0.6);
+    font-size: 9px;
+    padding-top: 5px;
+    box-sizing: border-box;
+}
+.size {
+    margin-bottom: 3px;
+    height: 35px;
+    width: 100%;
+}
+.text-size-small {
+    font-size: 10px;
+}
