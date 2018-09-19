@@ -1,9 +1,7 @@
 <template>
   <div class="modal-backdrop">
+    <img src="../../assets/logo-cpms.png" alt="">
     <div class="modal">
-        <header class="modal-header">
-          Créer votre compte
-        </header>
 
         <section class="modal-body">
             <div class="box">
@@ -17,15 +15,10 @@
                 <el-row class="modal-padding">
                     <el-col :span="24"><div class="modal-box"  ><label for="prénom" class="modal-label">Adresse mail</label><input type="email" class="modul-input" placeholder="Adresse mail"></div></el-col>
                 </el-row>
-                <el-row class="modal-padding">
-                   <el-col :span="24"><div class="modal-box"><label for="nom">Mot de passe</label><input type="email" class="modul-input" placeholder="Mot de passe"></div></el-col>
-                </el-row>
+  
             </div>
         </section>
-
-        <footer class="modal-footer">
-            <button type="button" class="btn-green" @click="close"> Close me!</button>
-        </footer>
+        
     </div>
   </div>
 </template>
@@ -43,6 +36,31 @@
   };
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.se-conn-wrapper {
+  padding-top: 7px;
+  text-align: left;
+}
+.el-icon-loading {
+  width: 30px;
+}
+img {
+  height: 50px;
+  padding: 10px;
+}
+.pwordInit {
+  color: rgb(4, 151, 151);
+  line-height: 20px;
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+.modal-body {
+  width: 250px;
+}
+.modal-backdrop {
+  flex-direction: column;
+}
+.text-decoration {
+  text-decoration: underline;
+}
 </style>

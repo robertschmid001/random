@@ -4,38 +4,36 @@
     <img src="../assets/logo-cpms.png" alt="">
       <div class="outer-wrapper">
         <el-row>
-
           <div class="inner-wrapper">
-
             <form v-on:submit.prevent="submit">
               <el-row>
                 <el-col :span="24" class="pword-error-wrapper">
-                  <div>
-                    <el-input placeholder="email ou numéro de courtier" v-model.lazy="id" autocapitalize="off" ></el-input>
+                  <div class="input-icon-wrapper">
+                    <input class="base-input" placeholder="email ou numéro de courtier" v-model.trim.lazy="id" autocapitalize="off"/><i class="el-icon-warning" v-if="$v.id.$error"></i>
                   </div>
                 </el-col>
-                <el-col :span="24"><div><el-input placeholder="Mot de passe" type="password" v-model.lazy="password" autocapitalize="off"></el-input> </div></el-col>
+                <el-col :span="24">
+                  <div class="input-icon-wrapper">
+                    <input class="base-input" placeholder="Mot de passe" type="password" v-model.trim.lazy="$v.password.$model" autocapitalize="off"/><i class="el-icon-warning" v-if="$v.password.$error"></i>
+                  </div>
+                </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12" class="pword-wrapper">
-                  <span class="text-size-small pointer  text-decoration" @click="showModalLostPassword">Mot de passe oublié ?</span>
+                  <span class="text-size-small pointer text-decoration width" @click="showModalLostPassword">Mot de passe oublié ?</span>
                 </el-col>
                 <el-col :span="12">
                   <el-col :span="24">
-                    <div>
                       <el-button type="submit" class="size text-size-small button" @click="submit" >Se connecter</el-button>
-                    </div>
                   </el-col>
                 </el-col>
               </el-row>
-
             </form>
-
-            <div class="error" v-if="!$v.id.customValidate">Merci de renseigner un format de mail valide</div>
-            <div class="error" v-if="!$v.password" >Pword</div>
+            <div class="error" v-if="$v.id.$error"> Merci de renseigner un format de mail ou un N° Courtier valide</div>
+            <div class="error" v-if="$v.id.customValidate.$error"> Merci de renseigner un format de mail ou un N° Courtier valide</div>
+            <div class="error" v-if="$v.password.$error">veuillez saisir votre mot de passe</div>
           </div>
         </el-row>
-
       </div>
       <el-row>
         <el-col :span="24"><span class="text-size-small pointer" @click="showModalCreate">Vous n'avez pas encore de compte ? <span class="text-decoration">Contactez-nous</span> </span></el-col>
@@ -47,7 +45,7 @@
 </template>
 
 <script>
-import { required, maxLength, email, or } from "vuelidate/lib/validators";
+import { required, maxLength, email, or} from "vuelidate/lib/validators";
 import modalSignup from "./modals/modal-signup.vue";
 import modalPassword from "./modals/modal-password.vue";
 
@@ -66,7 +64,6 @@ export default {
     "modal-signup": modalSignup,
     "modal-password": modalPassword
   },
-
   validations: {
     id: {
       required,
@@ -90,7 +87,6 @@ export default {
     submit() {
       console.log('submit!')
       this.$v.$touch()
-      console.log(this.$v)
       if (this.$v.$invalid) {
         this.submitStatus = 'ERROR'
         return console.log(this.submitStatus)
@@ -112,7 +108,7 @@ export default {
           console.log(this.submitStatus)
         }, 500)
       }
-     }
+    }
   }
 };
 </script>
@@ -125,7 +121,8 @@ img {
   text-decoration: underline;
 }
 .pword-wrapper {
-  padding-top: 5px;
+  padding-top: 7px;
+  text-align: left;
 }
 .outer-wrapper {
   background-color: white;
@@ -150,12 +147,16 @@ img {
   justify-content: center;
   align-items: center;
 }
-
-.el-input {
-  margin-bottom: 10px;
+.width {
+  width: 100%;
 }
+
+// .el-input {
+//   margin-bottom: 10px;
+// }
 // .el-input /deep/ input:focus {
 //   background-color: black;
 //   color: white;
 // }
+
 </style>
