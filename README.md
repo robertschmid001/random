@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # random 
+=======
+# Random
+>>>>>>> 38d1f7ef1e38f4273cb42711e057638c76b933e2
 
 ## Project setup
 ```
