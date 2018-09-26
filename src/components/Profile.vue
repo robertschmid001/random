@@ -129,22 +129,25 @@
                     <div class="inner-header">
                             <el-row>
                                 <el-col :span="12" class="text-size-md align-left"><img src="../assets/icons/profile-icons/personbw.png" class="profile-icon" alt=""> Liste des utilisateurs habilités</el-col>
-                                <el-col :span="12" class="text-size-md align-right"><img src="../assets/icons/profile-icons/person_add.png" class="profile-icon-add" alt=""><span class="underline pointer" @click="addUser">Ajouter un utilisateur</span></el-col>
+                                <el-col :span="12" class="text-size-md align-right"><img src="../assets/icons/profile-icons/person_add.png" class="profile-icon-add" alt=""><span class="underline pointer" @click="isAdding=true">Ajouter un utilisateur</span></el-col>
                             </el-row>
                     </div>
                     <div class="align-left inner-body-r text-size-md">
                         <div v-for="(user, index) in this.usersList" :key="index">
                             <div class="box-user">
-                                {{index}} <br>
-                                {{user.surname}}<br>
-                                {{user.forename}}<br>
-                                {{user.tel}} <br>
-                                {{user.email}}
-                                <div class="icons-wrapper">
-                                    <img src="../assets/icons/profile-icons/edit.png" class="profile-icon pointer" alt="" @click="editUser(index, user)">
-                                    <img src="../assets/icons/profile-icons/cross.png" class="profile-icon pointer" alt="" @click="deleteUser(index)">
+                                <div class="input-box">
+                                    <span v-show="!user.edit">{{user.surname}}</span> <input class="base-input" placeholder="user.surname" v-model.trim.lazy="user.surname" v-show="user.edit"/><br>
+                                    <span v-show="!user.edit">{{user.forename}}</span> <input class="base-input" placeholder="user.forename" v-model.trim.lazy="user.forename" v-show="user.edit"/><br>
+                                    <span v-show="!user.edit">{{user.tel}}</span> <input class="base-input" placeholder="user.tel" v-model.trim.lazy="user.tel" v-show="user.edit"/><br>
+                                    <span v-show="!user.edit">{{user.email}}</span> <input class="base-input" placeholder="user.email" v-model.trim.lazy="user.email" v-show="user.edit"/><br>
+                                    {{user.edit}}
                                 </div>
-
+                                <div class="icons-wrapper">
+                                    <img src="../assets/icons/profile-icons/edit.png" class="profile-icon pointer" alt="" @click="editUser(index, user)" v-show="!user.edit">
+                                    <img src="../assets/icons/profile-icons/checkmark.png" class="profile-icon pointer" alt="" @click="confirmEdit(index, user)" v-show="user.edit">
+                                    <img src="../assets/icons/profile-icons/cross.png" class="profile-icon pointer" alt=""  @click="openWarning(index, user)">
+                                </div>
+                                <!-- @click="deleteUser(index)" -->
                             </div>
                         </div>
                     </div>
@@ -157,12 +160,12 @@
                             </el-row>
                     </div>
                     <div class="align-left inner-body-r text-size-md">
-                        <input class="base-input" placeholder="Prénom" v-model.trim.lazy="newForname"/>
-                        <input class="base-input" placeholder="Nom" v-model.trim.lazy="newSurname"/>
-                        <input class="base-input" placeholder="Numéro de téléphone" v-model.trim.lazy="newTel"/>
-                        <input class="base-input" placeholder="Email" v-model.trim.lazy="newEmail"/>
+                        <input class="base-input" placeholder="Nom" v-model.trim.lazy="newUser.surname"/>
+                        <input class="base-input" placeholder="Prénom" v-model.trim.lazy="newUser.forename"/>
+                        <input class="base-input" placeholder="Numéro de téléphone" v-model.trim.lazy="newUser.tel"/>
+                        <input class="base-input" placeholder="Email" v-model.trim.lazy="newUser.email"/>
                         <div class="button-wrapper-profile">
-                            <button type="submit" class=" text-size-small button button-width" @click="submit" >Se connecter</button>
+                            <button type="submit" class=" text-size-small button button-width" @click="addUser" >Ajouter</button>
                         </div>
                     </div>
                 </div>
@@ -184,7 +187,7 @@ export default {
         surname: 'Du-gouda',
         forename: 'donn-amoi',
         orlas: '45145',
-        adresse:{ rue: '11 rue de la chevalerie', ville:'Paris', codePostale:'75015' },
+        adresse:{ rue: '11 rue de la chevalerie', ville:'Paris', codePostale:'75015'},
         tel: '01 75 14 55 61',
         email:'donnamoidugouda@wanadoo.com',
         id: '685675',
@@ -193,17 +196,14 @@ export default {
         isEditing: false,
         isAdding: false,
 
-        newForname:'',
-        newSurname:'',
-        newTel:'',
-        newEmail:'',
+        newUser: {surname: '', forename: '', tel: '', email: '', edit: false},
 
         usersList: [
-            {surname: 'Schmid', forename: 'robert', tel: '0175145561', email: 'rschmid@gmail.com'},
-            {surname: 'Rifto', forename: 'rico', tel: '0175145561', email: 'rifto@gmail.com'},
-            {surname: 'Chair', forename: 'poppins', tel: '0175145561', email: 'chair@gmail.com'},
-            {surname: 'Table', forename: 'marie', tel: '0175145561', email: 'table@gmail.com'},
-            {surname: 'Screen', forename: 'annie', tel: '0175145561', email: 'screen@gmail.com'},
+            {surname: 'Schmid', forename: 'robert', tel: '0175145561', email: 'rschmid@gmail.com', edit: false},
+            {surname: 'Rifto', forename: 'rico', tel: '0175145561', email: 'rifto@gmail.com', edit: false},
+            {surname: 'Chair', forename: 'poppins', tel: '0175145561', email: 'chair@gmail.com', edit: false},
+            {surname: 'Table', forename: 'marie', tel: '0175145561', email: 'table@gmail.com', edit: false},
+            {surname: 'Screen', forename: 'annie', tel: '0175145561', email: 'screen@gmail.com', edit: false}
         ]
       }
   },
@@ -218,7 +218,9 @@ export default {
         this.isEditing = false
     },
     addUser () {
-        this.isAdding = true
+        this.usersList.unshift(this.newUser)
+        console.log(this.newUser)
+        this.isAdding = false
     },
     submit () {
         this.isAdding = false
@@ -227,14 +229,33 @@ export default {
         this.usersList.splice(index,1)
     },
     editUser (index, user) {
-        console.log('editing', index)
-    }
+        user.edit = true
+    },
+    confirmEdit (index, user) {
+        user.edit = false
+    },
+     openWarning(index, user) {
+        this.$confirm('Souhaitez-vous supprimer cet utilisateur?', {
+          confirmButtonText: 'Oui',
+          cancelButtonText: 'Non'
+        }).then(() => {
+        this.deleteUser(index, user)
+          this.$message({
+            type: 'success',
+            message: 'L’utilisateur a bien été supprimé',
+          })
+        }).catch(() => {
+        });
+      }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../styles/_global.scss";
+.input-box {
+    width: 50%;
+}
 .icons-wrapper {
     position: absolute;
     top: 10px;

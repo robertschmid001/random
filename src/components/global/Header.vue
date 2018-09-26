@@ -10,7 +10,7 @@ export default {
   props: {
   },
   methods: {
-          toProfile () {
+    toProfile () {
       this.$store.state.authenticated = false
       this.$router.replace('Profile')
     }
