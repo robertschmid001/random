@@ -5,20 +5,25 @@
 
         <section class="modal-body">
             <div class="box">
-                <el-row class="modal-padding">
-                    <el-col :span="24"><div class="modal-box"><label for="prénom" class="modal-label">Code Coutier CPMS</label><input type="number" class="modul-input" placeholder="Code Coutier CPMS"></div></el-col>
-                </el-row>
-                <el-row class="modal-padding">
-                    <el-col :span="12" :xs="24"><div class="modal-box"><label for="prénom" class="modal-label">Prénom</label><input type="email" class="modul-input" placeholder="Prénom"></div></el-col>
-                    <el-col :span="12" :xs="24"><div class="modal-box"><label for="nom">Nom</label><input type="nom" class="modul-input" placeholder="Nom"></div></el-col>
-                </el-row>
-                <el-row class="modal-padding">
-                    <el-col :span="24"><div class="modal-box"  ><label for="prénom" class="modal-label">Adresse mail</label><input type="email" class="modul-input" placeholder="Adresse mail"></div></el-col>
-                </el-row>
-  
+            <p>
+              • Extrait Kbis de moins de 3 mois <br>
+              • Attestation ORIAS en cours de validité ... <br>
+              • Attestation de Garantie FInancière (GF) en cours de validité; <br>
+              • Attestation de responsabilité civile Professionelle (RC PRO) en cours de validité; <br>
+              • RIB; <br>
+              • Nom et qualité du signateire et coordonnées; <br>
+              • Téléphone fixe: ligne directe (obligatoire); <br>
+              • Adresse mail (obligatoire); <br>
+              • Téléphone portable (ou à défaut numéro du standard); <br>
+              • Télécopie (facultatif); <br>
+              • Photocopie d'une pièce d'identité du signataire (passport ou CNI); <br>
+              • Pouvoir du signataire si celui-ci n'apparaît pas dans le Kbis; <br>
+              • Nom et qualité du correspondant / déclarant TRACFIN; <br>
+            </p>
             </div>
+            <span class="size text-size-small pointer text-decoration" @click="close">Se connecter</span>
         </section>
-        
+
     </div>
   </div>
 </template>
@@ -37,6 +42,12 @@
 </script>
 
 <style lang="scss" scoped>
+.modal-backdrop {
+  padding: 20px;
+}
+p {
+  text-align: left;
+}
 .se-conn-wrapper {
   padding-top: 7px;
   text-align: left;
@@ -55,7 +66,7 @@ img {
   margin-bottom: 10px;
 }
 .modal-body {
-  width: 250px;
+  width: auto;
 }
 .modal-backdrop {
   flex-direction: column;

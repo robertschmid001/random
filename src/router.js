@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Home from './components/Home.vue'
 import Login from './components/Login.vue'
+import Profile from './components/Profile.vue'
 
 Vue.use(Router)
 
@@ -15,17 +16,21 @@ let router = new Router({
                 name: "Login"
             }
         },{
-        path: '*',
-        name: 'home',
-        component: Home
+            path: '*',
+            name: 'Home',
+            component: Home
         },{
-        path: '/login',
-        name: 'Login',
-        component: Login
+            path: '/login',
+            name: 'Login',
+            component: Login
         }, {
             path: '/home',
-            name: 'home',
+            name: 'Home',
             component: Home
+        }, {
+            path: '/profile',
+            name: 'Profile',
+            component: Profile
         }
     ]
 })

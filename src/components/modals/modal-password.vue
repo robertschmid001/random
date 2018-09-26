@@ -1,5 +1,6 @@
 <template>
   <div class="modal-backdrop">
+    
       <img src="../../assets/logo-cpms.png" alt="">
       <div class="modal">
         <section class="modal-body modal-box" v-if="!reInitialised">
@@ -13,10 +14,10 @@
           </el-row>
           <el-row class="submit-mdp-wrapper">
               <el-col :span="12" class="se-conn-wrapper">
-                <span class="size text-size-small pointer text-decoration" @click="close">Se connecter</span>
+                <span class="size text-size-small pointer text-decoration" @click="close">Retour</span>
               </el-col>
               <el-col :span="12">
-                <el-button class="size text-size-small button" @click="submit">Valider</el-button>
+                <button class="size text-size-small button" @click="submit">Recevoir un email</button>
               </el-col>
           </el-row>
           <div class="error" v-if="$v.email.$error">Merci de renseigner un format de mail valide</div>
@@ -24,12 +25,12 @@
         <section class="modal-body modal-box" v-else>
           <el-row class="height-input">
             <el-col :span="24">
-              <div class="pwordInit">L’émail de réinitialisation de votre mot de passe <br> a bien été envoyé</div>
+              <div class="pwordInit">L’email de réinitialisation de votre mot de passe <br> a bien été envoyé</div>
             </el-col>
           </el-row>
           <el-row type="flex" justify="center" class="submit-mdp-wrapper">
               <el-col :span="12">
-                <el-button class="size text-size-small button" @click="close">Se connecter</el-button>
+                <button class="size text-size-small button" @click="close">Se connecter</button>
               </el-col>
           </el-row>
         </section>
@@ -47,7 +48,7 @@ import { required, email } from "vuelidate/lib/validators";
       return {
         email: "",
         reInitialised: false,
-        isLoading: true
+        isLoading: false
       }
     },
     methods: {
@@ -91,6 +92,8 @@ import { required, email } from "vuelidate/lib/validators";
 </script>
 
 <style lang="scss" scoped>
+@import '../../styles/_global.scss';
+
 .se-conn-wrapper {
   padding-top: 7px;
   text-align: left;

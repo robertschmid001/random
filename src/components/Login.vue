@@ -24,7 +24,7 @@
                 </el-col>
                 <el-col :span="12">
                   <el-col :span="24">
-                      <el-button type="submit" class="size text-size-small button" @click="submit" >Se connecter</el-button>
+                      <button type="submit" class="size text-size-small button" @click="submit" >Se connecter</button>
                   </el-col>
                 </el-col>
               </el-row>
@@ -39,8 +39,8 @@
         <el-col :span="24"><span class="text-size-small pointer" @click="showModalCreate">Vous n'avez pas encore de compte ? <span class="text-decoration">Contactez-nous</span> </span></el-col>
       </el-row>
     </div>
-    <modal-password v-show="isModalVisibleP" @close="closeModal"/>
-    <modal-signup v-show="isModalVisible" @close="closeModal"/>
+    <transition name="slide-fade"><modal-password v-show="isModalVisibleP" @close="closeModal"/></transition>
+    <transition name="slide-fade"><modal-signup v-show="isModalVisible" @close="closeModal"/></transition>
   </div>
 </template>
 
@@ -114,6 +114,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/_global.scss';
+
 img {
   height: 50px;
 }
@@ -133,12 +135,12 @@ img {
   margin: 10px;
 }
 .inner-wrapper {
-  width: 250px;
+  width: auto;
   height: 100%;
 }
 #login {
   display: flex;
-  background-color: lightgrey;
+  background-color: $background-global;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -150,13 +152,4 @@ img {
 .width {
   width: 100%;
 }
-
-// .el-input {
-//   margin-bottom: 10px;
-// }
-// .el-input /deep/ input:focus {
-//   background-color: black;
-//   color: white;
-// }
-
 </style>

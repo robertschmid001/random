@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    
-      <MyHeader v-if="this.$store.state.authenticated"/>
+    <el-container>
       <MyNavbar v-if="this.$store.state.authenticated"/>
-      <router-view></router-view>
-      <MyFooter v-if="this.$store.state.authenticated"/>
-
+      <el-container>   
+        <el-header><MyHeader v-if="this.$store.state.authenticated"/></el-header>
+        <el-main class="no-padding" ><router-view></router-view></el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import MyFooter from './components/global/Footer.vue'
 import MyHeader from './components/global/Header.vue'
 import MyNavbar from './components/global/Navbar.vue'
 import Login from './components/Login.vue'
+import Profile from './components/Profile.vue'
 
 export default {
   name: 'app',
@@ -33,7 +35,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" >
 @import "./styles/_global.scss";
 
 #app {
@@ -43,5 +45,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   height: 100%;
+  background-color: $background-global;
+
+}
+header.el-header {
+  padding: 0 0 0 64px;
+}
+main.el-main {
+  padding: 0 0 0 64px;
 }
 </style>
