@@ -2,7 +2,7 @@
   <div id="profile">
     <el-row>
         <el-col :span="12" :xs="24" class="left-wrapper">
-            <div class="radius outer-wrapper" v-if="!isEditing">
+            <div class="radius outer-wrapper" >
             <div class="inner-header">
                 <el-row>
                     <el-col :span="12" class="text-size-md align-left"><img src="../assets/icons/profile-icons/personbw.png" class="profile-icon" alt="">Mon profil</el-col>
@@ -28,77 +28,28 @@
                     </el-row>
                     <el-row>
                         <el-col :span="9" class="padding-item">Adresse</el-col>
-                        <el-col :span="15" class="padding-item">{{this.adresse.rue}} <br> {{this.adresse.codePostale}} <span> </span> {{this.adresse.ville}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">N° téléphone</el-col>
-                        <el-col :span="15" class="padding-item">{{this.tel}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">E-mail</el-col>
-                        <el-col :span="15" class="padding-item">{{this.email}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">Identifiant</el-col>
-                        <el-col :span="15" class="padding-item">{{this.id}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">Mot de passe</el-col>
-                        <el-col :span="15" class="padding-item">{{this.password}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">RIB</el-col>
-                        <el-col :span="15" class="padding-item">{{this.rib}}</el-col>
-                    </el-row>
-                </div>
-            </div>
-
-
-
-
-            <div class="radius outer-wrapper" v-else>
-                <div class="inner-header-right">
-                        <el-row>
-                            <el-col :span="16" class="text-size-md align-left colorYellow"><img src="../assets/icons/profile-icons/personbw.png" class="profile-icon" alt="">Mon profil</el-col>
-                            <span class="pointer" @click="confirm"><el-col :span="8" class="text-size-md align-center colorRed pointer">Valider</el-col></span>
-                        </el-row>
-                </div>
-                <div class="align-left inner-body-l text-size-md">
-                    <el-row>
-                        <el-col :span="9" class="padding-item"> Raison Sociale</el-col>
-                        <el-col :span="15" class="padding-item">{{this.rsSociale}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">Nom</el-col>
-                        <el-col :span="15" class="padding-item">{{this.surname}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">Prénom</el-col>
-                        <el-col :span="15" class="padding-item">{{this.forename}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">N° Orlas</el-col>
-                        <el-col :span="15" class="padding-item">{{this.orlas}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">Adresse</el-col>
                         <el-col :span="15" class="padding-item">
-                            <div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Rue" v-model.trim.lazy="this.adresse.rue"/></div>
-                            <el-row>
-                                <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Ville" v-model.trim.lazy="this.adresse.ville"/></div></el-col>
-                                <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Code postale" v-model.trim.lazy="this.adresse.codePostale"/></div></el-col>
-                            </el-row>
+                            <div v-show="!isEditing">{{this.adresse.rue}} <br> {{this.adresse.codePostale}} <span> </span> {{this.adresse.ville}}</div>
+                            <el-col :span="24" v-show="isEditing">
+                                <div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Rue" v-model.trim.lazy="this.adresse.rue"/></div>
+                                <el-row>
+                                    <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Ville" v-model.trim.lazy="this.adresse.ville"/></div></el-col>
+                                    <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Code postale" v-model.trim.lazy="this.adresse.codePostale"/></div></el-col>
+                                </el-row>
+                            </el-col>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="9" class="padding-item">N° téléphone</el-col>
-                        <el-col :span="15" class="padding-item">
+                        <el-col :span="15" class="padding-item" v-show="!isEditing">{{this.tel}}</el-col>
+                        <el-col :span="15" class="padding-item" v-show="isEditing">
                             <div class="input-icon-wrapper"><input class="base-form-input" placeholder="N° téléphone" v-model.trim.lazy="this.tel"/></div>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="9" class="padding-item">E-mail</el-col>
-                        <el-col :span="15" class="padding-item">
+                        <el-col :span="15" class="padding-item" v-show="!isEditing">{{this.email}}</el-col>
+                        <el-col :span="15" class="padding-item" v-show="isEditing">
                             <div class="input-icon-wrapper">
                                 <input class="base-form-input" placeholder="email" v-model.trim.lazy="this.email"/>
                             </div>
@@ -122,7 +73,7 @@
 
         <el-col :span="12" :xs="24" class="right-wrapper align-left">
 
-            <button class="button pointer" v-if="!showList" @click="showUsersList"><div class="inner-button-wrapper text-size-small"><img src="../assets/icons/profile-icons/person.png" class="profile-icon" alt=""> <span>Voir la liste des utilisateurs habilités</span> </div></button>
+            <button class="pointer buttonShow" v-if="!showList" @click="showUsersList"><div class="inner-button-wrapper text-size-small"><img src="../assets/icons/profile-icons/person.png" class="profile-icon" alt=""> <span>Voir la liste des utilisateurs habilités</span> </div></button>
 
             <div v-else class="radius outer-wrapper">
                 <div v-if="!isAdding">
@@ -147,7 +98,6 @@
                                     <img src="../assets/icons/profile-icons/checkmark.png" class="profile-icon pointer" alt="" @click="confirmEdit(index, user)" v-show="user.edit">
                                     <img src="../assets/icons/profile-icons/cross.png" class="profile-icon pointer" alt=""  @click="openWarning(index, user)">
                                 </div>
-                                <!-- @click="deleteUser(index)" -->
                             </div>
                         </div>
                     </div>
@@ -164,9 +114,16 @@
                         <input class="base-input" placeholder="Prénom" v-model.trim.lazy="newUser.forename"/>
                         <input class="base-input" placeholder="Numéro de téléphone" v-model.trim.lazy="newUser.tel"/>
                         <input class="base-input" placeholder="Email" v-model.trim.lazy="newUser.email"/>
-                        <div class="button-wrapper-profile">
-                            <button type="submit" class=" text-size-small button button-width" @click="addUser" >Ajouter</button>
-                        </div>
+
+
+                        <el-row>
+                            <el-col :span="12" class="align-left">
+                                <button type="submit" class=" text-size-small button button-width pointer" @click="cancelAdd" >Annulé</button>
+                            </el-col>
+                            <el-col :span="12" class="align-right">
+                                <button type="submit" class=" text-size-small button button-width pointer" @click="addUser" >Ajouter</button>
+                            </el-col>
+                        </el-row>
                     </div>
                 </div>
             </div>
@@ -212,7 +169,7 @@ export default {
         this.showList = true
     },
     edit () {
-        this.isEditing = true
+        this.isEditing = !this.isEditing
     },
     confirm () {
         this.isEditing = false
@@ -234,7 +191,10 @@ export default {
     confirmEdit (index, user) {
         user.edit = false
     },
-     openWarning(index, user) {
+    cancelAdd () {
+        this.isAdding = false
+    },
+    openWarning(index, user) {
         this.$confirm('Souhaitez-vous supprimer cet utilisateur?', {
           confirmButtonText: 'Oui',
           cancelButtonText: 'Non'
@@ -253,6 +213,20 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/_global.scss";
+.buttonShow:hover{
+    background-color: $button-color;
+    color: white;
+}
+.buttonShow{
+    padding: 0;
+    max-width: 250px;
+    border-style: none;
+    background-color: white;
+    color: grey;
+    border-radius: 7px;
+    height: 35px;
+    padding: 5px 13px;
+}
 .input-box {
     width: 50%;
 }
@@ -262,11 +236,10 @@ export default {
     right: 0;
 }
 .button-wrapper-profile {
-    width: 100%;
-    text-align: right;
+    width: 50%;
 }
 .button-width {
-    width: 50%;
+    width: 95%;
 }
 .colorYellow {
     padding: 20px 0 20px 50px;
@@ -309,6 +282,7 @@ export default {
     padding: 15px;
     position: relative;
 }
+
 .button {
     padding: 5px 13px;
 }
