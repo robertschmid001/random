@@ -1,6 +1,9 @@
 <template>
   <div id="my-header">
-      <div class="wrapper-outer"><div class="breadcrumbs">Profile</div> <router-link to="/Profile">profile</router-link></div>
+    <el-row class="wrapper-outer">
+      <el-col :span="20"><div class="breadcrumbs">Profile</div></el-col>
+      <el-col :span="4"><router-link to="/Profile" class="profile-style">profile</router-link></el-col>
+    </el-row>
   </div>
 </template>
 
@@ -28,8 +31,19 @@ export default {
         flex-direction: row;
         display: flex;
         .breadcrumbs {
-            padding: 20px 0 0 20px;
+          display: flex;
+          align-items: center;
+          height: 100%;
+          padding-left: 40px;
+        }
+        .profile-style {
+          display: flex;
+          align-items: center;
+          height: 100%;
+          justify-content: flex-end;
+          padding-right: 30px;
         }
     }
 }
+
 </style>

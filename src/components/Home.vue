@@ -16,7 +16,7 @@
                   Consulter les données clés et téléchargez les documents associés : holdings, entreprises, contrats, cotisations, assurés, prestations.
                   Crées un graphique sur mesure en sélectionnant les données souhaitées ...
                 </span>
-                <div class="voir">Voir</div>
+                <div class="voir pointer">Voir</div>
               </div>
             </div>
           </el-col>
@@ -30,7 +30,7 @@
                 <span class="content">
                   Consultez les données assurés et téléchargez les documents associés (Carte Tiers-Payant, Certificat d'adhésion/radiation, Bulletin Individuel d'Affiliation).
                 </span>
-                <div class="voir">Voir</div>
+                <div class="voir pointer">Voir</div>
               </div>
             </div>
           </el-col>
@@ -45,7 +45,7 @@
                   <h4>Outil d'extraction</h4>
                 </div>
                 <span class="content">Rechercher en dashbording et exporter au format Excel les données de mon portefeuille.</span>
-                <div class="voir">Voir</div>
+                <div class="voir pointer">Voir</div>
               </div>
             </div>
           </el-col>
@@ -57,7 +57,7 @@
                   <h4>Bibliothèque de documents</h4>
                 </div>
                 <span class="content">Accéder aux documents génériques utile à mon activité.</span>
-                <div class="voir">Voir</div>
+                <div class="voir pointer">Voir</div>
               </div>
             </div>
           </el-col>
@@ -187,11 +187,12 @@ h2{
 }
 .home-icons-right {
   font-size: 25px;
+  padding-top: 3px;
 }
 .voir {
-position: absolute;
-bottom: 10px;
-right: 15px;
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
 }
 h4 {
   padding-left: 10px;
