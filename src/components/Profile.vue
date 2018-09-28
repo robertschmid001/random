@@ -1,134 +1,129 @@
 <template>
-  <div id="profile">
-    <el-row>
-        <el-col :span="12" :xs="24" class="left-wrapper">
-            <div class="radius outer-wrapper" >
-            <div class="inner-header">
-                <el-row>
-                    <el-col :span="12" class="text-size-md align-left"><img src="../assets/icons/profile-icons/personbw.png" class="profile-icon" alt="">Mon profil</el-col>
-                    <el-col :span="12" class="text-size-md align-right"><img src="../assets/icons/profile-icons/edit.png" class="profile-icon" alt=""><span class="underline pointer" @click="edit">Editer mon profil</span></el-col>
-                </el-row>
-            </div>
-                <div class="align-left inner-body-l text-size-md">
+    <div id="profile">
+        <el-row>
+            <el-col :span="12" :xs="24" class="left-wrapper">
+                <div class="radius outer-wrapper" >
+                <div class="header-border">
                     <el-row>
-                        <el-col :span="9" class="padding-item">Raison Sociale</el-col>
-                        <el-col :span="15" class="padding-item">{{this.rsSociale}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">Nom</el-col>
-                        <el-col :span="15" class="padding-item">{{this.surname}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">Prénom</el-col>
-                        <el-col :span="15" class="padding-item">{{this.forename}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">N° Orlas</el-col>
-                        <el-col :span="15" class="padding-item">{{this.orlas}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">Adresse</el-col>
-                        <el-col :span="15" class="padding-item">
-                            <div v-show="!isEditing">{{this.adresse.rue}} <br> {{this.adresse.codePostale}} <span> </span> {{this.adresse.ville}}</div>
-                            <el-col :span="24" v-show="isEditing">
-                                <div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Rue" v-model.trim.lazy="this.adresse.rue"/></div>
-                                <el-row>
-                                    <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Ville" v-model.trim.lazy="this.adresse.ville"/></div></el-col>
-                                    <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Code postale" v-model.trim.lazy="this.adresse.codePostale"/></div></el-col>
-                                </el-row>
-                            </el-col>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">N° téléphone</el-col>
-                        <el-col :span="15" class="padding-item" v-show="!isEditing">{{this.tel}}</el-col>
-                        <el-col :span="15" class="padding-item" v-show="isEditing">
-                            <div class="input-icon-wrapper"><input class="base-form-input" placeholder="N° téléphone" v-model.trim.lazy="this.tel"/></div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">E-mail</el-col>
-                        <el-col :span="15" class="padding-item" v-show="!isEditing">{{this.email}}</el-col>
-                        <el-col :span="15" class="padding-item" v-show="isEditing">
-                            <div class="input-icon-wrapper">
-                                <input class="base-form-input" placeholder="email" v-model.trim.lazy="this.email"/>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">Identifiant</el-col>
-                        <el-col :span="15" class="padding-item">{{this.id}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">Mot de passe</el-col>
-                        <el-col :span="15" class="padding-item">{{this.password}}</el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="9" class="padding-item">RIB</el-col>
-                        <el-col :span="15" class="padding-item">{{this.rib}}</el-col>
+                        <el-col :span="14" class="text-size-md align-left grey-text colorYellow"><font-awesome-icon icon="user" class="profile-icon"/>Mon Profil</el-col>
+                        <el-col :span="10" class="text-size-md align-right colorBlue" v-show="!isEditing"><font-awesome-icon icon="pen" class="profile-icon" /><span class="hover pointer" @click="edit">Editer mon profil</span></el-col>
+                        <div v-show="isEditing" @click="confirm"><el-col :span="10" class="text-size-md colorRed pointer"><div class="header-valider">Valider</div></el-col></div>
                     </el-row>
                 </div>
-            </div>
-        </el-col>
-
-        <el-col :span="12" :xs="24" class="right-wrapper align-left">
-
-            <button class="pointer buttonShow" v-if="!showList" @click="showUsersList"><div class="inner-button-wrapper text-size-small"><img src="../assets/icons/profile-icons/person.png" class="profile-icon" alt=""> <span>Voir la liste des utilisateurs habilités</span> </div></button>
-
-            <div v-else class="radius outer-wrapper">
-                <div v-if="!isAdding">
-                    <div class="inner-header">
-                            <el-row>
-                                <el-col :span="12" class="text-size-md align-left"><img src="../assets/icons/profile-icons/personbw.png" class="profile-icon" alt=""> Liste des utilisateurs habilités</el-col>
-                                <el-col :span="12" class="text-size-md align-right"><img src="../assets/icons/profile-icons/person_add.png" class="profile-icon-add" alt=""><span class="underline pointer" @click="isAdding=true">Ajouter un utilisateur</span></el-col>
-                            </el-row>
-                    </div>
-                    <div class="align-left inner-body-r text-size-md">
-                        <div v-for="(user, index) in this.usersList" :key="index">
-                            <div class="box-user">
-                                <div class="input-box">
-                                    <span v-show="!user.edit">{{user.surname}}</span> <input class="base-input" placeholder="user.surname" v-model.trim.lazy="user.surname" v-show="user.edit"/><br>
-                                    <span v-show="!user.edit">{{user.forename}}</span> <input class="base-input" placeholder="user.forename" v-model.trim.lazy="user.forename" v-show="user.edit"/><br>
-                                    <span v-show="!user.edit">{{user.tel}}</span> <input class="base-input" placeholder="user.tel" v-model.trim.lazy="user.tel" v-show="user.edit"/><br>
-                                    <span v-show="!user.edit">{{user.email}}</span> <input class="base-input" placeholder="user.email" v-model.trim.lazy="user.email" v-show="user.edit"/><br>
-                                    {{user.edit}}
+                    <div class="align-left inner-body-l text-size-md">
+                        <el-row>
+                            <el-col :span="9" class="padding-item lgt-grey-text">Raison Sociale</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.rsSociale}}</el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="9" class="padding-item lgt-grey-text">Nom</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.surname}}</el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="9" class="padding-item lgt-grey-text">Prénom</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.forename}}</el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="9" class="padding-item lgt-grey-text">N° Orlas</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.orlas}}</el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="9" class="padding-item lgt-grey-text">Adresse</el-col>
+                            <el-col :span="15" class="padding-item grey-text">
+                                <div v-show="!isEditing">{{this.adresse.rue}} <br> {{this.adresse.codePostale}} <span> </span> {{this.adresse.ville}}</div>
+                                <el-col :span="24" v-show="isEditing">
+                                    <div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Rue" v-model.trim.lazy="this.adresse.rue"/></div>
+                                    <el-row>
+                                        <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Ville" v-model.trim.lazy="this.adresse.ville"/></div></el-col>
+                                        <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" placeholder="Code postale" v-model.trim.lazy="this.adresse.codePostale"/></div></el-col>
+                                    </el-row>
+                                </el-col>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="9" class="padding-item lgt-grey-text">N° téléphone</el-col>
+                            <el-col :span="15" class="padding-item grey-text" v-show="!isEditing">{{this.tel}}</el-col>
+                            <el-col :span="15" class="padding-item" v-show="isEditing">
+                                <div class="input-icon-wrapper"><input class="base-form-input" placeholder="N° téléphone" v-model.trim.lazy="this.tel"/></div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="9" class="padding-item lgt-grey-text">E-mail</el-col>
+                            <el-col :span="15" class="padding-item grey-text" v-show="!isEditing">{{this.email}}</el-col>
+                            <el-col :span="15" class="padding-item" v-show="isEditing">
+                                <div class="input-icon-wrapper">
+                                    <input class="base-form-input" placeholder="email" v-model.trim.lazy="this.email"/>
                                 </div>
-                                <div class="icons-wrapper">
-                                    <img src="../assets/icons/profile-icons/edit.png" class="profile-icon pointer" alt="" @click="editUser(index, user)" v-show="!user.edit">
-                                    <img src="../assets/icons/profile-icons/checkmark.png" class="profile-icon pointer" alt="" @click="confirmEdit(index, user)" v-show="user.edit">
-                                    <img src="../assets/icons/profile-icons/cross.png" class="profile-icon pointer" alt=""  @click="openWarning(index, user)">
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="9" class="padding-item lgt-grey-text">Identifiant</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.id}}</el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="9" class="padding-item lgt-grey-text">Mot de passe</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.password}}</el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="9" class="padding-item lgt-grey-text">RIB</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.rib}}</el-col>
+                        </el-row>
+                    </div>
+                </div>
+            </el-col>
+            <el-col :span="12" :xs="24" class="right-wrapper align-left">
+                <button class="pointer buttonShow" v-if="!showList" @click="showUsersList"><div class="inner-button-wrapper text-size-small"><font-awesome-icon icon="user" class="profile-icon" /><span>Voir la liste des utilisateurs habilités</span> </div></button>
+                <div v-else class="radius outer-wrapper">
+                    <div v-if="!isAdding">
+                        <div class="inner-header header-border">
+                            <el-row>
+                                <el-col :span="12" class="text-size-md align-left grey-text"><font-awesome-icon icon="user" class="profile-icon"/> Liste des utilisateurs habilités</el-col>
+                                <el-col :span="12" class="text-size-md align-right"><font-awesome-icon icon="user-plus" class="profile-icon"/><span class="hover pointer" @click="isAdding=true">Ajouter un utilisateur</span></el-col>
+                            </el-row>
+                        </div>
+                        <div class="align-left inner-body-r text-size-md">
+                            <div v-for="(user, index) in this.usersList" :key="index">
+                                <div class="box-user">
+                                    <div class="input-box grey-text">
+                                        <span v-show="!user.edit">{{user.surname}}</span> <input class="base-input" placeholder="user.surname" v-model.trim.lazy="user.surname" v-show="user.edit"/><br>
+                                        <span v-show="!user.edit">{{user.forename}}</span> <input class="base-input" placeholder="user.forename" v-model.trim.lazy="user.forename" v-show="user.edit"/><br>
+                                        <span v-show="!user.edit">{{user.tel}}</span> <input class="base-input" placeholder="user.tel" v-model.trim.lazy="user.tel" v-show="user.edit"/><br>
+                                        <span v-show="!user.edit">{{user.email}}</span> <input class="base-input" placeholder="user.email" v-model.trim.lazy="user.email" v-show="user.edit"/><br>
+                                    </div>
+                                    <div class="icons-wrapper grey-text">
+                                        <font-awesome-icon icon="pen" class="profile-icon pointer" alt="" @click="editUser(index, user)" v-show="!user.edit"/>
+                                        <font-awesome-icon icon="check" class="profile-icon pointer" alt="" @click="confirmEdit(index, user)" v-show="user.edit"/>
+                                        <font-awesome-icon icon="times" class="profile-icon pointer" alt=""  @click="openWarning(index, user)"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div v-else>
-                    <div class="inner-header">
+                    <div v-else>
+                        <div class="inner-header header-border">
                             <el-row>
-                                <el-col :span="12" class="text-size-md align-left"><img src="../assets/icons/profile-icons/personbw.png" class="profile-icon" alt=""> Liste des utilisateurs habilités</el-col>
+                                <el-col :span="12" class="text-size-md align-left"><font-awesome-icon icon="user" class="profile-icon"/> Liste des utilisateurs habilités</el-col>
                                 <el-col :span="12" class="text-size-md align-right"></el-col>
                             </el-row>
-                    </div>
-                    <div class="align-left inner-body-r text-size-md">
-                        <input class="base-input" placeholder="Nom" v-model.trim.lazy="newUser.surname"/>
-                        <input class="base-input" placeholder="Prénom" v-model.trim.lazy="newUser.forename"/>
-                        <input class="base-input" placeholder="Numéro de téléphone" v-model.trim.lazy="newUser.tel"/>
-                        <input class="base-input" placeholder="Email" v-model.trim.lazy="newUser.email"/>
-
-
-                        <el-row>
-                            <el-col :span="12" class="align-left">
-                                <button type="submit" class=" text-size-small button button-width pointer" @click="cancelAdd" >Annulé</button>
-                            </el-col>
-                            <el-col :span="12" class="align-right">
-                                <button type="submit" class=" text-size-small button button-width pointer" @click="addUser" >Ajouter</button>
-                            </el-col>
-                        </el-row>
+                        </div>
+                        <div class="align-left inner-body-r text-size-md">
+                            <input class="base-input" placeholder="Nom" v-model.trim.lazy="newUser.surname"/>
+                            <input class="base-input" placeholder="Prénom" v-model.trim.lazy="newUser.forename"/>
+                            <input class="base-input" placeholder="Numéro de téléphone" v-model.trim.lazy="newUser.tel"/>
+                            <input class="base-input" placeholder="Email" v-model.trim.lazy="newUser.email"/>
+                            <el-row>
+                                <el-col :span="12" class="align-left">
+                                    <button type="submit" class=" text-size-small button button-width pointer" @click="cancelAdd">Annulé</button>
+                                </el-col>
+                                <el-col :span="12" class="align-right">
+                                    <button type="submit" class=" text-size-small button button-width pointer" @click="addUser">Ajouter</button>
+                                </el-col>
+                            </el-row>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </el-col>
-    </el-row>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -169,14 +164,15 @@ export default {
         this.showList = true
     },
     edit () {
-        this.isEditing = !this.isEditing
+        this.isEditing = true
+        console.log('click edit',this.isEditing)
     },
     confirm () {
         this.isEditing = false
+        console.log('click confirm',this.isEditing)
     },
     addUser () {
         this.usersList.unshift(this.newUser)
-        console.log(this.newUser)
         this.isAdding = false
     },
     submit () {
@@ -213,6 +209,14 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/_global.scss";
+
+.header-valider {
+    height: 100%;
+    width: 100%;
+}
+.hover:hover {
+    text-decoration: underline;
+}
 .buttonShow:hover{
     background-color: $button-color;
     color: white;
@@ -224,7 +228,7 @@ export default {
     background-color: white;
     color: grey;
     border-radius: 7px;
-    height: 35px;
+    height: 50px;
     padding: 5px 13px;
 }
 .input-box {
@@ -233,7 +237,7 @@ export default {
 .icons-wrapper {
     position: absolute;
     top: 10px;
-    right: 0;
+    right: 10px;
 }
 .button-wrapper-profile {
     width: 50%;
@@ -243,6 +247,9 @@ export default {
 }
 .colorYellow {
     padding: 20px 0 20px 50px;
+}
+.colorBlue {
+    padding: 20px 20px 20px 20px;
 }
 .colorRed {
     background-color: $button-color;
@@ -261,13 +268,7 @@ export default {
     margin: 1px;
 }
 .profile-icon {
-    width: 14px;
-    height: 14px;
-    padding-right: 10px;
-}
-.profile-icon-add {
-    width: 17px;
-    height: 12px;
+    font-size: 14px;
     padding-right: 10px;
 }
 .inner-button-wrapper {
@@ -281,6 +282,7 @@ export default {
     margin-bottom: 15px;
     padding: 15px;
     position: relative;
+    line-height: 16px;
 }
 
 .button {
@@ -296,11 +298,12 @@ export default {
     overflow-y: auto;
 }
 .inner-header {
-    border-bottom: 1px solid $background-global;
     padding: 20px 20px 20px 50px;
-    overflow: hidden;
 }
-.inner-header-right {
+.inner-header-edit {
+    padding: 20px 20px 20px 20px;
+}
+.header-border {
     border-bottom: 1px solid $background-global;
 }
 h1 {

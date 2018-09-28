@@ -12,8 +12,15 @@ $button-color: rgb(4, 151, 151);
 .radius {
   border-radius: 7px;
 }
+.grey-text {
+  color: rgba(128, 128, 128, 0.678);
+  font-weight: 550;
+}
+.lgt-grey-text {
+  color: rgb(185, 185, 185);
+}
 .pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 .align-left {
   text-align: left;
@@ -31,12 +38,12 @@ $button-color: rgb(4, 151, 151);
     box-sizing: border-box;
 }
 .size {
-    margin-bottom: 3px;
-    height: 35px;
-    width: 100%;
+  margin-bottom: 3px;
+  height: 35px;
+  width: 100%;
 }
 .text-size-small {
-    font-size: 10px;
+  font-size: 10px;
 }
 .text-size-md {
   font-size: 12px;
