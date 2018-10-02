@@ -104,26 +104,21 @@ $button-color: rgb(4, 151, 151);
 .slide-fade-enter-active {
   transition: all .1s ease;
 }
-
 .slide-fade-leave-active {
   display: none;
 }
-
 .slide-fade-enter,
 .slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
 }
-
 // slide down
 .slide-down-enter-active {
   transition: all .5s ease;
 }
-
 .slide-down-leave-active {
   display: none;
 }
-
 .slide-down-enter,
 .slide-down-leave-to {
   transform: translateY(-60px);
@@ -134,16 +129,13 @@ $button-color: rgb(4, 151, 151);
 ::-webkit-scrollbar {
   width: 10px;
 }
-
 ::-webkit-scrollbar-track {
   background: #dde0e7;
   width: 20px;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #888;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(107, 107, 107);
 }
