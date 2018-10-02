@@ -7,41 +7,41 @@
         <el-menu default-active="1" :router="true" :collapse="isCollapse" class="main-menu">
         <el-menu-item index="/Home" class="hover border">
           <font-awesome-icon icon="home" class="size-menu-icons"/>
-          <span  class="padding-menu">Acceuil</span>
+          <span  class="padding-menu menu-title">Acceuil</span>
         </el-menu-item>
-        <el-menu-item index="2" class="hover border">
+        <el-menu-item index="/portefeuille" class="hover border">
           <font-awesome-icon icon="euro-sign" class="size-menu-icons"/>
-          <span class="padding-menu">Portefeuille</span>
+          <span class="padding-menu menu-title">Portefeuille</span>
         </el-menu-item>
-        <el-menu-item index="3" class="hover border">
+        <el-menu-item index="/Recherche" class="hover border">
           <font-awesome-icon icon="user-friends" class="size-menu-icons"/>
-          <span class="padding-menu">Recherche</span>
+          <span class="padding-menu menu-title">Recherche</span>
         </el-menu-item>
-        <el-submenu index="4" class="border">
+        <el-submenu index="4" class="">
           <template slot="title">
             <div class="hover">
               <font-awesome-icon icon="file-export" class="size-menu-icons"/>
-              <span class="padding-menu">Extraction</span>
+              <span class="padding-menu menu-title">Extraction</span>
             </div>
           </template>
-          <el-menu-item-group >
-            <el-menu-item index="4-1" class="hover">Prestations</el-menu-item>
-            <el-menu-item index="4-2" class="hover">Cotisations</el-menu-item>
-            <el-menu-item index="4-3" class="hover">Assurés</el-menu-item>
-            <el-menu-item index="4-4" class="hover">Contrats</el-menu-item>
+          <el-menu-item-group>
+            <el-menu-item index="4-1" class="hover menu-title border">Prestations</el-menu-item>
+            <el-menu-item index="4-2" class="hover menu-title border">Cotisations</el-menu-item>
+            <el-menu-item index="4-3" class="hover menu-title border">Assurés</el-menu-item>
+            <el-menu-item index="4-4" class="hover menu-title border">Contrats</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-menu-item index="5" class="hover border">
           <font-awesome-icon icon="file-alt" class="size-menu-icons"/>
-          <span class="padding-menu">Documents</span>
+          <span class="padding-menu menu-title">Documents</span>
         </el-menu-item>
         <el-menu-item index="6" class="hover border">
           <font-awesome-icon icon="newspaper" class="size-menu-icons"/>
-          <span class="padding-menu">Actualités</span>
+          <span class="padding-menu menu-title">Actualités</span>
         </el-menu-item>
-        <el-menu-item index="7" class="hover border">
+        <el-menu-item index="/messagerie" class="hover border">
           <font-awesome-icon icon="envelope" class="size-menu-icons"/>
-          <span class="padding-menu">Messagerie</span>
+          <span class="padding-menu menu-title">Messagerie</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
@@ -122,5 +122,14 @@ span.padding-menu {
 }
 ul.main-menu.el-menu {
   border-right: none;
+}
+.menu-title {
+    font-weight: 600;
+    font-size: 13px;
+    align-items: center;
+}
+.el-submenu .el-menu-item {
+  height: 40px;
+  line-height:40px;
 }
 </style>

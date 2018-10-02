@@ -2,7 +2,6 @@
   <div id="home">
 
     <el-row>
-    
       <el-col :span="12" :xs="24" :sm="24" :md="12" class="outer-wrapper-left">
         <el-row>
           <el-col :span="12" :xs="24" :sm="12" :md="12">
@@ -16,7 +15,7 @@
                   Consulter les données clés et téléchargez les documents associés : holdings, entreprises, contrats, cotisations, assurés, prestations.
                   Crées un graphique sur mesure en sélectionnant les données souhaitées ...
                 </span>
-                <div class="voir pointer">Voir</div>
+                <router-link to="/portefeuille"><div class="voir pointer">Voir</div></router-link>
               </div>
             </div>
           </el-col>
@@ -30,7 +29,7 @@
                 <span class="content">
                   Consultez les données assurés et téléchargez les documents associés (Carte Tiers-Payant, Certificat d'adhésion/radiation, Bulletin Individuel d'Affiliation).
                 </span>
-                <div class="voir pointer">Voir</div>
+                <router-link to="/recherche"><div class="voir pointer">Voir</div></router-link>
               </div>
             </div>
           </el-col>
@@ -179,7 +178,7 @@ h2{
 .content-right {
   font-size: 12px;
   font-weight: 550;
-      text-align: center;
+  text-align: center;
 }
 .number-size {
   font-size: 40px;

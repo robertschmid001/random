@@ -2,7 +2,7 @@
   <div id="app">
     <el-container>
       <MyNavbar v-if="this.$store.state.authenticated"/>
-      <el-container>   
+      <el-container>
         <el-header><MyHeader v-if="this.$store.state.authenticated"/></el-header>
         <el-main class="no-padding" ><router-view></router-view></el-main>
       </el-container>

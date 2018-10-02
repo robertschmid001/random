@@ -113,7 +113,7 @@
                             <input class="base-input" placeholder="Email" v-model.trim.lazy="newUser.email"/>
                             <el-row>
                                 <el-col :span="12" class="align-left">
-                                    <button type="submit" class=" text-size-small button button-width pointer" @click="cancelAdd">Annulé</button>
+                                    <button type="submit" class=" text-size-small button button-width pointer" @click="cancelAdd">Annuler</button>
                                 </el-col>
                                 <el-col :span="12" class="align-right">
                                     <button type="submit" class=" text-size-small button button-width pointer" @click="addUser">Ajouter</button>

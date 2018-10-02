@@ -36,7 +36,7 @@
         </el-row>
       </div>
       <el-row>
-        <el-col :span="24"><span class="text-size-small pointer" @click="showModalCreate">Vous n'avez pas encore de compte ? <span class="text-decoration">Contactez-nous</span> </span></el-col>
+        <el-col :span="24"><span class="text-size-small pointer" @click="showModalCreate">Vous n'avez pas encore de compte ? <span class="text-decoration">Contactez-nous</span></span></el-col>
       </el-row>
     </div>
     <transition name="slide-fade"><modal-password v-show="isModalVisibleP" @close="closeModal"/></transition>
