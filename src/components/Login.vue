@@ -9,12 +9,12 @@
               <el-row>
                 <el-col :span="24" class="pword-error-wrapper">
                   <div class="input-icon-wrapper">
-                    <input class="base-input" placeholder="email ou numéro de courtier" v-model.trim.lazy="id" autocapitalize="off"/><i class="el-icon-warning" v-if="$v.id.$error"></i>
+                    <input class="base-input" placeholder="email ou numéro de courtier" v-model.trim.lazy="id" autocapitalize="off" v-on:keyup.enter="submit"/><i class="el-icon-warning" v-if="$v.id.$error" ></i>
                   </div>
                 </el-col>
                 <el-col :span="24">
                   <div class="input-icon-wrapper">
-                    <input class="base-input" placeholder="Mot de passe" type="password" v-model.trim.lazy="$v.password.$model" autocapitalize="off"/><i class="el-icon-warning" v-if="$v.password.$error"></i>
+                    <input class="base-input" placeholder="Mot de passe" type="password" v-model.trim.lazy="$v.password.$model" autocapitalize="off" v-on:keyup.enter="submit"/><i class="el-icon-warning" v-if="$v.password.$error"></i>
                   </div>
                 </el-col>
               </el-row>

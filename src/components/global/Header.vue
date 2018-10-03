@@ -2,9 +2,9 @@
   <div id="my-header">
     <el-row class="wrapper-outer">
       <el-col :span="20"><div class="breadcrumbs">Profile</div></el-col>
-      <el-col :span="4">
-        <div @mouseover="deconnexion = false" class="btn-wrapper-con btn-gen" :class="{active: deconnexion == false}"><router-link to="/Profile" class="btn-inner">Mr. Dupont</router-link></div>
-        <transition name="slide-down"><div v-show="!deconnexion" @mouseleave="deconnexion = !deconnexion" class="btn-wrapper-dec btn-gen"><router-link to="/Login" class="prof-deco btn-inner">Deconnexion</router-link></div></transition>
+      <el-col :span="4" v-click-outside="closeEvent">
+        <div @mouseover="deconnexion = true" class="btn-wrapper-con btn-gen" :class="{active: deconnexion == true}"><router-link to="/Profile" class="btn-inner">Mr. Dupont</router-link></div>
+        <transition name="slide-down"><div v-show="deconnexion" class="btn-wrapper-dec btn-gen"><router-link to="/Login" class="prof-deco btn-inner">Deconnexion</router-link></div></transition>
       </el-col>
     </el-row>
   </div>
@@ -20,13 +20,22 @@ export default {
       deconnexion: false,
     }
   },
+  events: {
+
+  },
   methods: {
     toProfile () {
       this.$store.state.authenticated = false
       this.$router.replace('Profile')
     },
     mouseOver (){
-      this.deconnexion = false;
+      this.deconnexion = true;
+    },
+    closeEvent (event) {
+      if(this.deconnexion){
+        this.deconnexion = false;
+        console.log('header close event called')
+      }
     }
   }
 }

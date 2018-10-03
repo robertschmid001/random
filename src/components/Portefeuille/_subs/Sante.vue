@@ -1,15 +1,15 @@
 <template>
   <div id="sante">
-    <el-table ref="multipleTable" :data="tableData3" style="width: 100%" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true">
+    <el-table ref="multipleTable" :data="tableData3" style="width: 100%; font-size: 12px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true">
     <el-table-column type="selection" width="55"></el-table-column>
-    <el-table-column property="nom" label="NOM"  width="120" sortable="true"></el-table-column>
+    <el-table-column property="nom" label="NOM" width="120" sortable="true"></el-table-column>
     <el-table-column property="entreprises" label="ENTREPRISES"  width="120" sortable="true"></el-table-column>
     <el-table-column property="contrats" label="CONTRATS" show-overflow-tooltip sortable="true"></el-table-column>
     <el-table-column property="assuresBeneficiaires" label="ASSURES / BENEFICIAIRES" show-overflow-tooltip sortable="true"></el-table-column>
     <el-table-column property="cotisations" label="COTISATIONS" show-overflow-tooltip sortable="true"></el-table-column>
     <el-table-column property="prestations" label="PRESTATIONS" show-overflow-tooltip sortable="true"></el-table-column>
-    <el-table-column property="tauxTeletransmissions" label="TAUX TELETRANSMISSION" show-overflow-tooltip sortable="true"></el-table-column>
-    <el-table-column property="documents" label="DOCUMENTS" show-overflow-tooltip sortable="true"></el-table-column>
+    <el-table-column property="tauxTeletransmissions" label="TAUX TELETRANSMISSION" show-overflow-tooltip><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.tauxTeletransmissions"></el-progress></template></el-table-column>
+    <el-table-column property="documents" label="DOCUMENTS" show-overflow-tooltip><template scope="scope"><font-awesome-icon v-if="scope.row.documents" icon="download" class="size-menu-icons"/></template></el-table-column>
   </el-table>
   <div style="margin-top: 20px">
     <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">Toggle selection status of second and third rows</el-button>
@@ -31,8 +31,8 @@ export default {
           assuresBeneficiaires: '5/5',
           cotisations: 5,
           prestations:5,
-          tauxTeletransmissions:5,
-          documents: 3,
+          tauxTeletransmissions:35,
+          documents: 0,
         }, {
           nom: 'Holding 2',
           entreprises: 5,
@@ -40,16 +40,16 @@ export default {
           assuresBeneficiaires: '5/5',
           cotisations: 1,
           prestations:5,
-          tauxTeletransmissions:7,
+          tauxTeletransmissions:42,
           documents: 3,
         }, {
           nom: 'Holding 3',
           entreprises: 7,
           contrats: 17,
-          assuresBeneficiaires: '5/5',
+          assuresBeneficiaires: 22,
           cotisations: 5,
           prestations:5,
-          tauxTeletransmissions:5,
+          tauxTeletransmissions: 36,
           documents: 3,
         }, {
           nom: 'Holding 4',
@@ -58,8 +58,8 @@ export default {
           assuresBeneficiaires: '5/5',
           cotisations: 5,
           prestations:5,
-          tauxTeletransmissions:5,
-          documents: 3,
+          tauxTeletransmissions: 78,
+          documents: 0,
         }, {
           nom: 'Holding 5',
           entreprises: 5,
@@ -67,7 +67,7 @@ export default {
           assuresBeneficiaires: '5/5',
           cotisations: 5,
           prestations:5,
-          tauxTeletransmissions:5,
+          tauxTeletransmissions: 89,
           documents: 3,
         }, {
           nom: 'Holding 6',
@@ -76,8 +76,8 @@ export default {
           assuresBeneficiaires: '5/5',
           cotisations: 1,
           prestations:5,
-          tauxTeletransmissions:4,
-          documents: 3,
+          tauxTeletransmissions: 100,
+          documents: 0,
         }, {
           nom: 'Holding 7',
           entreprises: 71,
@@ -85,7 +85,7 @@ export default {
           assuresBeneficiaires: '5/5',
           cotisations: 85,
           prestations:96,
-          tauxTeletransmissions:5,
+          tauxTeletransmissions: 10,
           documents: 3,
         }],
         multipleSelection: []

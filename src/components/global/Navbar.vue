@@ -1,6 +1,6 @@
 <template>
   <div id="my-navbar">
-    <el-aside width="auto" style="text-align:left;">
+    <el-aside width="auto" style="text-align:left;"  v-click-outside="closeEvent">
         <div class="image-wrapper">
           <img src="../../assets/cpms_logo_small.png" class=" size2 collapse-icon" alt="" @click="changeCollapse">
         </div>
@@ -66,6 +66,12 @@ export default {
     },
     changeCollapse () {
       this.isCollapse = !this.isCollapse
+    },
+    closeEvent () {
+      if(this.isCollapse == false) {
+        this.isCollapse = true;
+        console.log('menu close event called')
+      }
     }
   }
 }

@@ -112,17 +112,19 @@ $button-color: rgb(4, 151, 151);
   transform: translateX(10px);
   opacity: 0;
 }
+
 // slide down
-.slide-down-enter-active {
+.slide-down-enter-active,
+.slide-down-leave-active {
   transition: all .5s ease;
 }
-.slide-down-leave-active {
-  display: none;
-}
-.slide-down-enter,
-.slide-down-leave-to {
-  transform: translateY(-60px);
+.slide-down-enter {
   opacity: 1;
+  transform: translateY(-60px);
+}
+.slide-down-leave-to {
+  opacity: 0;
+  transform: translateY(-60px);
 }
 
 //Scroll
