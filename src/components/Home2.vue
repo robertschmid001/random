@@ -154,7 +154,7 @@ export default {
 
 #home {
   padding: 30px;
-  background-color: $background-global;
+  background-color: white;
 }
 h2{
   font-weight: 400;
@@ -193,14 +193,17 @@ h2{
   right: 15px;
 }
 h4 {
+  display: flex;
   padding-left: 10px;
+  align-items: center;
 }
 .title-wrapper {
   display: flex;
   flex-direction: row;
+  margin-bottom: 10px;
 }
 .home-icons-left {
-  font-size: 30px;
+  font-size: 70px;
   margin-top: 12px;
   padding-left: 10px;
 }
@@ -209,10 +212,11 @@ h4 {
   text-align: left;
   margin: 10px;
   box-sizing: border-box;
-  background-color: white;
+  background-color: $button-color;
   font-size: 14px;
-  border: 1px solid black;
+  box-shadow: 0px 1px 15px -8px black;
   border-radius: 7px;
+  color: white;
 }
 .inner-wrapper {
   padding: 11px;
@@ -225,21 +229,21 @@ h4 {
   border-radius: 0px 7px 0px 0px;
 }
 .orange {
-  background-color: rgba(255, 166, 0, 0.6);
+  background-color: rgba(253, 98, 59, 0.76);
 }
 .blue {
-  background-color: rgb(4, 172, 172);
+  background-color: rgba(119, 78, 196, 0.6);
   border-radius: 7px 0px 0px 0px;
 }
 .purple {
-  background-color: rgba(119, 78, 196, 0.6);
+  background-color: rgb(4, 172, 172);
 }
 .lgt-green {
-  background-color: rgb(212, 255, 131);
+  background-color: rgba(78, 255, 166, 0.425);
   border-radius: 0px 0px 0px 7px;
 }
 .green {
-  background-color: rgba(114, 248, 37, 0.589);
+  background-color: rgba(221, 217, 2, 0.425);
   border-radius: 0px 0px 7px 0px;
 }
 .inner-box {
@@ -250,6 +254,7 @@ h4 {
 }
 .outer-wrapper-right {
   padding: 10px 0 0 10px;
+  color: rgba(53, 53, 53, 0.815);
 }
 .radius-left {
   border-radius: 7px 0px 0px 0px;
@@ -267,7 +272,6 @@ h4 {
 .content {
   font-size: 12px;
   padding-left: 10px;
-  text-align: justify;
 }
 .activity-wrapper {
   padding-top: 20px;
@@ -283,5 +287,8 @@ h4 {
 }
 .icon-pad-right {
   padding-right: 20px;
+}
+a {
+  color: white;
 }
 </style>

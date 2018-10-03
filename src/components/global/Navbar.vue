@@ -43,6 +43,10 @@
           <font-awesome-icon icon="envelope" class="size-menu-icons"/>
           <span class="padding-menu menu-title">Messagerie</span>
         </el-menu-item>
+        <el-menu-item index="/home2" class="hover border">
+          <font-awesome-icon icon="home" class="size-menu-icons"/>
+          <span class="padding-menu menu-title">Messagerie</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
   </div>

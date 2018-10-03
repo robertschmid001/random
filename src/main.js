@@ -38,6 +38,9 @@ Vue.directive('click-outside', {
   unbind: function (el) {
     document.body.removeEventListener('click', el.clickOutsideEvent)
   },
+  stopProp(event) {
+    event.stopPropagation()
+  }
 });
 
 new Vue({

@@ -8,6 +8,8 @@ import Search from './components/Search.vue'
 import Portefeuille from './components/Portefeuille/Portefeuille.vue'
 import Email from './components/Email.vue'
 
+import Home2 from './components/Home2.vue'
+
 Vue.use(Router)
 
 let router = new Router({
@@ -46,6 +48,10 @@ let router = new Router({
             path: '/messagerie',
             name: 'Email',
             component: Email
+        }, {
+            path: '/home2',
+            name: 'Home2',
+            component: Home2
         }
     ]
 })
