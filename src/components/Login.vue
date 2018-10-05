@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <div class="login-container">
+    <div class="login-container  align-center">
     <img src="../assets/logo-cpms.png" alt="">
       <div class="outer-wrapper">
         <el-row>

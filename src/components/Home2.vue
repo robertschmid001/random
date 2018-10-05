@@ -126,13 +126,13 @@
         <el-row class="activity-wrapper">
           <el-col :span="24" class="line-height">
             <el-row><el-col :span="24"><div class="full-width"><font-awesome-icon icon="history" class="home-icons-right icon-pad-right"/><h2>Mon Activité des 6 derniers mois</h2></div></el-col></el-row>
-            <el-row class="border-bot pad-left"><el-col :span="21" class="act-cont">Affaires nouvelles</el-col><el-col :span="3" class="act-num">145</el-col></el-row>
-            <el-row class="border-bot pad-left"><el-col :span="21" class="act-cont">Résiliations</el-col><el-col :span="3" class="act-num">10</el-col></el-row>
-            <el-row class="border-bot pad-left"><el-col :span="21" class="act-cont">Cotisations encaissées</el-col><el-col :span="3" class="act-num">432</el-col></el-row>
-            <el-row class="border-bot pad-left"><el-col :span="21" class="act-cont">Cotisations impayées</el-col><el-col :span="3" class="act-num">23</el-col></el-row>
-            <el-row class="border-bot pad-left"><el-col :span="21" class="act-cont">Nouvelles adhésions</el-col><el-col :span="3" class="act-num">24</el-col></el-row>
-            <el-row class="border-bot pad-left"><el-col :span="21" class="act-cont">Nouvelles mutations</el-col><el-col :span="3" class="act-num">46</el-col></el-row>
-            <el-row class="pad-left"><el-col :span="21" class="act-cont">Nouvelles radiations</el-col><el-col :span="3" class="act-num">12</el-col></el-row>
+            <el-row class="pad-left hover1"><el-col :span="21" class="act-cont">Affaires nouvelles</el-col><el-col :span="3" class="act-num">145</el-col></el-row>
+            <el-row class="pad-left hover2"><el-col :span="21" class="act-cont">Résiliations</el-col><el-col :span="3" class="act-num">10</el-col></el-row>
+            <el-row class="pad-left hover3"><el-col :span="21" class="act-cont">Cotisations encaissées</el-col><el-col :span="3" class="act-num">432</el-col></el-row>
+            <el-row class="pad-left hover4"><el-col :span="21" class="act-cont">Cotisations impayées</el-col><el-col :span="3" class="act-num">23</el-col></el-row>
+            <el-row class="pad-left hover5"><el-col :span="21" class="act-cont">Nouvelles adhésions</el-col><el-col :span="3" class="act-num">24</el-col></el-row>
+            <el-row class="pad-left hover6"><el-col :span="21" class="act-cont">Nouvelles mutations</el-col><el-col :span="3" class="act-num">46</el-col></el-row>
+            <el-row class="pad-left hover7"><el-col :span="21" class="act-cont">Nouvelles radiations</el-col><el-col :span="3" class="act-num">12</el-col></el-row>
           </el-col>
         </el-row>
       </el-col>
@@ -225,27 +225,70 @@ h4 {
   position: relative;
 }
 .red {
-  background-color: rgba(255, 0, 0, 0.6);
+  background-color: rgba(255, 0, 0, 0.4);
   border-radius: 0px 7px 0px 0px;
 }
 .orange {
-  background-color: rgba(253, 98, 59, 0.76);
+  background-color: rgba(253, 98, 59, 0.4);
 }
 .blue {
-  background-color: rgba(119, 78, 196, 0.6);
+  background-color: rgba(119, 78, 196, 0.4);
   border-radius: 7px 0px 0px 0px;
 }
 .purple {
   background-color: rgb(4, 172, 172);
 }
 .lgt-green {
-  background-color: rgba(78, 255, 166, 0.425);
+  background-color: rgba(78, 255, 166, 0.4);
   border-radius: 0px 0px 0px 7px;
 }
 .green {
-  background-color: rgba(221, 217, 2, 0.425);
+  background-color: rgba(221, 217, 2, 0.4);
   border-radius: 0px 0px 7px 0px;
 }
+
+
+.hover1:hover {
+  background-color: rgba(255, 0, 0, 0.6);
+  border-radius: 7px 7px 0 0;
+  color: white;
+}
+.hover2:hover {
+  background-color: rgba(253, 98, 59, 0.76);
+  color: white;
+}
+.hover3:hover {
+  background-color: rgba(122, 120, 1, 0.637);
+  color: white;
+}
+.hover4:hover {
+  background-color: rgba(1, 95, 133, 0.719);
+  color: white;
+}
+.hover5:hover {
+  background-color: rgb(4, 172, 172);
+  color: white;
+}
+.hover6:hover {
+  background-color: rgba(8, 106, 187, 0.425);
+  color: white;
+}
+.hover7:hover {
+ background-color: rgba(119, 78, 196, 0.6);
+  border-radius: 0 0 7px 7px;
+  color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
 .inner-box {
   height: 120px;
 }
@@ -262,9 +305,6 @@ h4 {
 .line-height {
   line-height: 28px;
 }
-.border-bot {
-  border-bottom: solid black 1px;
-}
 .pad-left {
   padding-left: 20px;
   text-align: left;
@@ -277,10 +317,12 @@ h4 {
   padding-top: 20px;
 }
 .act-cont {
-  font-size: 12px;
+  font-size: 14px;
 }
 .act-num {
   font-weight: 550;
+  text-align: center;
+  cursor: pointer;
 }
 .icon-pad {
   padding-left: 10px;

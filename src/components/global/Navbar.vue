@@ -64,10 +64,6 @@ export default {
     }
   },
   methods: {
-    logOut () {
-      this.$store.state.authenticated = false
-      this.$router.replace('Login')
-    },
     changeCollapse () {
       this.isCollapse = !this.isCollapse
     },

@@ -2,7 +2,7 @@
   <div id="home">
 
     <el-row>
-      <el-col :span="12" :xs="24" :sm="24" :md="12" class="outer-wrapper-left">
+      <el-col :span="12" :xs="24" :sm="24" :md="12">
         <el-row>
           <el-col :span="12" :xs="24" :sm="12" :md="12">
             <div class="outer-wrapper">
@@ -85,7 +85,7 @@
               </el-row>
               <el-row>
                 <el-col :span="24" :xs="24" :sm="24">
-                  <div class="lgt-green inner-bot-box">
+                  <div class="lgt-green inner-box">
                     <div class="height-full">
                       <div class="full-width number-size">180 654<font-awesome-icon icon="euro-sign" class="icon-pad"/></div>
                     <div class="full-width content-right">Cotisations</div></div>
@@ -113,7 +113,7 @@
               </el-row>
               <el-row>
                 <el-col :span="24" :xs="24" :sm="24">
-                  <div class="green inner-bot-box">
+                  <div class="green inner-box">
                     <div class="height-full">
                       <div class="full-width number-size">180 654<font-awesome-icon icon="euro-sign" class="icon-pad"/></div>
                       <div class="full-width content-right">Prestations</div>
@@ -152,136 +152,112 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/_global.scss";
 
-#home {
-  padding: 30px;
-  background-color: $background-global;
-}
-h2{
-  font-weight: 400;
-  text-align: left;
-}
-.height-third {
-  height: 33%;
-}
-.height-full {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-.full-width {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.content-right {
-  font-size: 12px;
-  font-weight: 550;
-  text-align: center;
-}
-.number-size {
-  font-size: 40px;
-  font-weight: 550;
-}
-.home-icons-right {
-  font-size: 25px;
-  padding-top: 3px;
-}
-.voir {
-  position: absolute;
-  bottom: 10px;
-  right: 15px;
-}
 h4 {
   padding-left: 10px;
 }
-.title-wrapper {
-  display: flex;
-  flex-direction: row;
-}
-.home-icons-left {
-  font-size: 30px;
-  margin-top: 12px;
-  padding-left: 10px;
-}
-.outer-wrapper {
-  height: 230px;
-  text-align: left;
-  margin: 10px;
-  box-sizing: border-box;
-  background-color: white;
-  font-size: 14px;
-  border: 1px solid black;
-  border-radius: 7px;
-}
-.inner-wrapper {
-  padding: 11px;
-  height: 100%;
-  box-sizing: border-box;
-  position: relative;
-}
-.red {
-  background-color: rgba(255, 0, 0, 0.6);
-  border-radius: 0px 7px 0px 0px;
-}
-.orange {
-  background-color: rgba(255, 166, 0, 0.6);
-}
-.blue {
-  background-color: rgb(4, 172, 172);
-  border-radius: 7px 0px 0px 0px;
-}
-.purple {
-  background-color: rgba(119, 78, 196, 0.6);
-}
-.lgt-green {
-  background-color: rgb(212, 255, 131);
-  border-radius: 0px 0px 0px 7px;
-}
-.green {
-  background-color: rgba(114, 248, 37, 0.589);
-  border-radius: 0px 0px 7px 0px;
-}
-.inner-box {
-  height: 120px;
-}
-.inner-bot-box {
-  height: 120px;
-}
-.outer-wrapper-right {
+
+#home {
+  padding: 30px;
+  background-color: $background-global;
+  .outer-wrapper {
+    height: 230px;
+    text-align: left;
+    margin: 10px;
+    box-sizing: border-box;
+    background-color: white;
+    font-size: 14px;
+    border: 1px solid black;
+    border-radius: 7px;
+    .inner-wrapper {
+      padding: 11px;
+      height: 100%;
+      box-sizing: border-box;
+      position: relative;
+      .content {
+        font-size: 12px;
+        padding-left: 10px;
+        text-align: justify;
+      }
+      .voir {
+        position: absolute;
+        bottom: 10px;
+        right: 15px;
+      }
+      .title-wrapper {
+        display: flex;
+        flex-direction: row;
+        .home-icons-left {
+          font-size: 30px;
+          margin-top: 12px;
+          padding-left: 10px;
+        }
+      }
+    }
+  }
+  .outer-wrapper-right {
   padding: 10px 0 0 10px;
-}
-.radius-left {
-  border-radius: 7px 0px 0px 0px;
-}
-.line-height {
-  line-height: 28px;
-}
-.border-bot {
-  border-bottom: solid black 1px;
-}
-.pad-left {
-  padding-left: 20px;
-  text-align: left;
-}
-.content {
-  font-size: 12px;
-  padding-left: 10px;
-  text-align: justify;
-}
-.activity-wrapper {
-  padding-top: 20px;
-}
-.act-cont {
-  font-size: 12px;
-}
-.act-num {
-  font-weight: 550;
-}
-.icon-pad {
-  padding-left: 10px;
-}
-.icon-pad-right {
-  padding-right: 20px;
+    h2 {
+      font-weight: 400;
+      text-align: left;
+    }
+    .radius-left {
+      border-radius: 7px 0px 0px 0px;
+    }
+    .inner-box {
+      height: 120px;
+      .height-third {
+        height: 33%;
+      }
+      .height-full {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+    }
+    .full-width {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .number-size {
+      font-size: 40px;
+      font-weight: 550;
+    }
+    .content-right {
+      font-size: 12px;
+      font-weight: 550;
+      text-align: center;
+    }
+    .home-icons-right {
+      font-size: 25px;
+      padding-top: 3px;
+    }
+    .icon-pad {
+      padding-left: 10px;
+    }
+    .activity-wrapper {
+      padding-top: 20px;
+      .line-height {
+        line-height: 28px;
+        .icon-pad-right {
+          padding-right: 20px;
+        }
+        .border-bot {
+          border-bottom: solid black 1px;
+        }
+        .pad-left {
+          padding-left: 20px;
+          text-align: left;
+        }
+        .act-cont {
+          font-size: 12px;
+        }
+        .act-num {
+          font-weight: 550;
+        }
+      }
+    }
+  }
 }
 </style>

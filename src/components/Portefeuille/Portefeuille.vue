@@ -34,32 +34,33 @@ export default {
 @import "../../styles/_global.scss";
 
 #portefeuille {
-   
+  .header {
+    display: flex;
+    height: 60px;
+    background-color: $background-global;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 40px;
+    box-sizing: border-box;
+    align-items: center;
+    .header-button {
+      padding: 0 20px;
+      max-width: 250px;
+      border-style: none;
+      background-color: rgba(255, 255, 255, 0);
+      color: black;
+      font-weight: 550;
+      border-radius: 7px;
+      height: 30px;
+      margin-right: 30px;
+    }
+    .active {
+        background: $button-color;
+        color: white;
+        outline: none;
+    }
+  }
 }
-.header {
-  display: flex;
-  height: 60px;
-  background-color: $background-global;
-  flex-direction: row;
-  justify-content: flex-start;
-  padding-left: 40px;
-  box-sizing: border-box;
-  align-items: center;
-}
-.header-button {
-    padding: 0 20px;
-    max-width: 250px;
-    border-style: none;
-    background-color: rgba(255, 255, 255, 0);
-    color: black;
-    font-weight: 550;
-    border-radius: 7px;
-    height: 30px;
-    margin-right: 30px;
-}
-.active {
-    background: $button-color;
-    color: white;
-    outline: none;
-}
+
+
 </style>
