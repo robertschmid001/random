@@ -16,7 +16,6 @@ import MyFooter from './components/global/Footer.vue'
 import MyHeader from './components/global/Header.vue'
 import MyNavbar from './components/global/Navbar.vue'
 import Login from './components/Login.vue'
-import Profile from './components/Profile.vue'
 
 export default {
   name: 'app',
@@ -25,7 +24,7 @@ export default {
     MyFooter,
     MyHeader,
     MyNavbar,
-    Login
+    Login,
   },
   mounted() {
         if(!this.$store.state.authenticated) {

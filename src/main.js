@@ -12,10 +12,7 @@ import './element-variables.scss'
 
 import './styles/_global.scss';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import {faCheck,faTimes,faUserPlus,faUser,faPen,faHome,faEuroSign,faUserFriends,
-        faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory, faDownload
-        }
-        from '@fortawesome/free-solid-svg-icons'
+import { faCheck,faTimes,faUserPlus,faUser,faPen,faHome,faEuroSign,faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)

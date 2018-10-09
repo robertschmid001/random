@@ -9,6 +9,8 @@ import Portefeuille from './components/Portefeuille/Portefeuille.vue'
 import Email from './components/Email.vue'
 
 import Home2 from './components/Home2.vue'
+import Documents from './components/Documents.vue'
+import Actualites from './components/Actualites.vue'
 
 Vue.use(Router)
 
@@ -52,6 +54,14 @@ let router = new Router({
             path: '/home2',
             name: 'Home2',
             component: Home2
+        }, {
+            path: '/documents',
+            name: 'Documents',
+            component: Documents
+        }, {
+            path: '/actualites',
+            name: 'Actualites',
+            component: Actualites
         }
     ]
 })

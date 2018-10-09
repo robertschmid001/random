@@ -31,11 +31,11 @@
             <el-menu-item index="4-4" class="hover menu-title border">Contrats</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="5" class="hover border">
+        <el-menu-item index="/Documents" class="hover border">
           <font-awesome-icon icon="file-alt" class="size-menu-icons"/>
           <span class="padding-menu menu-title">Documents</span>
         </el-menu-item>
-        <el-menu-item index="6" class="hover border">
+        <el-menu-item index="/Actualites" class="hover border">
           <font-awesome-icon icon="newspaper" class="size-menu-icons"/>
           <span class="padding-menu menu-title">Actualités</span>
         </el-menu-item>
