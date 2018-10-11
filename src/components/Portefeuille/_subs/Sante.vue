@@ -8,13 +8,13 @@
     <div class="table-wrapping" v-show="holdingTable">
       <el-table ref="multipleTable" :data="holdings" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}">
         <el-table-column type="selection" width="42"></el-table-column>
-        <el-table-column property="name" label="NOM" sortable width="100"><template scope="scope" >{{scope.row.name}}</template></el-table-column>
+        <el-table-column property="name" label="NOM" sortable width="100"><template scope="scope">{{scope.row.name}}</template></el-table-column>
         <el-table-column property="entreprises.length" label="ENTREPRISES" sortable width="120"><template scope="scope" ><div @click="showEntreprise(scope.row.entreprises)" class="data-wrapper pointer">{{scope.row.entreprises.length}}</div></template></el-table-column>
         <el-table-column property="contrats" label="CONTRATS" show-overflow-tooltip sortable width="100"><template scope="scope" ><div @click="showContrats(scope.row.entreprises)" class="data-wrapper pointer">{{contratsLength(scope.row.entreprises)}}</div></template></el-table-column>
-        <el-table-column property="beneficiaire" label="ASSURES / BENEFICIAIRES" show-overflow-tooltip width="179"></el-table-column>
+        <el-table-column property="beneficiaire" label="ASSURES / BENEFICIAIRES" show-overflow-tooltip width="160"></el-table-column>
         <el-table-column property="totalCotisations" label="COTISATIONS" show-overflow-tooltip sortable width="120"></el-table-column>
         <el-table-column property="totalPrestations" label="PRESTATIONS" show-overflow-tooltip sortable width="120"></el-table-column>
-        <el-table-column property="totalTauxTele" label="TAUX TELETRANSMISSION" show-overflow-tooltip sortable><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.totalTauxTele"></el-progress></template></el-table-column>
+        <el-table-column property="totalTauxTele" label="TAUX TELETRANSMISSION" show-overflow-tooltip sortable width="180"><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.totalTauxTele"></el-progress></template></el-table-column>
         <el-table-column property="documents" label="DOCUMENTS" show-overflow-tooltip width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.documents" icon="download" class="size-export"/></template></el-table-column>
       </el-table>
     </div>

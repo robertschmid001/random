@@ -5,7 +5,7 @@
       <el-col :span="12" :xs="24" :sm="24" :md="12" class="outer-wrapper-left">
         <el-row>
           <el-col :span="12" :xs="24" :sm="12" :md="12">
-            <div class="outer-wrapper">
+            <div class="outer-wrapper pointer">
               <div class="inner-wrapper">
                 <div class="title-wrapper">
                     <div><font-awesome-icon icon="euro-sign" class="home-icons-left"/></div>
@@ -20,7 +20,7 @@
             </div>
           </el-col>
           <el-col :span="12" :xs="24" :sm="12" :md="12">
-            <div class="outer-wrapper">
+            <div class="outer-wrapper pointer">
               <div class="inner-wrapper">
                   <div class="title-wrapper">
                     <div><font-awesome-icon icon="user-friends" class="home-icons-left"/></div>
@@ -37,7 +37,7 @@
 
         <el-row>
           <el-col :span="12" :xs="24" :sm="12" :md="12">
-            <div class="outer-wrapper">
+            <div class="outer-wrapper pointer">
               <div class="inner-wrapper">
                 <div class="title-wrapper">
                   <div><font-awesome-icon icon="file-export" class="home-icons-left"/></div>
@@ -49,7 +49,7 @@
             </div>
           </el-col>
           <el-col :span="12" :xs="24" :sm="12" :md="12">
-            <div class="outer-wrapper">
+            <div class="outer-wrapper pointer">
               <div class="inner-wrapper">
                 <div class="title-wrapper">
                   <div><font-awesome-icon icon="file-alt" class="home-icons-left"/></div>
@@ -124,15 +124,16 @@
             </el-col>
         </el-row>
         <el-row class="activity-wrapper">
-          <el-col :span="24" class="line-height">
+          <el-col :span="24" class="line-height width-activity">
             <el-row><el-col :span="24"><div class="full-width"><font-awesome-icon icon="history" class="home-icons-right icon-pad-right"/><h2>Mon Activité des 6 derniers mois</h2></div></el-col></el-row>
-            <el-row class="pad-left hover1"><el-col :span="21" class="act-cont">Affaires nouvelles</el-col><el-col :span="3" class="act-num">145</el-col></el-row>
-            <el-row class="pad-left hover2"><el-col :span="21" class="act-cont">Résiliations</el-col><el-col :span="3" class="act-num">10</el-col></el-row>
-            <el-row class="pad-left hover3"><el-col :span="21" class="act-cont">Cotisations encaissées</el-col><el-col :span="3" class="act-num">432</el-col></el-row>
-            <el-row class="pad-left hover4"><el-col :span="21" class="act-cont">Cotisations impayées</el-col><el-col :span="3" class="act-num">23</el-col></el-row>
-            <el-row class="pad-left hover5"><el-col :span="21" class="act-cont">Nouvelles adhésions</el-col><el-col :span="3" class="act-num">24</el-col></el-row>
-            <el-row class="pad-left hover6"><el-col :span="21" class="act-cont">Nouvelles mutations</el-col><el-col :span="3" class="act-num">46</el-col></el-row>
-            <el-row class="pad-left hover7"><el-col :span="21" class="act-cont">Nouvelles radiations</el-col><el-col :span="3" class="act-num">12</el-col></el-row>
+            <el-row class="pad-left hover1 pointer"><el-col :span="21" class="act-cont">Affaires nouvelles</el-col><el-col :span="3" class="act-num">145</el-col></el-row>
+            <el-row class="pad-left hover2 pointer"><el-col :span="21" class="act-cont">Résiliations</el-col><el-col :span="3" class="act-num">10</el-col></el-row>
+            <el-row class="pad-left hover3 pointer"><el-col :span="21" class="act-cont">Cotisations encaissées</el-col><el-col :span="3" class="act-num">432</el-col></el-row>
+            <el-row class="pad-left hover4 pointer"><el-col :span="21" class="act-cont">Cotisations impayées</el-col><el-col :span="3" class="act-num">23</el-col></el-row>
+            <el-row class="pad-left hover5 pointer"><el-col :span="21" class="act-cont">Nouvelles adhésions</el-col><el-col :span="3" class="act-num">1000</el-col></el-row>
+            <el-row class="pad-left hover6 pointer"><el-col :span="21" class="act-cont">Nouvelles mutations</el-col><el-col :span="3" class="act-num">46</el-col></el-row>
+            <el-row class="pad-left hover7 pointer"><el-col :span="21" class="act-cont">Nouvelles radiations</el-col><el-col :span="3" class="act-num">12</el-col></el-row>
+
           </el-col>
         </el-row>
       </el-col>
@@ -155,6 +156,9 @@ export default {
 #home {
   padding: 30px;
   background-color: white;
+}
+.width-activity {
+  max-width: 400px;
 }
 h2{
   font-weight: 400;
@@ -217,6 +221,11 @@ h4 {
   box-shadow: 0px 1px 15px -8px black;
   border-radius: 7px;
   color: white;
+}
+.outer-wrapper:hover {
+  color: $button-color;
+  background-color: white;
+  box-shadow: none;
 }
 .inner-wrapper {
   padding: 11px;
@@ -296,8 +305,11 @@ h4 {
   height: 120px;
 }
 .outer-wrapper-right {
-  padding: 10px 0 0 10px;
+  padding: 0px 10px 20px 10px;
   color: rgba(53, 53, 53, 0.815);
+  box-shadow: 0px 0px 30px -7px;
+  border-radius: 7px;
+  margin-top: 10px;
 }
 .radius-left {
   border-radius: 7px 0px 0px 0px;
@@ -315,6 +327,8 @@ h4 {
 }
 .activity-wrapper {
   padding-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 .act-cont {
   font-size: 14px;

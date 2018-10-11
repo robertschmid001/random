@@ -25,10 +25,12 @@
             </div>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="4-1" class="hover menu-title border">Prestations</el-menu-item>
-            <el-menu-item index="4-2" class="hover menu-title border">Cotisations</el-menu-item>
-            <el-menu-item index="4-3" class="hover menu-title border">Assurés</el-menu-item>
-            <el-menu-item index="4-4" class="hover menu-title border">Contrats</el-menu-item>
+            <el-menu-item index="4-1" class="menu-title border-blue">Holdings</el-menu-item>
+            <el-menu-item index="4-2" class="menu-title border-purple">Entreprises</el-menu-item>
+            <el-menu-item index="4-3" class="menu-title border-red">Prestations</el-menu-item>
+            <el-menu-item index="4-4" class="menu-title border-orange">Cotisations</el-menu-item>
+            <el-menu-item index="4-5" class="menu-title border-lgt-green">Assurés</el-menu-item>
+            <el-menu-item index="4-6" class="menu-title border-green">Contrats</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-menu-item index="/Documents" class="hover border">
@@ -80,22 +82,21 @@ export default {
 @import "../../styles/_global.scss";
 
 #my-navbar {
-    background-color: white;
-    position: absolute;
-    left: 0;
-    height: 100%;
-    z-index: 5;
-    box-shadow: 1px -13px 20px -5px;
-
-    h1 {
-        margin: 0px;
-    }
+  background-color: white;
+  position: absolute;
+  left: 0;
+  height: 100%;
+  z-index: 5;
+  box-shadow: 1px -13px 20px -5px;
+  h1 {
+    margin: 0px;
+  }
 }
 .router-link {
   height: 100%;
 }
 span.padding-menu {
-  padding-left: 10px;
+  padding-left: 20px;
 }
 .image-wrapper {
   padding: 8px 12px 8px 12px;
@@ -117,25 +118,70 @@ span.padding-menu {
   height: 40px;
 }
 .size-menu-icons {
-  font-size: 24px;
-  width: 24px;
+  font-size: 20px;
+  width: 20px;
 }
 .hover:hover {
   color: $button-color;
 }
-.border:hover {
-  border-left: 2px $button-color solid;
+
+.border-blue {
+  border-left: 8px $button-color solid;
+}
+.border-blue:hover {
+  background-color:$button-color;
+  color: white;
+}
+.border-red {
+  border-left: 8px rgba(255, 0, 0, 1) solid;
+}
+.border-red:hover {
+  background-color:rgba(255, 0, 0, 1);
+  color: white;
+}
+.border-purple {
+  border-left: 8px rgba(119, 78, 196, 1) solid;
+}
+.border-purple:hover {
+  background-color:rgba(119, 78, 196, 1);
+  color: white;
+}
+.border-orange {
+  border-left: 8px rgba(255, 166, 0, 1) solid;
+}
+.border-orange:hover {
+  background-color: rgba(255, 166, 0, 1);
+  color: white;
+}
+.border-lgt-green {
+  border-left: 8px rgb(212, 255, 131) solid;
+}
+.border-lgt-green:hover {
+  background-color: rgb(212, 255, 131);
+  color: white;
+}
+.border-green {
+  border-left: 8px rgba(114, 248, 37, 1) solid;
+}
+.border-green:hover {
+  background-color: rgba(114, 248, 37, 1);
+  color: white;
 }
 ul.main-menu.el-menu {
   border-right: none;
 }
 .menu-title {
-    font-weight: 600;
-    font-size: 13px;
-    align-items: center;
+  font-weight: 600;
+  font-size: 13px;
+  align-items: center;
 }
 .el-submenu .el-menu-item {
-  height: 40px;
-  line-height:40px;
+}
+.el-menu-item {
+}
+.el-menu-item-group {
+  padding: 0 15px;
+}
+.el-menu-item-group__title {
 }
 </style>

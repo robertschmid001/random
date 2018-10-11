@@ -45,18 +45,21 @@ $button-color: rgb(4, 151, 151);
 .text-size-small {
   font-size: 12px;
 }
-// .sm-txt {
-//   font-size: 10px;
-// }
-// .md-txt {
-//   font-size: 12px;
-// }
-// .lg-txt {
-//   font-size: 14px;
-// }
-// .xlg-txt {
-//   font-size: 40px;
-// }
+.text-size-vsm {
+  font-size: 10px;
+}
+.sm-txt {
+  font-size: 10px;
+}
+.md-txt {
+  font-size: 12px;
+}
+.lg-txt {
+  font-size: 14px;
+}
+.xlg-txt {
+  font-size: 40px;
+}
 // .sm-icon {
 //   font-size: 10px;
 // }
@@ -165,7 +168,7 @@ $button-color: rgb(4, 151, 151);
 
 //**Home-page colours
 .red {
-  background-color: rgba(255, 0, 0, 0.6);
+  background-color: rgba(255, 0, 0, 0.644);
   border-radius: 0px 7px 0px 0px;
 }
 .orange {

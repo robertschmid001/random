@@ -5,12 +5,12 @@
                 <div class="radius outer-wrapper" >
                 <div class="header-border">
                     <el-row>
-                        <el-col :span="14" class="text-size-md align-left grey-text colorYellow"><font-awesome-icon icon="user" class="profile-icon"/>Mon Profil</el-col>
-                        <el-col :span="10" class="text-size-md align-right colorBlue" v-show="!isEditing"><font-awesome-icon icon="pen" class="profile-icon" /><span class="hover pointer" @click="edit">Editer mon profil</span></el-col>
-                        <div v-show="isEditing" @click="confirm"><el-col :span="10" class="text-size-md colorRed pointer"><div class="header-valider">Valider</div></el-col></div>
+                        <el-col :span="14" class="md-txt align-left grey-text colorYellow"><font-awesome-icon icon="user" class="profile-icon"/>Mon Profil</el-col>
+                        <el-col :span="10" class="md-txt align-right colorBlue" v-show="!isEditing"><font-awesome-icon icon="pen" class="profile-icon" /><span class="hover pointer" @click="edit">Editer mon profil</span></el-col>
+                        <div v-show="isEditing" @click="confirm"><el-col :span="10" class="md-txt colorRed pointer"><div class="header-valider">Valider</div></el-col></div>
                     </el-row>
                 </div>
-                    <div class="align-left inner-body-l text-size-md">
+                    <div class="align-left inner-body-l md-txt">
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Raison Sociale</el-col>
                             <el-col :span="15" class="padding-item grey-text">{{this.rsSociale}}</el-col>
@@ -72,16 +72,16 @@
                 </div>
             </el-col>
             <el-col :span="12" :xs="24" class="right-wrapper align-left">
-                <button class="pointer buttonShow" v-if="!showList" @click="showUsersList"><div class="inner-button-wrapper text-size-small"><font-awesome-icon icon="user" class="profile-icon" /><span>Voir la liste des utilisateurs habilités</span> </div></button>
+                <button class="pointer buttonShow" v-if="!showList" @click="showUsersList"><div class="inner-button-wrapper sm-txt"><font-awesome-icon icon="user" class="profile-icon" /><span>Voir la liste des utilisateurs habilités</span> </div></button>
                 <div v-else class="radius outer-wrapper">
                     <div v-if="!isAdding">
                         <div class="inner-header header-border">
                             <el-row>
-                                <el-col :span="12" class="text-size-md align-left grey-text"><font-awesome-icon icon="user" class="profile-icon"/> Liste des utilisateurs habilités</el-col>
-                                <el-col :span="12" class="text-size-md align-right"><font-awesome-icon icon="user-plus" class="profile-icon"/><span class="hover pointer" @click="isAdding=true">Ajouter un utilisateur</span></el-col>
+                                <el-col :span="12" class="md-txt align-left grey-text"><font-awesome-icon icon="user" class="profile-icon"/> Liste des utilisateurs habilités</el-col>
+                                <el-col :span="12" class="md-txt align-right"><font-awesome-icon icon="user-plus" class="profile-icon"/><span class="hover pointer" @click="isAdding=true">Ajouter un utilisateur</span></el-col>
                             </el-row>
                         </div>
-                        <div class="align-left inner-body-r text-size-md">
+                        <div class="align-left inner-body-r md-txt">
                             <div v-for="(user, index) in this.usersList" :key="index">
                                 <div class="box-user">
                                     <div class="input-box grey-text">
@@ -102,21 +102,21 @@
                     <div v-else>
                         <div class="inner-header header-border">
                             <el-row>
-                                <el-col :span="12" class="text-size-md align-left"><font-awesome-icon icon="user" class="profile-icon"/> Liste des utilisateurs habilités</el-col>
-                                <el-col :span="12" class="text-size-md align-right"></el-col>
+                                <el-col :span="12" class="sm-txt align-left"><font-awesome-icon icon="user" class="profile-icon"/> Liste des utilisateurs habilités</el-col>
+                                <el-col :span="12" class="md-txt align-right"></el-col>
                             </el-row>
                         </div>
-                        <div class="align-left inner-body-r text-size-md">
+                        <div class="align-left inner-body-r md-txt">
                             <input class="base-input" placeholder="Nom" v-model.trim.lazy="newUser.surname"/>
                             <input class="base-input" placeholder="Prénom" v-model.trim.lazy="newUser.forename"/>
                             <input class="base-input" placeholder="Numéro de téléphone" v-model.trim.lazy="newUser.tel"/>
                             <input class="base-input" placeholder="Email" v-model.trim.lazy="newUser.email"/>
                             <el-row>
                                 <el-col :span="12" class="align-left">
-                                    <button type="submit" class=" text-size-small button button-width pointer" @click="cancelAdd">Annuler</button>
+                                    <button type="submit" class=" text-size-vsm button button-width pointer" @click="cancelAdd">Annuler</button>
                                 </el-col>
                                 <el-col :span="12" class="align-right">
-                                    <button type="submit" class=" text-size-small button button-width pointer" @click="addUser">Ajouter</button>
+                                    <button type="submit" class=" text-size-vsm button button-width pointer" @click="addUser">Ajouter</button>
                                 </el-col>
                             </el-row>
                         </div>

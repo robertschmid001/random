@@ -12,7 +12,7 @@ export const store = new Vuex.Store({
                 name: 'Holding 1',
                 totalCotisations: '85841',
                 totalPrestations: '75853',
-                totalTauxTele: '35',
+                totalTauxTele: 35,
                 entreprises: [
                     {
                         name: 'Entreprise 1',
@@ -169,7 +169,7 @@ export const store = new Vuex.Store({
                 name: 'Holding 2',
                 totalCotisations: '98753',
                 totalPrestations: '87456',
-                totalTauxTele: '35',
+                totalTauxTele: 55,
                 entreprises: [{
                         name: 'Entreprise 5',
                         NumSiret: 'FR6355214450300018',
