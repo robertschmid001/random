@@ -1,8 +1,8 @@
 <template>
   <div id="my-header">
     <el-row class="wrapper-outer">
-      <el-col :span="20"><div class="breadcrumbs">Profile</div></el-col>
-      <el-col :span="4" v-click-outside="closeEvent">
+      <el-col :span="20" :xs="16"><div class="breadcrumbs">Profile</div></el-col>
+      <el-col :span="4" :xs="8" v-click-outside="closeEvent">
         <div @mouseover="deconnexion = true" class="btn-wrapper-con btn-gen" :class="{active: deconnexion == true}"><router-link to="/Profile" class="btn-inner">Mr. Dupont</router-link></div>
         <transition name="slide-down"><div v-show="deconnexion" class="btn-wrapper-dec btn-gen"><div class="prof-deco btn-inner" @click="logOut">Deconnexion</div></div></transition>
       </el-col>
