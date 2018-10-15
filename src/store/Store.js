@@ -6,7 +6,26 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
         authenticated: "",
-
+        newsLetters: [
+            {
+                title: 'Généralisation de la complémentaire santé : les entreprises ont fait évoluer leurs offres',
+                date:'01/06/2018',
+                content: '51 % en 2015, 84 % en 2017. La proportion des établissements qui proposent une complémentaire santé à leurs salariés a bondi suite à la mise en oeuvre de el est le constat dressé par lInstitut de recherche et documentation en économie de la santé(Irdes) dans une enquête publiée hier.Pour rappel, l\'Ani en question oblige tous les employeurs privés à proposer une complémentaire santé d \'entreprise à leurs salariés à compter du 1er janvier 2016. Désormais, seulement 16 % des établissement s\' abstiennent de proposer une telle complémentaire santé, principalement en raison des dispenses d \'adhésions des salariés.',
+                imgUrl: require('../assets/logo-cpms.png')
+            },
+            {
+                title: 'Complémentaire santé Généralisation de la  : les entreprises ont fait évoluer leurs offres',
+                date: '03/04/2018',
+                content: 'La proportion des établissements qui proposent une complémentaire des établissements qui proposent une complémentaire santé à leurs salariés a bondi suite à la mise en oeuvre de el est le constat dressé par lInstitut de recherche et documentation en économie de la santé(Irdes) dans une enquête publiée hier.Pour rappel, l\'Ani en question oblige tous les employeurs privés à proposer une complémentaire santé d \'entreprise à leurs salariés à compter du 1er janvier 2016. Désormais, seulement 16 % des établissement s\' abstiennent de proposer une telle complémentaire santé, principalement en raison des dispenses d \'adhésions des salariés.',
+                imgUrl: require('../assets/cpms_logo_small.png')
+            },
+            {
+                title: 'Faire évoluer leurs offres complémentaire santé Généralisation de la  : les entreprises ont fait ',
+                date: '027/03/2018',
+                content: 'La mise en oeuvre de el est le constat dressé par lInstitut La proportion des établissements qui proposent une complémentaire des établissements qui proposent une complémentaire santé à leurs salariés a bondi suite à de recherche et documentation en économie de la santé(Irdes) dans une enquête publiée hier.Pour rappel, l\'Ani en question oblige tous les employeurs privés à proposer une complémentaire santé d \'entreprise à leurs salariés à compter du 1er janvier 2016. Désormais, seulement 16 % des établissement s\' abstiennent de proposer une telle complémentaire santé, principalement en raison des dispenses d \'adhésions des salariés.',
+                imgUrl: require('../assets/logo.png')
+            },
+        ],
         holdings: [
             {
                 name: 'Holding 1',

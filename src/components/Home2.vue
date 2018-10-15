@@ -307,8 +307,6 @@ h4 {
 .outer-wrapper-right {
   padding: 0px 10px 20px 10px;
   color: rgba(53, 53, 53, 0.815);
-  box-shadow: 0px 0px 30px -7px;
-  border-radius: 7px;
   margin-top: 10px;
 }
 .radius-left {

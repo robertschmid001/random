@@ -25,12 +25,10 @@
             </div>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="4-1" class="menu-title border-blue">Holdings</el-menu-item>
-            <el-menu-item index="4-2" class="menu-title border-purple">Entreprises</el-menu-item>
-            <el-menu-item index="4-3" class="menu-title border-red">Prestations</el-menu-item>
-            <el-menu-item index="4-4" class="menu-title border-orange">Cotisations</el-menu-item>
-            <el-menu-item index="4-5" class="menu-title border-lgt-green">Assurés</el-menu-item>
-            <el-menu-item index="4-6" class="menu-title border-green">Contrats</el-menu-item>
+            <el-menu-item index="4-1" class="menu-title underline">Prestations</el-menu-item>
+            <el-menu-item index="4-2" class="menu-title underline">Cotisations</el-menu-item>
+            <el-menu-item index="4-3" class="menu-title underline">Assurés</el-menu-item>
+            <el-menu-item index="4-4" class="menu-title underline">Contrats</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-menu-item index="/Documents" class="hover border">
@@ -124,49 +122,6 @@ span.padding-menu {
 .hover:hover {
   color: $button-color;
 }
-
-.border-blue {
-  border-left: 8px $button-color solid;
-}
-.border-blue:hover {
-  background-color:$button-color;
-  color: white;
-}
-.border-red {
-  border-left: 8px rgba(255, 0, 0, 1) solid;
-}
-.border-red:hover {
-  background-color:rgba(255, 0, 0, 1);
-  color: white;
-}
-.border-purple {
-  border-left: 8px rgba(119, 78, 196, 1) solid;
-}
-.border-purple:hover {
-  background-color:rgba(119, 78, 196, 1);
-  color: white;
-}
-.border-orange {
-  border-left: 8px rgba(255, 166, 0, 1) solid;
-}
-.border-orange:hover {
-  background-color: rgba(255, 166, 0, 1);
-  color: white;
-}
-.border-lgt-green {
-  border-left: 8px rgb(212, 255, 131) solid;
-}
-.border-lgt-green:hover {
-  background-color: rgb(212, 255, 131);
-  color: white;
-}
-.border-green {
-  border-left: 8px rgba(114, 248, 37, 1) solid;
-}
-.border-green:hover {
-  background-color: rgba(114, 248, 37, 1);
-  color: white;
-}
 ul.main-menu.el-menu {
   border-right: none;
 }
@@ -182,6 +137,17 @@ ul.main-menu.el-menu {
 .el-menu-item-group {
   padding: 0 15px;
 }
+.border:hover{
+  border-left: 4px solid $button-color;
+}
+
 .el-menu-item-group__title {
+}
+.underline {
+  font-weight: 700;
+  font-size: 12px;
+}
+.underline:hover {
+  text-decoration: underline;
 }
 </style>
