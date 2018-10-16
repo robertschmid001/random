@@ -9,6 +9,7 @@ import Vuelidate from 'vuelidate'
 import './plugins/element.js'
 import ElementUI from 'element-ui'
 import './element-variables.scss'
+import Lodash from 'lodash'
 
 import './styles/_global.scss';
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -17,6 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add( faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
 
+Vue.use(Lodash)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(Vuelidate)
 Vue.use(ElementUI);

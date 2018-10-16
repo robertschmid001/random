@@ -1,12 +1,12 @@
 <template>
   <div id="actualites">
     <el-row>
-      <el-col :span="12">
+      <el-col :span="13">
         <el-row class="padding">
           <ul>
             <li v-for="(newsLetter, index) in newsLetters" :key="index" @click="focusNews(newsLetter)" >
               <el-col :span="8">
-                <div class="image-space"><img :src="newsLetter.imgUrl" alt="" class="image-space"></div>
+                <div class=""><img :src="newsLetter.imgUrl" alt="" class="image-space"></div>
               </el-col>
               <el-col :span="16">
                 <div class="content-wrapper">
@@ -19,19 +19,21 @@
         </el-row>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :span="11" class="inside-padding">
         <div class="news-wrapper">
+          <el-row>
           <el-col :span="24" class="image-wrapper">
             <img :src="this.activeNews.imgUrl" alt="" class="image-space-big">
           </el-col>
           <el-col :span="24">
-            <h5 class="align-center">{{this.activeNews.title}}</h5>
+            <h3 class="align-center">{{this.activeNews.title}}</h3>
           </el-col>
           <el-col :span="24">
             <div class="text-size-small">
               {{this.activeNews.content}}
             </div>
           </el-col>
+          </el-row>
         </div>
       </el-col>
 
@@ -47,7 +49,7 @@ export default {
   data () {
     return {
       newsLetters: this.$store.state.newsLetters,
-      activeNews: '',
+      activeNews: this.$store.state.newsLetters[0],
     }
   },
   methods: {
@@ -61,7 +63,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "./../styles/_global.scss";
+
 #actualites {
+  background-color: $background-global;
   padding-top: 20px;
   padding-left: 30px;
 }
@@ -76,9 +81,12 @@ export default {
   right: 0px;
 }
 .image-space {
+  justify-content: center;
+  display: flex;
   height: 75px;
-  background: white;
-  margin-right: 20px;
+  margin-right: 10px;
+  overflow: hidden;
+  object-fit: contain;
 }
 h4 {
   margin: 0;
@@ -92,25 +100,30 @@ h4 {
   padding-bottom: 20px;
 }
 .news-wrapper {
-  padding: 0 80px 30px 50px;
+  padding: 30px 50px 30px 50px;
 }
 ul {
   height: 100%;
   list-style: none;
   padding: 0;
   overflow-y: scroll;
-  max-height: 800px;
+  max-height: 600px;
+  box-sizing: border-box;
 }
 li {
   height: 70px;
   margin-bottom: 20px;
 }
 .image-space-big {
-    max-width: 200px;
-    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    max-height: 200px;
 }
 .image-wrapper {
   display: flex;
   justify-content: center;
+}
+.inside-padding {
+  padding: 30px;
 }
 </style>

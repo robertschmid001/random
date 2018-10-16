@@ -11,6 +11,7 @@ import Email from './components/Email.vue'
 import Home2 from './components/Home2.vue'
 import Documents from './components/Documents.vue'
 import Actualites from './components/Actualites.vue'
+import Extraction from './components/Extraction.vue'
 
 Vue.use(Router)
 
@@ -62,6 +63,10 @@ let router = new Router({
             path: '/actualites',
             name: 'Actualites',
             component: Actualites
+        }, {
+            path: '/extraction',
+            name: 'Extraction',
+            component: Extraction
         }
     ]
 })

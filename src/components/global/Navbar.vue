@@ -25,7 +25,7 @@
             </div>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="4-1" class="menu-title underline">Prestations</el-menu-item>
+            <el-menu-item index="/extraction" class="menu-title underline">Prestations</el-menu-item>
             <el-menu-item index="4-2" class="menu-title underline">Cotisations</el-menu-item>
             <el-menu-item index="4-3" class="menu-title underline">Assurés</el-menu-item>
             <el-menu-item index="4-4" class="menu-title underline">Contrats</el-menu-item>
