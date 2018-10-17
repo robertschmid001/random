@@ -1,7 +1,9 @@
 <template>
   <div id="extraction">
         <el-row>
+        
           <el-col :span="8" class="column-wrap">
+            <div class="title-wrapper">Je souhaite extraire:</div>
             <input type="text" class="base-input" placeholder="Nom ou N° de Holding">
             <input type="text" class="base-input" placeholder="Nom ou N° client">
             <input type="text" class="base-input" placeholder="Type de contrat">
@@ -28,7 +30,8 @@
               <el-button class="button" @click="addSelection">Valider</el-button>
           </el-col>
           <el-col :span="8" class="column-wrap">
-                Extraction de :
+                <div>Extraction de :</div>
+                
                 <div class="outer-wrapper margin ul-wrapper" v-for="(box, index) in boxSelection" :key="index" @click="deleteSelection(index)">
                     <font-awesome-icon icon="times" class="icon2"/>
                     <ul>
@@ -39,14 +42,12 @@
                 </div>
                 <el-button class="button" @click="'click'">Extraction</el-button>
           </el-col>
-          
       </el-row>
 
   </div>
 </template>
 
 <script>
-import Lodash from 'lodash'
 
 export default {
   name: 'Extraction',
@@ -55,7 +56,7 @@ export default {
     data() {
         return {
             value6: '',
-            boxSelection: [[{name: 'Mqtthieu est un faggot'}]],
+            boxSelection: [],
             selection: [{name: 'Assureur AXA'},{name: 'Roi'},{name: 'Albert'},{name: 'William'},{name: 'Elizabeth'},{name: 'Charles'},{name: 'Assureur AXA'},{name: 'Roi'},{name: 'Wang'},{name: 'Bang'},{name: 'Pong'},{name: 'Ping'},{name: 'Assureur AXA'},{name: 'Roi'},{name: 'Albert'},{name: 'William'},{name: 'Elizabeth'},{name: 'Charles'}]
         };
     },
@@ -97,6 +98,9 @@ export default {
 .block {
    display: flex;
    justify-content: center;
+}
+.title-wrapper {
+    padding-bottom: 30px;
 }
 .outer-wrapper {
     padding: 20px 15px;
@@ -147,32 +151,3 @@ ul {
     margin-top: 10px;
 }
 </style>
-// {name: 'Reine'},{name: 'Roi'},{name: 'Albert'},{name: 'William'},{name: 'Elizabeth'},{name: 'Charles'}
-            <!-- <el-transfer
-                v-model="value5"
-                :props="{
-                key: 'value',
-                label: 'desc'
-                }"
-                :data="data3"
-                >
-            </el-transfer> -->
-
-
-    //     const generateData3 = _ => {
-    //     const data = [];
-    //     var newExtraction = [{name: 'Reine'},{name: 'Roi'},{name: 'Albert'},{name: 'William'},{name: 'Elizabeth'},{name: 'Charles'}];
-    //     for (let i = 0; i < newExtraction.length; i++) {
-    //         console.log(data, 'data')
-    //       data.push({
-    //         value: i,
-    //         desc: ` ${ newExtraction[i].name }`
-    //       });
-    //     }
-    //     return data;
-    //   };
-
-
-
-            // data3: generateData3(),
-            // value5: [],

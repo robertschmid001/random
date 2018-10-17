@@ -73,7 +73,7 @@ export const store = new Vuex.Store({
                                 fin: '02/12/2019',
                                 cotisations: '12344',
                                 prestations: '17489',
-                                tauxCotisations: '34',
+                                tauxCotisations: 45,
                                 assures: [{
                                     name: 'robert Schmid',
                                     birthdate: '28/02/1985',
@@ -94,7 +94,7 @@ export const store = new Vuex.Store({
                                 fin: '13/05/2019',
                                 cotisations: '12574',
                                 prestations: '85489',
-                                tauxCotisations: '25',
+                                tauxCotisations: 21,
                                 assures: [{
                                         name: 'andrew Germain',
                                         birthdate: '28/02/1985',
@@ -132,7 +132,7 @@ export const store = new Vuex.Store({
                                 fin: '02/12/2019',
                                 cotisations: '12344',
                                 prestations: '17489',
-                                tauxCotisations: '34',
+                                tauxCotisations: 95,
                                 assures: [{
                                     name: 'robert SchmidAAA',
                                     birthdate: '28/02/1985',
@@ -153,7 +153,7 @@ export const store = new Vuex.Store({
                                 fin: '13/05/2019',
                                 cotisations: '12574',
                                 prestations: '85489',
-                                tauxCotisations: '25',
+                                tauxCotisations: 75,
                                 assures: [{
                                         name: 'andrew GermainAAA',
                                         birthdate: '28/02/1985',
@@ -192,7 +192,7 @@ export const store = new Vuex.Store({
                                 fin: '02/12/2019',
                                 cotisations: '12344',
                                 prestations: '17489',
-                                tauxCotisations: '34',
+                                tauxCotisations: 68,
                                 assures: [
                                     {
                                         name: 'robert SchmidBBB',
@@ -228,7 +228,7 @@ export const store = new Vuex.Store({
                                 fin: '02/12/2019',
                                 cotisations: '12344',
                                 prestations: '17489',
-                                tauxCotisations: '34',
+                                tauxCotisations: 97,
                                 assures: [{
                                     name: 'robert Schmid',
                                     birthdate: '28/02/1985',
@@ -249,7 +249,7 @@ export const store = new Vuex.Store({
                                 fin: '13/05/2019',
                                 cotisations: '12574',
                                 prestations: '85489',
-                                tauxCotisations: '25',
+                                tauxCotisations: 74,
                                 assures: [{
                                         name: 'andrew Germain',
                                         birthdate: '28/02/1985',
@@ -288,7 +288,7 @@ export const store = new Vuex.Store({
                                 fin: '13/05/2019',
                                 cotisations: '12574',
                                 prestations: '85489',
-                                tauxCotisations: '25',
+                                tauxCotisations: 78,
                                 assures: [{
                                         name: 'andrew GermainAAA',
                                         birthdate: '28/02/1985',

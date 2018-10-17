@@ -4,7 +4,7 @@
       <el-col :span="20" :xs="16"><div class="breadcrumbs">Profile</div></el-col>
       <el-col :span="4" :xs="8" v-click-outside="closeEvent">
         <div @mouseover="deconnexion = true" class="btn-wrapper-con btn-gen" :class="{active: deconnexion == true}"><router-link to="/Profile" class="btn-inner">Mr. Dupont</router-link></div>
-        <transition name="slide-down"><div v-show="deconnexion" class="btn-wrapper-dec btn-gen"><div class="prof-deco btn-inner" @click="logOut">Deconnexion</div></div></transition>
+        <transition name="slide-out"><div v-show="deconnexion" class="btn-wrapper-dec btn-gen"><div class="prof-deco btn-inner pointer" @click="logOut">Deconnexion</div></div></transition>
       </el-col>
     </el-row>
   </div>
@@ -72,11 +72,15 @@ export default {
 .btn-gen {
   height: 60px;
   width: 100%;
+  z-index: 5;
 }
 .btn-wrapper-dec {
-  background-color: rgb(51, 45, 77);
-  z-index: 5;
+  background-color: rgb(4, 151, 151);
   position: relative;
+  border-radius: 0px 0px 0px 7px;
+}
+.btn-wrapper-dec:hover {
+  background-color: rgb(4, 95, 95)
 }
 .prof-deco {
   color: white;
@@ -93,7 +97,7 @@ export default {
     color: black;
   }
 .active {
-  background-color: rgb(30, 25, 61);
+  background-color: rgba(4, 151, 151, 0.5);
   color: white;
   a {
     color: white;

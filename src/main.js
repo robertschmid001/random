@@ -8,6 +8,8 @@ import Vuelidate from 'vuelidate'
 
 import './plugins/element.js'
 import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/fr'
+
 import './element-variables.scss'
 import Lodash from 'lodash'
 
@@ -16,12 +18,14 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSearch, faCheck,faTimes,faUserPlus,faUser,faPen,faHome,faEuroSign,faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add( faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
 
+
+library.add( faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
+Vue.use(ElementUI, { locale });
 Vue.use(Lodash)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(Vuelidate)
-Vue.use(ElementUI);
+
 
 Vue.config.productionTip = false
 

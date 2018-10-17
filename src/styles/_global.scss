@@ -139,17 +139,33 @@ $button-color: rgb(4, 151, 151);
 }
 
   //Slide down
-.slide-down-enter-active,
-.slide-down-leave-active {
+.slide-out-enter-active,
+.slide-out-leave-active {
   transition: all .5s ease;
 }
-.slide-down-enter {
+.slide-out-enter {
   opacity: 1;
-  transform: translateY(-60px);
+  transform: translateX(100%);
 }
-.slide-down-leave-to {
+.slide-out-leave-to {
+  opacity: 1;
+  transform: translateX(100%);
+}
+
+ //Slide in table
+.slide-in-leave-active {
+  transition: all 0s ;
+}
+.slide-in-enter-active {
+  transition: all 0.7s ease;
+}
+.slide-in-enter {
   opacity: 0;
-  transform: translateY(-60px);
+  transform: translateX(10px);
+}
+.slide-in-leave-to {
+  opacity: 0;
+  display: none;
 }
 
 

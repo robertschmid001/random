@@ -5,8 +5,8 @@
         <el-row class="padding">
           <ul>
             <li v-for="(newsLetter, index) in newsLetters" :key="index" @click="focusNews(newsLetter)" >
-              <el-col :span="8">
-                <div class=""><img :src="newsLetter.imgUrl" alt="" class="image-space"></div>
+              <el-col :span="8" class="">
+                <div class="image-space"><img :src="newsLetter.imgUrl" alt="" class="image-space"></div>
               </el-col>
               <el-col :span="16">
                 <div class="content-wrapper">
@@ -95,12 +95,13 @@ h4 {
 .content-wrapper {
   height: 75px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 .padding {
   padding-bottom: 20px;
 }
 .news-wrapper {
-  padding: 30px 50px 30px 50px;
+  padding: 30px 0px 30px 0px;
 }
 ul {
   height: 100%;
