@@ -1,6 +1,6 @@
 <template>
   <div id="email">
-    <el-row>
+    <!-- <el-row>
       <el-col :span="5" class="outer-padding">
         <div class="write-wrapper">
           <el-row>
@@ -70,7 +70,7 @@
           3rd
         </div>
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 

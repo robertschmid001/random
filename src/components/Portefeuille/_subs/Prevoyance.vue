@@ -1,5 +1,6 @@
 <template>
   <div id="prevoyance">
+
     <div class="wrapping-search">
       <el-button class="button inner-button"  @click="toggleSelection([holdings[1], holdings[2]])">En cours</el-button>
       <el-button class="button inner-button" @click="toggleSelection()">Résiliés</el-button>
@@ -147,7 +148,7 @@ export default {
   padding: 0 10px;
 }
 .table-wrapping {
-  padding-left: 40px;
+  // padding-left: 40px;
 }
 .data-wrapper {
   width: 100%;
