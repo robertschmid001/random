@@ -89,7 +89,6 @@ export default {
       for (var i = 0; i < param.length; i++) {
         for (var y = 0; y < param[i].contrats.length; y++) {
         this.entrContrats.push(param[i].contrats[y])
-        console.log(this.entrContrats)
         }
       }
       return this.entrContrats

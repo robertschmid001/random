@@ -16,8 +16,8 @@
             <el-table-column type="selection" width="42"></el-table-column>
             <el-table-column property="name" label="NOM" sortable><template scope="scope" ><div class="data-wrapper" @click="showEntreprise(scope.row.entreprises, 'hold')">{{scope.row.name}}</div></template></el-table-column>
             <el-table-column property="entreprises.length" label="ENTREPRISES" sortable width="117"><template scope="scope" ><div class="data-wrapper">{{scope.row.entreprises.length}}</div></template></el-table-column>
-            <el-table-column property="contrats" label="CONTRATS" show-overflow-tooltip sortable width="100"><template scope="scope" ><div @click="showContrats(scope.row.entreprises, 'hcont')" class="data-wrapper pointer">{{contratsLength(scope.row, 'hcontl')}}</div></template></el-table-column>
-            <el-table-column property="beneficiaire" label="ASSURES / BENEFICIAIRES" show-overflow-tooltip width="160"></el-table-column>
+            <el-table-column property="contrats.length" label="CONTRATS" show-overflow-tooltip sortable width="100"><template scope="scope" ><div @click="showContrats(scope.row.entreprises, 'hcont')" class="data-wrapper pointer">{{contratsLength(scope.row.entreprises, 'hcontl')}}</div></template></el-table-column>
+            <el-table-column property="beneficiaire" label="ASSURES / BENEFICIAIRES" show-overflow-tooltip width="160"><template scope="scope" ><div @click="showContrats(scope.row.entreprises, 'hben')" class="data-wrapper pointer">{{contratsLength(scope.row.entreprises, 'hbenl')}}</div></template> </el-table-column>
             <el-table-column property="totalCotisations" label="COTISATIONS" show-overflow-tooltip sortable width="115"></el-table-column>
             <el-table-column property="totalPrestations" label="PRESTATIONS" show-overflow-tooltip sortable width="115"></el-table-column>
             <el-table-column property="totalTauxTele" label="TAUX TELETRANSMISSION" show-overflow-tooltip sortable><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.totalTauxTele"></el-progress></template></el-table-column>
@@ -68,7 +68,7 @@
             <el-table-column type="selection" width="42"></el-table-column>
             <el-table-column property="name" label="NOM" sortable><template scope="scope">{{scope.row.name}}</template></el-table-column>
             <el-table-column property="entreprises.length" label="ENTREPRISES" sortable width="117"><template scope="scope" ><div @click="showEntreprise(scope.row.entreprises)" class="data-wrapper pointer">{{scope.row.entreprises.length}}</div></template></el-table-column>
-            <el-table-column property="contrats" label="CONTRATS" show-overflow-tooltip sortable width="100"><template scope="scope" ><div @click="showContrats(scope.row.entreprises)" class="data-wrapper pointer">{{contratsLength(scope.row.entreprises)}}</div></template></el-table-column>
+            <el-table-column property="contrats" label="CONTRATS" show-overflow-tooltip sortable width="100"></el-table-column>
             <el-table-column property="beneficiaire" label="ASSURES / BENEFICIAIRES" show-overflow-tooltip width="160"></el-table-column>
             <el-table-column property="totalCotisations" label="COTISATIONS" show-overflow-tooltip sortable width="115"></el-table-column>
             <el-table-column property="totalPrestations" label="PRESTATIONS" show-overflow-tooltip sortable width="115"></el-table-column>
@@ -100,7 +100,6 @@ export default {
       holdingTable: true,
       entrepriseTable: false,
       contratsTable: false,
-      entreContrats: [],
       entrContrats: [],
       activeC: []
     }
@@ -125,11 +124,9 @@ export default {
       this.contratsTable = true
 
       if (item == 'hcont') {
-        console.log('inside ======>')
       for (var i = 0; i < param.length; i++) {
         for (var y = 0; y < param[i].contrats.length; y++) {
         this.entrContrats.push(param[i].contrats[y])
-        console.log('hello')
         }
       }
       return '3'
@@ -139,8 +136,9 @@ export default {
         this.entrContrats.push(param.contrats[i])
         } return this.entrContrats
       }
-
-
+      if (item == 'hben') {
+        console.log(entrContrats)
+      }
     },
 
     toggleSelection(rows) {
@@ -167,21 +165,29 @@ export default {
       this.activeC= []
     },
     contratsLength (param, item) {
-      var holdingContrats = [];
+        var lCont = [];
+        var lAss = [];
       if (item == 'hcontl') {
-        console.log(param, 'param')
         for (var i = 0; i < param.length; i++) {
-          console.log(param.length)
           for (var y = 0; y < param[i].contrats.length; y++) {
-            holdingContrats.push(param[i].contrats[2])
+            lCont.push(param[i].contrats[y])
           }
-        return holdingContrats.length;
-        }
+        }return lCont.length;
       }
       if (item == 'econtl') {
         for (var i = 0; i < param.contrats.length; i++) {
-          holdingContrats.push(param.contrats[i])
-        }return holdingContrats.length;
+          lCont.push(param.contrats[i])
+        }return lCont.length;
+      }
+      if (item == 'hbenl') {
+        for (var i = 0; i < param.length; i++) {
+          for (var x = 0; x < param[i].contrats.length; x++) {
+            for (var y = 0; y < param[i].contrats[x].assures.length; y++) {
+              console.log('inside')
+              lAss.push(param[i].contrats[x].assures[y])
+            }
+          }
+        } return lAss.length;
       }
     }
   },
