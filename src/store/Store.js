@@ -62,11 +62,13 @@ export const store = new Vuex.Store({
                 entreprises: [
                     {
                         name: 'Entreprise 1',
+                        holding: 'Holding 1',
                         NumSiret: 'FR6355214450300018',
                         adresse: '6 rue de la farandole 29069 A-Poile',
                         cotisations: 90990,
                         prestations: 23454,
                         Documents: '3',
+                        codeNaf: 'FR6355214450300018',
                         contrats: [
                             {
                                 contrat: 'ensemble etc.. 1',
@@ -78,6 +80,12 @@ export const store = new Vuex.Store({
                                 cotisations: 14949,
                                 prestations: 23242,
                                 tauxCotisations: 45,
+                                entreprise: 'Entreprise 1',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 75533,
                                 assures: [{
                                     name: 'robert Schmid',
                                     birthdate: '28/02/1985',
@@ -102,6 +110,12 @@ export const store = new Vuex.Store({
                                 cotisations: 14344,
                                 prestations: 54333,
                                 tauxCotisations: 21,
+                                entreprise: 'Entreprise 1',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 21244,
                                 assures: [{
                                         name: 'andrew Germain',
                                         birthdate: '28/02/1985',
@@ -134,11 +148,13 @@ export const store = new Vuex.Store({
                     },
                     {
                         name: 'Entreprise 2',
+                        holding: 'Holding 1',
                         NumSiret: 'FR6355214450300018',
                         adresse: '5 rue de la fanfare 69069 Tout-nu',
                         cotisations: 123440,
                         prestations: 22344,
                         Documents: '3',
+                        codeNaf: 'FR6355214450300018',
                         contrats: [{
                                 contrat: 'ensemble etc.. 3',
                                 type: 'santé base',
@@ -149,6 +165,12 @@ export const store = new Vuex.Store({
                                 cotisations: 9080,
                                 prestations: 12304,
                                 tauxCotisations: 95,
+                                entreprise: 'Entreprise 2',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 6534,
                                 assures: [{
                                     name: 'robert SchmidAAA',
                                     birthdate: '28/02/1985',
@@ -172,6 +194,12 @@ export const store = new Vuex.Store({
                                 cotisations: 43214,
                                 prestations: 81230,
                                 tauxCotisations: 75,
+                                entreprise: 'Entreprise 2',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 9044,
                                 assures: [{
                                         name: 'andrew GermainAAA',
                                         birthdate: '28/02/1985',
@@ -202,11 +230,13 @@ export const store = new Vuex.Store({
                     },
                     {
                         name: 'Entreprise 3',
+                        holding: 'Holding 1',
                         NumSiret: 'FR6355214450300018',
                         adresse: '5 rue de la fanfare 69069 Tout-nu',
                         cotisations: 123452,
                         prestations: 22344,
                         Documents: '3',
+                        codeNaf: 'FR6355214450300018',
                         contrats: [
                             {
                                 contrat: 'ensemble etc.. 5',
@@ -218,6 +248,12 @@ export const store = new Vuex.Store({
                                 cotisations: 2345,
                                 prestations: 9034,
                                 tauxCotisations: 68,
+                                entreprise: 'Entreprise 3',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 2344,
                                 assures: [
                                     {
                                         name: 'robert SchmidBBB',
@@ -245,11 +281,13 @@ export const store = new Vuex.Store({
                 Documents: 1,
                 entreprises: [{
                         name: 'Entreprise 5',
+                        holding: 'Holding 2',
                         NumSiret: 'FR6355214450300018',
                         cotisations: 123400,
                         prestations: 22344,
                         adresse: '6 rue de la farandole 29069 A-Poile',
                         Documents: '3',
+                        codeNaf: 'FR6355214450300018',
                         contrats: [{
                                 contrat: 'ensemble etc.. 1',
                                 type: 'santé base',
@@ -260,6 +298,12 @@ export const store = new Vuex.Store({
                                 cotisations: 32455,
                                 prestations: 12344,
                                 tauxCotisations: 97,
+                                entreprise: 'Entreprise 5',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 2344,
                                 assures: [{
                                     name: 'robert Schmid',
                                     birthdate: '28/02/1985',
@@ -282,6 +326,12 @@ export const store = new Vuex.Store({
                                 cotisations: 43321,
                                 prestations: 14562,
                                 tauxCotisations: 74,
+                                entreprise: 'Entreprise 5',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 2344,
                                 assures: [{
                                         name: 'andrew Germain',
                                         birthdate: '28/02/1985',
@@ -310,11 +360,13 @@ export const store = new Vuex.Store({
                     },
                     {
                         name: 'Entreprise 6',
+                        holding: 'Holding 2',
                         NumSiret: 'FR6355214450300018',
                         adresse: '5 rue de la fanfare 69069 Tout-nu',
                         cotisations: 104990,
                         prestations: 54344,
                         Documents: '3',
+                        codeNaf: 'FR6355214450300018',
                         contrats: [
                             {
                                 contrat: 'cadre 4',
@@ -326,6 +378,12 @@ export const store = new Vuex.Store({
                                 cotisations: 65433,
                                 prestations: 87582,
                                 tauxCotisations: 78,
+                                entreprise: 'Entreprise 6',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 2344,
                                 assures: [{
                                         name: 'andrew GermainAAA',
                                         birthdate: '28/02/1985',
@@ -363,6 +421,7 @@ export const store = new Vuex.Store({
                 entreprises: [
                     {
                         name: 'Entreprise 7',
+                        holding: 'Holding 4',
                         NumSiret: 'FR6355214450300018',
                         adresse: '6 rue de la farandole 29069 A-Poile',
                         cotisations: 90990,
@@ -379,6 +438,12 @@ export const store = new Vuex.Store({
                                 cotisations: 14949,
                                 prestations: 23242,
                                 tauxCotisations: 45,
+                                entreprise: 'Entreprise 7',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 2344,
                                 assures: [{
                                     name: 'robert Schmid',
                                     birthdate: '28/02/1985',
@@ -400,6 +465,12 @@ export const store = new Vuex.Store({
                                 cotisations: 14344,
                                 prestations: 54333,
                                 tauxCotisations: 21,
+                                entreprise: 'Entreprise 7',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 2344,
                                 assures: [{
                                     name: 'andrew Germain',
                                     birthdate: '28/02/1985',
@@ -426,6 +497,7 @@ export const store = new Vuex.Store({
                     },
                     {
                         name: 'Entreprise 8',
+                        holding: 'Holding 4',
                         NumSiret: 'FR6355214450300018',
                         adresse: '5 rue de la fanfare 69069 Tout-nu',
                         cotisations: 123440,
@@ -441,6 +513,12 @@ export const store = new Vuex.Store({
                             cotisations: 9080,
                             prestations: 12304,
                             tauxCotisations: 95,
+                            entreprise: 'Entreprise 8',
+                            reglement: 'virement',
+                            status: 'Impayé',
+                            dsn: 'Oui',
+                            relance: '01/01/2018',
+                            montant: 2124,
                             assures: [{
                                 name: 'robert SchmidAAA',
                                 birthdate: '28/02/1985',
@@ -462,6 +540,12 @@ export const store = new Vuex.Store({
                             cotisations: 43214,
                             prestations: 81230,
                             tauxCotisations: 75,
+                            entreprise: 'Entreprise 8',
+                            reglement: 'virement',
+                            status: 'Impayé',
+                            dsn: 'Oui',
+                            relance: '01/01/2018',
+                            montant: 2890,
                             assures: [{
                                 name: 'andrew GermainAAA',
                                 birthdate: '28/02/1985',
@@ -488,6 +572,7 @@ export const store = new Vuex.Store({
                     },
                     {
                         name: 'Entreprise 9',
+                        holding: 'Holding 4',
                         NumSiret: 'FR6355214450300018',
                         adresse: '5 rue de la fanfare 69069 Tout-nu',
                         cotisations: 123452,
@@ -504,6 +589,12 @@ export const store = new Vuex.Store({
                                 cotisations: 2345,
                                 prestations: 9034,
                                 tauxCotisations: 68,
+                                entreprise: 'Entreprise 9',
+                                reglement: 'virement',
+                                status: 'Impayé',
+                                dsn: 'Oui',
+                                relance: '01/01/2018',
+                                montant: 2344,
                                 assures: [
                                     {
                                         name: 'robert SchmidBBB',

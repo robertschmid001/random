@@ -6,7 +6,7 @@
                 <div class="radius outer-wrapper" >
                 <div class="header-border">
                     <el-row>
-                        <el-col :span="14" class="md-txt align-left grey-text colorYellow"><font-awesome-icon icon="user" class="profile-icon"/>{{this.assures.name}}</el-col>
+                        <el-col :span="14" class="md-txt align-left grey-text colorYellow"><font-awesome-icon icon="user" class="profile-icon"/>{{this.activeAss.name}}</el-col>
                     </el-row>
                 </div>
                     <div class="align-left inner-body-l md-txt">
@@ -18,7 +18,7 @@
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">E-mail</el-col>
-                            <el-col :span="15" class="padding-item grey-text">{{this.assures.email}}</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.activeAss.email}}</el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">N° téléphone 1</el-col>
@@ -30,11 +30,11 @@
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Bénéficiaire(s)</el-col>
-                            <el-col :span="15" class="padding-item grey-text">{{this.assures.beneficiaires}}</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.activeAss.beneficiaires}}</el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Télétransmission</el-col>
-                            <el-col :span="15" class="padding-item grey-text">{{this.assures.teletransmission}}</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.activeAss.teletransmission}}</el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Mode réglement</el-col>
@@ -45,7 +45,9 @@
                             <el-col :span="15" class="padding-item grey-text">{{this.rib}}</el-col>
                         </el-row>
                     </div>
+                    <div class="voirDoc"><font-awesome-icon icon="file-alt" class="padding-1"/>Voir les Documents</div>
                 </div>
+                
             </el-col>
             <el-col :span="12" :xs="24" class="right-wrapper align-left">
             <div class="radius outer-wrapper">
@@ -80,15 +82,8 @@ export default {
     props: ['activeAss'],
     data () {
       return {
-        assures: this.activeAss,
-        showList: false,
-        rsSociale: 'Cabinet Tartiflette',
-        orlas: '45145',
         adresse:{ rue: '11 rue de la chevalerie', ville:'Paris', codePostale:'75015'},
         tel: '01 75 14 55 61',
-        email:'donnamoidugouda@wanadoo.com',
-        id: '685675',
-        password: '*********',
         rib: 'FR76 xxxx xxxx xxxx xx56',
 
         newUser: {surname: '', forename: '', tel: '', email: '', edit: false},
@@ -109,6 +104,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../../styles/_global.scss";
+.padding-1 {
+    padding-right: 10px;
+}
 .comp-wrapper {
     position: relative;
 }
@@ -168,6 +166,12 @@ export default {
     padding: 15px;
     max-width: 450px;
 }
+.voirDoc {
+    position: absolute;
+    bottom: 20px;
+    right: 15px;
+    font-size: 14px;
+}
 .right-wrapper {
     padding: 15px;
     max-width: 650px;
@@ -221,6 +225,7 @@ h1 {
     padding-top: 50px;
     background-color: $background-global;
     padding: 20px 30px;
+    height: fill;
     h1 {
         margin: 0;
     }
@@ -231,6 +236,7 @@ h1 {
 .outer-wrapper {
     background-color: white;
     overflow: hidden;
+    position: relative;
 }
 .underline {
     text-decoration: underline;

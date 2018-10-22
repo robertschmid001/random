@@ -43,7 +43,6 @@ export default {
     padding-left: 40px;
     box-sizing: border-box;
     align-items: center;
-    box-shadow: 5px 5px 5px 5px;
     .header-button {
       padding: 0 20px;
       max-width: 250px;
