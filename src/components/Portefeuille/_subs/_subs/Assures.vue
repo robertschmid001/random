@@ -1,11 +1,12 @@
 <template>
     <div id="assures">
-        <el-row>
+        <el-row class="comp-wrapper">
+            <font-awesome-icon icon="times" class="close-icon"  @click="close"/>
             <el-col :span="12" :xs="24" class="left-wrapper">
                 <div class="radius outer-wrapper" >
                 <div class="header-border">
                     <el-row>
-                        <el-col :span="14" class="md-txt align-left grey-text colorYellow"><font-awesome-icon icon="user" class="profile-icon"/>Nom Prénom de l'assuré</el-col>
+                        <el-col :span="14" class="md-txt align-left grey-text colorYellow"><font-awesome-icon icon="user" class="profile-icon"/>{{this.assures.name}}</el-col>
                     </el-row>
                 </div>
                     <div class="align-left inner-body-l md-txt">
@@ -17,7 +18,7 @@
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">E-mail</el-col>
-                            <el-col :span="15" class="padding-item grey-text">{{this.email}}</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.assures.email}}</el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">N° téléphone 1</el-col>
@@ -29,15 +30,15 @@
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Bénéficiaire(s)</el-col>
-                            <el-col :span="15" class="padding-item grey-text">{{this.rib}}</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.assures.beneficiaires}}</el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Télétransmission</el-col>
-                            <el-col :span="15" class="padding-item grey-text">{{this.rib}}</el-col>
+                            <el-col :span="15" class="padding-item grey-text">{{this.assures.teletransmission}}</el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Mode réglement</el-col>
-                            <el-col :span="15" class="padding-item grey-text">{{this.rib}}</el-col>
+                            <el-col :span="15" class="padding-item grey-text">virement</el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">RIB</el-col>
@@ -75,16 +76,13 @@
 
 <script>
 export default {
-  name: 'Assures',
-  props: {
-      assures: []
-  },
-  data () {
+    name: 'Assures',
+    props: ['activeAss'],
+    data () {
       return {
+        assures: this.activeAss,
         showList: false,
         rsSociale: 'Cabinet Tartiflette',
-        surname: 'Du-gouda',
-        forename: 'donn-amoi',
         orlas: '45145',
         adresse:{ rue: '11 rue de la chevalerie', ville:'Paris', codePostale:'75015'},
         tel: '01 75 14 55 61',
@@ -96,65 +94,30 @@ export default {
         newUser: {surname: '', forename: '', tel: '', email: '', edit: false},
 
         usersList: [
-            {surname: 'Schmid', forename: 'robert', tel: '0175145561', email: 'rschmid@gmail.com', edit: false},
-            {surname: 'Rifto', forename: 'rico', tel: '0175145561', email: 'rifto@gmail.com', edit: false},
-            {surname: 'Chair', forename: 'poppins', tel: '0175145561', email: 'chair@gmail.com', edit: false},
-            {surname: 'Table', forename: 'marie', tel: '0175145561', email: 'table@gmail.com', edit: false},
-            {surname: 'Screen', forename: 'annie', tel: '0175145561', email: 'screen@gmail.com', edit: false}
+            {surname: 'Schmid', forename: 'george', tel: '0175145561', email: 'rschmid@gmail.com', edit: false},
+            {surname: 'Schmid', forename: 'rico', tel: '0175145561', email: 'rifto@gmail.com', edit: false},
         ]
       }
   },
   methods: {
-    showUsersList () {
-        this.showList = true
+    close () {
+        this.$emit('close');
     },
-    edit () {
-        this.isEditing = true
-        console.log('click edit',this.isEditing)
-    },
-    confirm () {
-        this.isEditing = false
-        console.log('click confirm',this.isEditing)
-    },
-    addUser () {
-        this.usersList.unshift(this.newUser)
-        this.isAdding = false
-    },
-    submit () {
-        this.isAdding = false
-    },
-    deleteUser (index) {
-        this.usersList.splice(index,1)
-    },
-    editUser (index, user) {
-        user.edit = true
-    },
-    confirmEdit (index, user) {
-        user.edit = false
-    },
-    cancelAdd () {
-        this.isAdding = false
-    },
-    openWarning(index, user) {
-        this.$confirm('Souhaitez-vous supprimer cet utilisateur?', {
-          confirmButtonText: 'Oui',
-          cancelButtonText: 'Non'
-        }).then(() => {
-        this.deleteUser(index, user)
-          this.$message({
-            type: 'success',
-            message: 'L’utilisateur a bien été supprimé',
-          })
-        }).catch(() => {
-        });
-      }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../../../styles/_global.scss";
-
+.comp-wrapper {
+    position: relative;
+}
+.close-icon {
+    font-size: 30px;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
 .header-valider {
     height: 100%;
     width: 100%;

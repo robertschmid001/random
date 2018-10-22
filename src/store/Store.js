@@ -84,9 +84,12 @@ export const store = new Vuex.Store({
                                     numSecu: '12415615616U5',
                                     beneficiaires: 2,
                                     regime: 'général',
-                                    teletransmission: 'Message',
+                                    teletransmission: 'Connecté',
                                     carte: '13/02/2017',
                                     Documents: '5',
+                                    email: 'robertschmid@gmail.com',
+                                    modeReglement: 'virement',
+                                    adresse: { rue: '2 rue de la rommel', ville: 'Paris', codePostale: '75015' },
                                 }]
                             },
                             {
@@ -105,9 +108,12 @@ export const store = new Vuex.Store({
                                         numSecu: '12415615616U5',
                                         beneficiaires: 2,
                                         regime: 'général',
-                                        teletransmission: 'Message',
+                                        teletransmission: 'Connecté',
                                         carte: '13/02/2017',
                                         Documents: '3',
+                                        email: 'andrewGermain@gmail.com',
+                                        modeReglement: 'virement',
+                                        adresse: { rue: '6 rue de la pompe', ville: 'Paris', codePostale: '75015' },
                                     },
                                     {
                                         name: 'timmy Cup',
@@ -115,9 +121,12 @@ export const store = new Vuex.Store({
                                         numSecu: '124141565616U5',
                                         beneficiaires: 3,
                                         regime: 'général',
-                                        teletransmission: 'Message',
+                                        teletransmission: 'Connecté',
                                         carte: '13/02/2017',
                                         Documents: '9',
+                                        email: 'timmyCup@gmail.com',
+                                        modeReglement: 'virement',
+                                        adresse: { rue: '6 rue de la pompe', ville: 'Paris', codePostale: '75015' },
                                     }
                                 ]
                             }
@@ -146,9 +155,11 @@ export const store = new Vuex.Store({
                                     numSecu: '12415615616U5',
                                     beneficiaires: 1,
                                     regime: 'général',
-                                    teletransmission: 'Message',
+                                    teletransmission: 'Connecté',
                                     carte: '13/02/2017',
                                     Documents: '5',
+                                    email: 'robertschmidAAA@gmail.com',
+                                    modeReglement: 'virement',
                                 }]
                             },
                             {
@@ -167,9 +178,11 @@ export const store = new Vuex.Store({
                                         numSecu: '12415615616U5',
                                         beneficiaires: 1,
                                         regime: 'général',
-                                        teletransmission: 'Message',
+                                        teletransmission: 'Connecté',
                                         carte: '13/02/2017',
                                         Documents: '3',
+                                        email: 'andrewGermainAAA@gmail.com',
+                                        modeReglement: 'virement',
                                     },
                                     {
                                         name: 'timmy CupAAA',
@@ -177,9 +190,11 @@ export const store = new Vuex.Store({
                                         numSecu: '124141565616U5',
                                         beneficiaires: 4,
                                         regime: 'général',
-                                        teletransmission: 'Message',
+                                        teletransmission: 'Connecté',
                                         carte: '13/02/2017',
                                         Documents: '9',
+                                        email: 'timmyCupAAA@gmail.com',
+                                        modeReglement: 'virement',
                                     }
                                 ]
                             }
@@ -210,9 +225,11 @@ export const store = new Vuex.Store({
                                         numSecu: '12415615616U5',
                                         beneficiaires: 2,
                                         regime: 'général',
-                                        teletransmission: 'Message',
+                                        teletransmission: 'Connecté',
                                         carte: '13/02/2017',
                                         Documents: '5',
+                                        email: 'robertschmidBBB@gmail.com',
+                                        modeReglement: 'virement',
                                     }
                                 ]
                             }
@@ -232,7 +249,7 @@ export const store = new Vuex.Store({
                         cotisations: 123400,
                         prestations: 22344,
                         adresse: '6 rue de la farandole 29069 A-Poile',
-                        Documents: '3', 
+                        Documents: '3',
                         contrats: [{
                                 contrat: 'ensemble etc.. 1',
                                 type: 'santé base',
@@ -249,9 +266,10 @@ export const store = new Vuex.Store({
                                     numSecu: '12415615616U5',
                                     beneficiaires: 3,
                                     regime: 'général',
-                                    teletransmission: 'Message',
+                                    teletransmission: 'Connecté',
                                     carte: '13/02/2017',
                                     Documents: '5',
+                                    modeReglement: 'virement',
                                 }]
                             },
                             {
@@ -270,9 +288,10 @@ export const store = new Vuex.Store({
                                         numSecu: '12415615616U5',
                                         beneficiaires: 4,
                                         regime: 'général',
-                                        teletransmission: 'Message',
+                                        teletransmission: 'Connecté',
                                         carte: '13/02/2017',
                                         Documents: '3',
+                                        modeReglement: 'virement',
                                     },
                                     {
                                         name: 'timmy Cup',
@@ -280,9 +299,10 @@ export const store = new Vuex.Store({
                                         numSecu: '124141565616U5',
                                         beneficiaires: 3,
                                         regime: 'général',
-                                        teletransmission: 'Message',
+                                        teletransmission: 'Connecté',
                                         carte: '13/02/2017',
                                         Documents: '9',
+                                        modeReglement: 'virement',
                                     }
                                 ]
                             }
@@ -312,9 +332,10 @@ export const store = new Vuex.Store({
                                         numSecu: '12415615616U5',
                                         beneficiaires: 1,
                                         regime: 'général',
-                                        teletransmission: 'Message',
+                                        teletransmission: 'Connecté',
                                         carte: '13/02/2017',
                                         Documents: '3',
+                                        modeReglement: 'virement',
                                     },
                                     {
                                         name: 'timmy CupAAA',
@@ -322,9 +343,10 @@ export const store = new Vuex.Store({
                                         numSecu: '124141565616U5',
                                         beneficiaires: 2,
                                         regime: 'général',
-                                        teletransmission: 'Message',
+                                        teletransmission: 'Connecté',
                                         carte: '13/02/2017',
                                         Documents: '9',
+                                        modeReglement: 'virement',
                                     }
                                 ]
                             }

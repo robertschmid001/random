@@ -1,6 +1,6 @@
 <template>
   <div id="sante">
-    <div v-show="!activeAssures">>
+    <div v-show="!activeAssures">
       <div class="type-wrapping">
         <div class="type-title" v-bind:class="{ isActive: tableType }" @click="swapType(true)">Liste des Holdings</div>
         <div class="type-title" v-bind:class="{ isActive: !tableType }" @click="swapType(false)">Liste des Entreprises</div>
@@ -120,15 +120,13 @@
           </el-table>
         </div>
       </div>
-        
 <!-- rgba(119, 78, 196, 0.6) -->
     </div>
     <div v-show="activeAssures">
-      <component class="assuresComp" :is="currentView" keep-alive></component>
+      <component class="assuresComp" :is="currentView" :activeAss="activeAss" keep-alive @close="close"></component>
     </div>
   </div>
 </template>
-
 <script>
 import Assures from './_subs/Assures.vue'
 
@@ -147,6 +145,7 @@ export default {
       activeC: [],
       hAssures: [],
       globEntreprises: [],
+      activeAss: [],
 
       activeAssures: false,
       holdingTable: true,
@@ -168,6 +167,9 @@ export default {
   computed: {
   },
   methods: {
+    close () {
+      this.activeAssures = false
+    },
     getEntreprises () {
       for (var i = 0; i < this.holdings.length; i++) {
         for (var y = 0; y < this.holdings[i].entreprises.length; y++) {
@@ -178,8 +180,9 @@ export default {
     log () {
       console.log(this.hAssures, 'hAssures' )
     },
-    openAssures () {
+    openAssures (param) {
       this.activeAssures = true
+      this.activeAss = param
     },
     closeAssures () {
       this.activeAssures = false
