@@ -1,76 +1,8 @@
 <template>
   <div id="email">
-    <!-- <el-row>
-      <el-col :span="5" class="outer-padding">
-        <div class="write-wrapper">
-          <el-row>
-            <el-col :span="24" class="">
-              <button class="button">Ecrire</button>
-            </el-col>
-            <el-col :span="24">
-              <el-row class="messagerie-wrapper md-txt content-padding grey-text">
-                <el-col :span="18" justify="start">
-                  <div class="mes">Messagerie</div>
-                </el-col>
-                <el-col :span="6" justify="end">
-                  <div class="mes-num">2</div>
-                </el-col>
-              </el-row>
-            </el-col>
-            <el-col :span="24" class="md-txt padding grey-text-thin">
-              <div>Envoyés</div>
-            </el-col>
-          </el-row>
-        </div>
-      </el-col>
-
-      <el-col :span="6" class="outer-padding">
-        <div class="mails-wrapper">
-          <div class="search">
-            <font-awesome-icon icon="search" class="search-icon grey-text"/><input type="text" placeholder="Rechercher..." class="input grey-text-thin">
-          </div>
-                  <el-row>
-            <el-col :span="24">
-                <ul class="details-list pointer">
-                    <li >
-                        <div class="list-wrapper">
-                          <div class="message-circle grey-text">ES</div>
-                            <div class="wrapper">
-                              <div class="message-object-wrapper grey-text"><strong>Elizabeth SAUSAGE</strong></div>
-                              <div class="message-content-wrapper grey-text-thin">Tel est le constat dressé par l'Institut de recherche et documentation en économie de la santé (Irdes) dans une enquête publiée hier.
-                                  Pour rappel, l'Ani en question oblige tous les employeurs privés à proposer une complémentaire santé d'entreprise à leurs salariés à compter du 1er janvier 2016. Désormais,
-                                  seulement 16 % des établissement s'abstiennent de proposer une telle complémentaire santé, principalement en raison des dispenses d'adhésions des salariés.
-                                </div>
-                            </div>
-                          <div class="date sm-txt">7 Jan</div>
-                          <div class="ellipsis-list">...</div>
-                        </div>
-                    </li>
-                    <li >
-                        <div class="list-wrapper">
-                            <div class="message-circle grey-text">HP</div>
-                                 <div class="wrapper">
-                                    <div class="message-object-wrapper grey-text"><strong>Henri PINEAPPLE</strong></div>
-                                <div class="message-content-wrapper grey-text-thin">Tel est le constat dressé par l'Institut de recherche et documentation en économie de la santé (Irdes) dans une enquête publiée hier. Pour rappel, l'Ani en question oblige tous les employeurs privés à proposer une complémentaire santé d'entreprise à leurs salariés à compter du 1er janvier 2016. Désormais, seulement 16 % des établissement s'abstiennent de proposer une telle complémentaire santé, principalement en raison des dispenses d'adhésions des salariés.
-                                </div>
-                            </div>
-                            <div class="date sm-txt">4 Jan</div>
-                            <div class="ellipsis-list">...</div>
-                        </div>
-                    </li>
-                </ul>
-            </el-col>
-        </el-row>
-        <div class="bottom-list"></div>
-        </div>
-      </el-col>
-
-      <el-col :span="13" class="outer-padding">
-        <div class="message-wrapper">
-          3rd
-        </div>
-      </el-col>
-    </el-row> -->
+    <div>
+      <img src="./../assets/messagerie2.png" alt="">
+    </div>
   </div>
 </template>
 
@@ -85,6 +17,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/_global.scss";
+img {
+  width: 100%;
+  height: auto;
+}
 #email {
   padding: 20px;
 }

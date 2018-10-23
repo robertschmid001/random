@@ -22,6 +22,7 @@
               <el-table-column property="totalPrestations" label="PRESTATIONS" show-overflow-tooltip sortable width="115"><template scope="scope" ><div @click="showContrats(scope.row.entreprises, 'hprest')" class="data-wrapper pointer">{{scope.row.entreprises[0].prestations}}</div></template></el-table-column>
               <el-table-column property="totalTauxTele" label="TAUX TELETRANSMISSION" show-overflow-tooltip sortable><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.totalTauxTele"></el-progress></template></el-table-column>
               <el-table-column property="documents" label="DOCUMENTS" show-overflow-tooltip width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.Documents" icon="download" class="size-export"/></template></el-table-column>
+              <el-table-column property="typologie" label="TYPOLOGIE DES APPELS" show-overflow-tooltip width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.typologie" icon="chart-pie" class="size-export" @click="openTypa" /></template></el-table-column>
             </el-table>
           </div>
         </transition>
@@ -82,7 +83,6 @@
                 <el-table-column property="debut" label="DEBUT" sortable><template scope="scope" ><div class="data-wrapper">{{scope.row.debut}}</div></template></el-table-column>
                 <el-table-column property="fin" label="FIN" sortable><template scope="scope" ><div class="data-wrapper">{{scope.row.fin}}</div></template></el-table-column>
                 <el-table-column property="montant" label="MONTANT" sortable><template scope="scope" ><div class="data-wrapper">{{scope.row.montant}}</div></template></el-table-column>
-              
               </el-table>
             </div>
           </transition>
@@ -102,7 +102,6 @@
             </div>
           </transition>
         <el-button @click="test"></el-button>
-        <el-button @click="log">LOG</el-button>
       </div>
 
 
@@ -122,7 +121,7 @@
             <el-table-column property="beneficiaire" label="ASSURES / BENEFICIAIRES" show-overflow-tooltip width="160"><template scope="scope" ><div @click="showContrats(scope.row, 'eben')" class="data-wrapper pointer">{{contratsLength(scope.row, 'ebenl')}}</div></template></el-table-column>
             <el-table-column property="cotisations" label="COTISATIONS" show-overflow-tooltip sortable width="115"></el-table-column>
             <el-table-column property="prestations" label="PRESTATIONS" show-overflow-tooltip sortable width="115"></el-table-column>
-            <el-table-column property="totalTauxTele" label="TAUX TELETRANSMISSION" show-overflow-tooltip sortable></el-table-column>
+            <el-table-column property="tauxTele" label="TAUX TELETRANSMISSION" show-overflow-tooltip sortable><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.tauxTele"></el-progress></template></el-table-column>
             <el-table-column property="documents" label="DOCUMENTS" show-overflow-tooltip width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.Documents" icon="download" class="size-export"/></template></el-table-column>
           </el-table>
         </div>
@@ -158,6 +157,25 @@
     </div>
     <div v-show="activeAssures">
       <component class="assuresComp" :is="currentView" :activeAss="activeAss" :detailsEnt="detailsEnt" keep-alive @close="close"></component>
+    </div>
+    <div v-show="bottomPop" class="bottom-pop-wrap">
+       <div class="bottom-pop">
+          <button class="button buttonDeco">Voir la selection ({{this.multipleSelection.length}})</button>
+          <button class="button buttonDeco" @click="createGraph">Créer Graphique</button>
+          <button class="button buttonDeco">Exporter</button>
+       </div>
+    </div>
+    <div v-show="graphPop" class="graph-pop-wrap">
+       <div class="graph-pop">
+         <font-awesome-icon icon="times" class="close-icon"  @click="closeGraph"/>
+            <img src="./../../../assets/image006.png" alt="">
+       </div>
+    </div>
+    <div v-show="graphTypo" class="graph-pop-wrap">
+       <div class="graph-pop">
+         <font-awesome-icon icon="times" class="close-icon"  @click="closeGraph"/>
+            <img src="./../../../assets/unnamed.png" alt="">
+       </div>
     </div>
   </div>
 </template>
@@ -196,6 +214,9 @@ export default {
       assModal: false,
       cotTable: false,
       prestTable: false,
+      bottomPop: false,
+      graphPop: false,
+      graphTypo: false
     }
   },
   components: {
@@ -207,6 +228,16 @@ export default {
   computed: {
   },
   methods: {
+    openTypa () {
+    this.graphTypo = true
+    },
+    closeGraph () {
+      this.graphPop = false
+      this.graphTypo = false
+    },
+    createGraph () {
+      this.graphPop = true
+    },
     close () {
       this.activeAssures = false
     },
@@ -218,7 +249,7 @@ export default {
       }
     },
     log () {
-      console.log(this.hAssures, 'hAssures' )
+      console.log(this.hAssures, 'hAssure' )
     },
     openEnt (param) {
       this.currentView = 'detailsEntreprise'
@@ -243,21 +274,22 @@ export default {
       this.holdingTable= true
       this.eTable = true
       this.prestTable= false
-      this.pcotTable= false
-      
+      this.cotTable= false
+      this.activeAssures= false
 
       this.activeEntreprise= []
       this.multipleSelection= []
       this.entrContrats= []
       this.activeC= []
       this.hAssures= []
+      this.bottomPop= false
     },
     showEntreprise (param) {
       this.activeEntreprise = param
       this.holdingTable = false
       this.entrepriseTable = true
     },
-    showContrats (param, item) { 
+    showContrats (param, item) {
       this.holdingTable = false
       this.entrepriseTable = false
       this.eTable = false
@@ -309,7 +341,6 @@ export default {
         }
       }
       if (item == 'heben') {
-        console.log(param, 'param')
         this.assuresTable = true
         for (var i = 0; i < param.contrats.length; i++) {
           for (var y = 0; y < param.contrats[i].assures.length; y++) {
@@ -338,15 +369,19 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+      if(this.multipleSelection){
+        this.bottomPop = true
+      } else this.bottomPop = false
     },
     test () {
       this.holdingTable = true
       this.entrepriseTable = false
       this.contratsTable = false
       this.assuresTable= false
+      this.prestTable = false
+      this.cotTable = false
 
       this.activeEntreprise= [],
-      this.multipleSelection= [],
       this.entrContrats= [],
       this.activeC= [],
       this.hAssures= []
@@ -399,10 +434,53 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../styles/_global.scss";
-
+.close-icon {
+  position: absolute;
+  z-index: 1;
+  font-size: 30px;
+  top: 15px;
+  right: 15px;
+}
 .assuresComp {
 }
-
+img {
+  width: 100%;
+  height: auto;
+}
+.graph-pop-wrap {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+}
+.graph-pop {
+  padding-top: 60px;
+  box-shadow: 0px 0px 25px -9px;
+  position: absolute;
+  z-index: 1;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+  width: 100%;
+  background-color: white;
+  height: auto;
+}
+.bottom-pop-wrap {
+  display: flex;
+  justify-content: center;
+}
+.bottom-pop {
+  box-shadow: 0px 0px 25px -9px;
+  padding: 40px 50px;
+  position: absolute;
+  bottom: 0px;
+}
+.buttonDeco {
+  padding: 20px;
+  height: 60px;
+  margin-right: 20px;
+  align-items: center;
+}
 #sante {
   background-color: white;
   height: 700px;
@@ -429,6 +507,7 @@ export default {
 }
 .wrapping-search {
   padding: 10px 40px;
+  border-bottom: 2px solid rgba(4, 172, 172, 0.8)
 }
 .inner-button {
   padding: 0 10px;

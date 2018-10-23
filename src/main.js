@@ -15,12 +15,30 @@ import Lodash from 'lodash'
 
 import './styles/_global.scss';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faCheck,faTimes,faUserPlus,faUser,faPen,faHome,faEuroSign,faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory, faDownload } from '@fortawesome/free-solid-svg-icons'
+import {
+  faSearch,
+  faChartPie,
+  faCheck,
+  faTimes,
+  faUserPlus,
+  faUser,
+  faPen,
+  faHome,
+  faEuroSign,
+  faUserFriends,
+  faNewspaper,
+  faEnvelope,
+  faFileAlt,
+  faFileExport,
+  faLandmark,
+  faHistory,
+  faDownload
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
 
-library.add( faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
+library.add(faChartPie, faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
 Vue.use(ElementUI, { locale });
 Vue.use(Lodash)
 Vue.component('font-awesome-icon', FontAwesomeIcon)

@@ -106,7 +106,6 @@
             </div>
           </transition>
         <el-button @click="test"></el-button>
-        <el-button @click="log">LOG</el-button>
       </div>
 
 
@@ -414,6 +413,10 @@ export default {
   display: flex;
   flex-direction: row;
   padding-left: 10px;
+  
+}
+.wrapping-search {
+border-bottom: 2px solid rgba(119, 78, 196, 0.8);
 }
 .type-title {
   padding: 30px;

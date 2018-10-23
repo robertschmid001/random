@@ -59,6 +59,7 @@ export const store = new Vuex.Store({
                 totalPrestations: 344594,
                 totalTauxTele: 35,
                 Documents: 1,
+                typologie: 1,
                 entreprises: [
                     {
                         name: 'Entreprise 1',
@@ -69,6 +70,7 @@ export const store = new Vuex.Store({
                         prestations: 23454,
                         Documents: '3',
                         codeNaf: 'FR6355214450300018',
+                        tauxTele: 35,
                         contrats: [
                             {
                                 contrat: 'ensemble etc.. 1',
@@ -155,6 +157,7 @@ export const store = new Vuex.Store({
                         prestations: 22344,
                         Documents: '3',
                         codeNaf: 'FR6355214450300018',
+                        tauxTele: 35,
                         contrats: [{
                                 contrat: 'ensemble etc.. 3',
                                 type: 'santé base',
@@ -237,6 +240,7 @@ export const store = new Vuex.Store({
                         prestations: 22344,
                         Documents: '3',
                         codeNaf: 'FR6355214450300018',
+                        tauxTele: 35,
                         contrats: [
                             {
                                 contrat: 'ensemble etc.. 5',
@@ -279,6 +283,7 @@ export const store = new Vuex.Store({
                 totalPrestations: 212445,
                 totalTauxTele: 55,
                 Documents: 1,
+                typologie: 1,
                 entreprises: [{
                         name: 'Entreprise 5',
                         holding: 'Holding 2',
@@ -288,6 +293,7 @@ export const store = new Vuex.Store({
                         adresse: '6 rue de la farandole 29069 A-Poile',
                         Documents: '3',
                         codeNaf: 'FR6355214450300018',
+                        tauxTele: 35,
                         contrats: [{
                                 contrat: 'ensemble etc.. 1',
                                 type: 'santé base',
@@ -367,6 +373,7 @@ export const store = new Vuex.Store({
                         prestations: 54344,
                         Documents: '3',
                         codeNaf: 'FR6355214450300018',
+                        tauxTele: 35,
                         contrats: [
                             {
                                 contrat: 'cadre 4',
@@ -418,6 +425,7 @@ export const store = new Vuex.Store({
                 totalPrestations: 344594,
                 totalTauxTele: 35,
                 Documents: 1,
+                typologie: 1,
                 entreprises: [
                     {
                         name: 'Entreprise 7',
@@ -427,6 +435,7 @@ export const store = new Vuex.Store({
                         cotisations: 90990,
                         prestations: 23454,
                         Documents: '3',
+                        tauxTele: 35,
                         contrats: [
                             {
                                 contrat: 'ensemble etc.. 1',
@@ -503,6 +512,7 @@ export const store = new Vuex.Store({
                         cotisations: 123440,
                         prestations: 22344,
                         Documents: '3',
+                        tauxTele: 35,
                         contrats: [{
                             contrat: 'ensemble etc.. 3',
                             type: 'santé base',
@@ -578,6 +588,7 @@ export const store = new Vuex.Store({
                         cotisations: 123452,
                         prestations: 22344,
                         Documents: '3',
+                        tauxTele: 35,
                         contrats: [
                             {
                                 contrat: 'ensemble etc.. 5',

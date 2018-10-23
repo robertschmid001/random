@@ -105,7 +105,6 @@
             </div>
           </transition>
         <el-button @click="test"></el-button>
-        <el-button @click="log">LOG</el-button>
       </div>
 
 
@@ -431,6 +430,7 @@ export default {
 }
 .wrapping-search {
   padding: 10px 40px;
+  border-bottom: 2px solid rgba(53, 170, 112, 0.8);
 }
 .inner-button {
   padding: 0 10px;
