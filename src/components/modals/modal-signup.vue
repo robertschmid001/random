@@ -6,19 +6,7 @@
         <section class="modal-body">
             <div class="box">
             <p>
-              • Extrait Kbis de moins de 3 mois <br>
-              • Attestation ORIAS en cours de validité ... <br>
-              • Attestation de Garantie FInancière (GF) en cours de validité; <br>
-              • Attestation de responsabilité civile Professionelle (RC PRO) en cours de validité; <br>
-              • RIB; <br>
-              • Nom et qualité du signateire et coordonnées; <br>
-              • Téléphone fixe: ligne directe (obligatoire); <br>
-              • Adresse mail (obligatoire); <br>
-              • Téléphone portable (ou à défaut numéro du standard); <br>
-              • Télécopie (facultatif); <br>
-              • Photocopie d'une pièce d'identité du signataire (passport ou CNI); <br>
-              • Pouvoir du signataire si celui-ci n'apparaît pas dans le Kbis; <br>
-              • Nom et qualité du correspondant / déclarant TRACFIN; <br>
+              Merci de nous contacter à l'adresse suivante: <a href="mailto:dcommerciale@cpms.fr">dcommerciale@cpms.fr</a>
             </p>
             </div>
             <span class="size text-size-small pointer text-decoration" @click="close">Se connecter</span>
@@ -73,5 +61,8 @@ img {
 }
 .text-decoration {
   text-decoration: underline;
+}
+a:link {
+  color: black;
 }
 </style>

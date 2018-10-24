@@ -155,7 +155,14 @@ export default {
 h4 {
   padding-left: 10px;
 }
-
+a:link {
+  text-decoration: none;
+  color: black;
+}
+a:visited {
+    text-decoration: none;
+    color: black;
+}
 #home {
   padding: 30px;
   background-color: $background-global;
@@ -182,6 +189,9 @@ h4 {
         position: absolute;
         bottom: 10px;
         right: 15px;
+      }
+      .voir:hover {
+        color: $button-color;
       }
       .title-wrapper {
         display: flex;
