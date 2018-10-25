@@ -16,6 +16,7 @@ import Lodash from 'lodash'
 import './styles/_global.scss';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
+  faBars,
   faInfoCircle,
   faUserCircle,
   faUser,
@@ -40,7 +41,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
 
-library.add(faInfoCircle, faUserCircle, faChartPie, faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
+library.add(faBars, faInfoCircle, faUserCircle, faChartPie, faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
 Vue.use(ElementUI, { locale });
 Vue.use(Lodash)
 Vue.component('font-awesome-icon', FontAwesomeIcon)

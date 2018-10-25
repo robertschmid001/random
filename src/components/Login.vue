@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <div class="login-container  align-center">
-    <img src="../assets/logo-cpms.png" alt="">
+    <img src="../assets/cpms_logo_trans.png" alt="">
       <div class="outer-wrapper">
         <el-row>
           <div class="inner-wrapper">
@@ -117,7 +117,7 @@ export default {
 @import '../styles/_global.scss';
 
 img {
-  height: 50px;
+  height: 40px;
 }
 .text-decoration {
   text-decoration: underline;

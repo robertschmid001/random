@@ -1,7 +1,6 @@
 <template>
   <div id="email">
     <div>
-      <img src="./../assets/messagerie2.png" alt="">
     </div>
   </div>
 </template>

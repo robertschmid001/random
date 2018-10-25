@@ -2,7 +2,7 @@
   <div id="my-navbar">
     <el-aside width="auto" style="text-align:left;"  v-click-outside="closeEvent">
         <div class="image-wrapper">
-          <img src="../../assets/cpms_logo_small.png" class=" size2 collapse-icon" alt="" @click="changeCollapse">
+          <font-awesome-icon icon="bars" class="size2 collapse-icon" @click="changeCollapse"/>
         </div>
         <el-menu default-active="1" :router="true" :collapse="isCollapse" class="main-menu">
         <el-menu-item index="/Home" class="hover border">
@@ -41,11 +41,7 @@
         </el-menu-item>
         <el-menu-item index="/messagerie" class="hover border">
           <font-awesome-icon icon="envelope" class="size-menu-icons"/>
-          <span class="padding-menu menu-title">Messagerie</span>
-        </el-menu-item>
-        <el-menu-item index="/home2" class="hover border">
-          <font-awesome-icon icon="home" class="size-menu-icons"/>
-          <span class="padding-menu menu-title">Messagerie</span>
+          <span class="padding-menu menu-title">Nous contacter</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
@@ -70,7 +66,6 @@ export default {
     closeEvent () {
       if(this.isCollapse == false) {
         this.isCollapse = true;
-        console.log('menu close event called')
       }
     }
   }
@@ -83,9 +78,10 @@ export default {
   background-color: white;
   position: absolute;
   left: 0;
+  top: 0px;
   height: 100%;
   z-index: 5;
-  box-shadow: 1px -13px 20px -5px;
+  box-shadow: 13px 0px 19px -19px;
   h1 {
     margin: 0px;
   }
@@ -97,7 +93,7 @@ span.padding-menu {
   padding-left: 20px;
 }
 .image-wrapper {
-  padding: 8px 12px 8px 12px;
+  padding: 20px 21px;
 }
 .bigger {
   font-size: 50px;
@@ -106,14 +102,15 @@ span.padding-menu {
 .collapse-icon {
   position: relative;
   left: 0;
+  justify-content: center;
 }
 .main-menu:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
 }
 .size2 {
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
 }
 .size-menu-icons {
   font-size: 20px;

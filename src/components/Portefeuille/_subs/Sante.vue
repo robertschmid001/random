@@ -2,9 +2,10 @@
   <div id="sante">
     <div v-show="!activeAssures">
       <div class="type-wrapping">
-        <div class="type-title" v-bind:class="{ isActive: tableType }" @click="swapType(true)">{{this.tableNameT}}</div>
-        <div class="type-title" v-show="this.tableNameT='Lite des Holdins'" v-bind:class="{ isActive: !tableType }" @click="swapType(false)">Liste des Entreprises</div>
+        <div class="type-title isActive"  @click="swapType(true)">{{this.title}}</div>
+        <div class="type-title isNotActive" v-show="this.tableType"  @click="swapType(false, 'entreprise')">Liste des Entreprises</div>
       </div>
+      
       <div v-if="this.tableType">
         <div class="wrapping-search">
           <el-button class="button inner-button"  @click="toggleSelection([holdings[1], holdings[2]])">En cours</el-button>
@@ -28,7 +29,7 @@
               </el-table-column>
               <el-table-column property="totalPrestations" label="PRESTATIONS" sortable width="115"><template scope="scope" ><div @click="showContrats(scope.row.entreprises, 'hprest')" class="data-wrapper pointer md-txt">{{scope.row.entreprises[0].prestations}}</div></template></el-table-column>
               <el-table-column property="totalTauxTele" label="TAUX TELETRANSMISSION" sortable><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.totalTauxTele"></el-progress></template></el-table-column>
-              <el-table-column property="documents" label="DOCUMENTS" width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.Documents" icon="download" class="size-export"/></template></el-table-column>
+              <!-- <el-table-column property="documents" label="DOCUMENTS" width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.Documents" icon="download" class="size-export"/></template></el-table-column> -->
               <el-table-column property="typologie" label="TYPOLOGIE DES APPELS" width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.typologie" icon="chart-pie" class="size-export" @click="openTypa" /></template></el-table-column>
             </el-table>
           </div>
@@ -195,7 +196,7 @@ export default {
     return {
       tableType: true,
       holdings: this.$store.state.holdings,
-      tableNameT: '',
+      title: 'Liste des Holdings',
       activeIndex: '',
       entreprises: '',
       currentView: '',
@@ -271,7 +272,10 @@ export default {
     closeAssures () {
       this.activeAssures = false
     },
-    swapType(param) {
+    swapType(param, id) {
+      if (id === 'entreprise') {
+        this.title = 'Liste des Entreprises'
+      } else this.title = 'Liste des Holdings'
       this.tableType = param
       this.entrepriseTable= false
       this.contratsTable= false
@@ -447,8 +451,8 @@ export default {
   position: absolute;
   z-index: 1;
   font-size: 30px;
-  top: 15px;
-  right: 15px;
+  top: -15px;
+  right: -18px;
 }
 .assuresComp {
 }
@@ -522,10 +526,12 @@ img {
 .type-title {
   padding: 30px;
   font-size: 18px;
-  color: rgb(185, 185, 185);
 }
 .isActive {
   color: rgb(104, 103, 103);
+}
+.isNotActive {
+    color: rgb(185, 185, 185);
 }
 .header {
   height: 60px;

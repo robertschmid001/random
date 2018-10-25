@@ -45,7 +45,7 @@
                             <el-col :span="15" class="padding-item grey-text">{{this.rib}}</el-col>
                         </el-row>
                     </div>
-                    <div class="voirDoc"><font-awesome-icon icon="file-alt" class="padding-1"/>Voir les Documents</div>
+                    <div class="voirDoc"><font-awesome-icon icon="file-alt" class="padding-1"/>Carte de Tiers Payant</div>
                 </div>
                 
             </el-col>

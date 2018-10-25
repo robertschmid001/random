@@ -1,7 +1,7 @@
 <template>
   <div id="my-header">
-    <el-row class="wrapper-outer">
-      <el-col :span="20" :xs="16"><div class="breadcrumbs">Profile</div></el-col>
+    <el-row class="padding-left">
+      <el-col :span="20" :xs="16" class="wrapper"><img src="../../assets/logoCPMS.png" alt="" class="image"><div class="breadcrumbs">Profile</div></el-col>
       <el-col :span="4" :xs="8" v-click-outside="closeEvent">
         <div @mouseover="deconnexion = true" class="btn-wrapper-con btn-gen" :class="{active: deconnexion == true}"><router-link to="/Profile" class="btn-inner"><font-awesome-icon icon="user-circle" class="size-header-icon"/>Mr. Dupont</router-link></div>
         <transition name="slide-out"><div v-show="deconnexion" class="btn-wrapper-dec btn-gen"><div class="prof-deco btn-inner pointer" @click="logOut">Deconnexion</div></div></transition>
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'MyHeader',
   props: {
@@ -50,24 +51,34 @@ export default {
     background-color: white;
     height: 60px;
     width: 100%;
-    .wrapper-outer {
-        height: 100%;
-        flex-direction: row;
-        display: flex;
-        .breadcrumbs {
-          display: flex;
-          align-items: center;
-          height: 100%;
-          padding-left: 40px;
-        }
-        .profile-style {
-          display: flex;
-          align-items: center;
-          height: 100%;
-          justify-content: flex-end;
-          padding-right: 30px;
-        }
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding-left: 10px;
     }
+    .profile-style {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      justify-content: flex-end;
+      padding-right: 30px;
+    }
+}
+.padding-left {
+  padding-left: 70px;
+}
+.wrapper {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+.image {
+  width: 150px;
+  height: 60px;
+  margin-right: 10px;
+  object-fit: contain;
+  box-sizing: border-box;
 }
 .size-header-icon {
   padding-right: 10px;

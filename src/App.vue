@@ -1,15 +1,14 @@
 <template>
+
   <div id="app">
     <el-container>
-      <MyNavbar v-if="this.$store.state.authenticated"/>
-      <el-container>
         <el-header><MyHeader v-if="this.$store.state.authenticated"/></el-header>
+        <MyNavbar class="navbar" v-if="this.$store.state.authenticated"/>
         <el-main class="no-padding" ><router-view></router-view></el-main>
-      </el-container>
     </el-container>
   </div>
-</template>
 
+</template>
 <script>
 import Home from './components/Home.vue'
 import MyFooter from './components/global/Footer.vue'
@@ -48,7 +47,7 @@ export default {
 
 }
 header.el-header {
-  padding: 0 0 0 64px;
+  padding: 0 0 0 0;
 }
 main.el-main {
   padding: 0 0 0 64px;

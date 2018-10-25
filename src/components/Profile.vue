@@ -62,7 +62,15 @@
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Mot de passe</el-col>
-                            <el-col :span="15" class="padding-item grey-text">{{this.password}}</el-col>
+                            <el-col :span="15" class="padding-item grey-text" v-show="!isEditing">{{this.password}}</el-col>
+                            <el-col :span="15" class="padding-item" v-show="isEditing">
+                                <div class="input-icon-wrapper">
+                                    <input class="base-form-input" placeholder="password" v-model.trim.lazy="this.password"/>
+                                </div>
+                                <div class="input-icon-wrapper">
+                                    <input class="base-form-input" placeholder="password" v-model.trim.lazy="this.passwordCheck"/>
+                                </div>
+                            </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">RIB</el-col>
@@ -143,10 +151,11 @@ export default {
         tel: '01 75 14 55 61',
         email:'donnamoidugouda@wanadoo.com',
         id: '685675',
-        password: '*********',
+        password: '',
         rib: 'FR76 xxxx xxxx xxxx xx56',
         isEditing: false,
         isAdding: false,
+        passwordCheck: '',
 
         newUser: {surname: '', forename: '', tel: '', email: '', edit: false},
 

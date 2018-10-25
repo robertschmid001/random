@@ -1,7 +1,7 @@
 <template>
   <div class="modal-backdrop">
     
-      <img src="../../assets/logo-cpms.png" alt="">
+      <img src="../../assets/cpms_logo_trans.png" alt="">
       <div class="modal">
         <section class="modal-body modal-box" v-if="!reInitialised">
           <el-row class="height-input">
@@ -100,9 +100,10 @@ import { required, email } from "vuelidate/lib/validators";
 }
 .el-icon-loading {
   width: 30px;
+  text-align: center;
 }
 img {
-  height: 50px;
+  height: 40px;
   padding: 10px;
 }
 .pwordInit {

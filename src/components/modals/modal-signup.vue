@@ -1,6 +1,6 @@
 <template>
   <div class="modal-backdrop">
-    <img src="../../assets/logo-cpms.png" alt="">
+    <img src="../../assets/cpms_logo_trans.png" alt="">
     <div class="modal">
 
         <section class="modal-body">
@@ -44,7 +44,7 @@ p {
   width: 30px;
 }
 img {
-  height: 50px;
+  height: 40px;
   padding: 10px;
 }
 .pwordInit {
