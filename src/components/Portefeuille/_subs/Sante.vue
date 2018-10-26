@@ -1,11 +1,15 @@
 <template>
   <div id="sante">
+    <div>
+      <ul>
+        <li v-for="(crumb, index) in arrayBread" :key="index"><div>{{crumb.name}}</div></li>
+      </ul>
+    </div>
     <div v-show="!activeAssures">
       <div class="type-wrapping">
-        <div class="type-title isActive"  @click="swapType(true)">{{this.title}}</div>
-        <div class="type-title isNotActive" v-show="this.tableType"  @click="swapType(false, 'entreprise')">Liste des Entreprises</div>
+        <div class="type-title" v-if="hTableInit" v-bind:class="{ isActive: tableType }" @click="swapType(true)">{{this.tableTitleH}}</div>
+        <div class="type-title" v-if="eTableInit" v-bind:class="{ isActive: !tableType }" @click="swapType(false)">{{this.tableTitleE}}</div>
       </div>
-      
       <div v-if="this.tableType">
         <div class="wrapping-search">
           <el-button class="button inner-button"  @click="toggleSelection([holdings[1], holdings[2]])">En cours</el-button>
@@ -196,9 +200,11 @@ export default {
     return {
       tableType: true,
       holdings: this.$store.state.holdings,
-      title: 'Liste des Holdings',
+      tableTitleH: 'Liste des Holdings',
+      tableTitleE: 'Liste des Entreprises',
+      tableNameT: '',
       activeIndex: '',
-      entreprises: '',
+      // entreprises: '',
       currentView: '',
       activeEntreprise: [],
       multipleSelection: [],
@@ -208,9 +214,11 @@ export default {
       globEntreprises: [],
       activeAss: [],
       detailsEnt: [],
+      arrayBread: [{name: 'entreprise'},{name: 'contrat'},{name: 'assurés'}],
 
-      activeAssures: false,
-      detailsEntreprise: false,
+      hTableInit: true,
+      eTableInit: true,
+
       holdingTable: true,
       entrepriseTable: false,
       contratsTable: false,
@@ -219,9 +227,13 @@ export default {
       eTable: true,
       eConTable: false,
       eAssTable: false,
-      assModal: false,
       cotTable: false,
       prestTable: false,
+
+      assModal: false,
+      activeAssures: false,
+      detailsEntreprise: false,
+
       bottomPop: false,
       graphPop: false,
       graphTypo: false
@@ -257,12 +269,13 @@ export default {
       }
     },
     log () {
-      console.log(this.hAssures, 'hAssure' )
+      console.log(this.multipleSelection,'selection')
     },
     openEnt (param) {
       this.currentView = 'detailsEntreprise'
       this.activeAssures = true
       this.detailsEnt = param
+      this.hTableInit = false
     },
     openAssures (param) {
       this.currentView = 'assures'
@@ -272,10 +285,9 @@ export default {
     closeAssures () {
       this.activeAssures = false
     },
-    swapType(param, id) {
-      if (id === 'entreprise') {
-        this.title = 'Liste des Entreprises'
-      } else this.title = 'Liste des Holdings'
+    swapType(param) {
+      this.tableTitleH = 'Liste des Holdings'
+      this.tableTitleE = 'Liste des Entreprises'
       this.tableType = param
       this.entrepriseTable= false
       this.contratsTable= false
@@ -299,7 +311,8 @@ export default {
       this.activeEntreprise = param
       this.holdingTable = false
       this.entrepriseTable = true
-      return this.tableNameT = "Liste des Entreprises"
+      this.eTableInit = false
+      this.tableTitleH = 'Liste des Entreprises'
     },
     showContrats (param, item) {
       this.holdingTable = false
@@ -308,6 +321,8 @@ export default {
 
       if (item == 'hcont') {
         this.contratsTable = true
+        this.eTableInit = false
+        this.tableTitleH = 'Liste des Contrats'
         for (var i = 0; i < param.length; i++) {
           for (var y = 0; y < param[i].contrats.length; y++) {
           this.entrContrats.push(param[i].contrats[y])
@@ -316,6 +331,8 @@ export default {
       }
       if (item == 'hcot') {
         this.cotTable = true
+        this.eTableInit = false
+        this.tableTitleH = 'Liste des Cotisations'
         for (var i = 0; i < param.length; i++) {
           for (var y = 0; y < param[i].contrats.length; y++) {
           this.entrContrats.push(param[i].contrats[y])
@@ -324,6 +341,8 @@ export default {
       }
       if (item == 'hprest') {
         this.prestTable = true
+        this.eTableInit = false
+        this.tableTitleH = 'Liste des Prestations'
         for (var i = 0; i < param.length; i++) {
           for (var y = 0; y < param[i].contrats.length; y++) {
           this.entrContrats.push(param[i].contrats[y])
@@ -332,18 +351,23 @@ export default {
       }
       if (item == 'econt') {
           this.contratsTable = true
+          this.tableTitleH = 'Liste des Contrats'
         for (var i = 0; i < param.contrats.length; i++) {
           this.entrContrats.push(param.contrats[i])
         }
       }
       if (item == 'gecont') {
           this.eConTable = true
+          this.hTableInit = false
+          this.tableTitleE = 'Liste des Contrats'
         for (var i = 0; i < param.contrats.length; i++) {
           this.entrContrats.push(param.contrats[i])
         }
       }
       if (item == 'hben') {
         this.assuresTable = true
+        this.eTableInit = false
+        this.tableTitleH = 'Liste des Assurés et Bénéficiaires'
         for (var i = 0; i < param.length; i++) {
           for (var y = 0; y < param[i].contrats.length; y++) {
             for (var z = 0; z < param[i].contrats[y].assures.length; z++) {
@@ -354,6 +378,7 @@ export default {
       }
       if (item == 'heben') {
         this.assuresTable = true
+        this.tableTitleH = 'Liste des Assurés et Bénéficiaires'
         for (var i = 0; i < param.contrats.length; i++) {
           for (var y = 0; y < param.contrats[i].assures.length; y++) {
             this.hAssures.push(param.contrats[i].assures[y])
@@ -362,6 +387,7 @@ export default {
       }
       if (item == 'eben') {
         this.eAssTable = true
+        this.hTableInit = false
         for (var i = 0; i < param.contrats.length; i++) {
           for (var x = 0; x < param.contrats[i].assures.length; x++) {
             this.hAssures.push(param.contrats[i].assures[x])
@@ -381,9 +407,10 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      if(this.multipleSelection){
+      if(this.multipleSelection.length <= 0) {
+        this.bottomPop = false
+      } else
         this.bottomPop = true
-      } else this.bottomPop = false
     },
     test () {
       this.holdingTable = true
@@ -399,9 +426,9 @@ export default {
       this.hAssures= []
     },
     contratsLength (param, item) {
-        var lCont = [];
-        var lAss = [];
-        var lBen = [];
+      var lCont = [];
+      var lAss = [];
+      var lBen = [];
       if (item == 'hcontl') {
         for (var i = 0; i < param.length; i++) {
           for (var y = 0; y < param[i].contrats.length; y++) {
@@ -452,9 +479,7 @@ export default {
   z-index: 1;
   font-size: 30px;
   top: -15px;
-  right: -18px;
-}
-.assuresComp {
+  right: -1px;
 }
 img {
   width: 100%;
@@ -500,13 +525,14 @@ img {
 .bottom-pop-wrap {
   display: flex;
   justify-content: center;
-  background-color: white;
 }
 .bottom-pop {
   box-shadow: 0px 0px 25px -9px;
   padding: 40px 50px;
   position: absolute;
   bottom: 0px;
+  z-index: 1;
+  background-color: white;
 }
 .buttonDeco {
   padding: 20px;
@@ -526,12 +552,10 @@ img {
 .type-title {
   padding: 30px;
   font-size: 18px;
+  color: rgb(185, 185, 185);
 }
 .isActive {
   color: rgb(104, 103, 103);
-}
-.isNotActive {
-    color: rgb(185, 185, 185);
 }
 .header {
   height: 60px;
@@ -558,16 +582,3 @@ img {
  console.log(
   [1,2,3].reduce(function(acc, val) { return acc + val; }, 0)
 );
-
-renderHeader (h, {column, $index}) {
-  if ($index === 0) {
-    return h('span', {}, [
-      h('span', {}, column.label + 'aaa'),
-      h('el-popover', {props: {placement: 'top-start', title: '标题', width: '200', trigger: 'hover', content: '这是一段内容,这是一段内容,这是一段内容,这是一段内容。'}}, [
-      h('i', {slot: 'reference', class: 'el-icon-question', style: 'color:gray;font-size:16px;margin-left:10px;'}, '')
-      ])
-    ])
-  } else {
-     return column.label
-    }
-}
