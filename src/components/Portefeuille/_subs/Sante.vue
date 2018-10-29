@@ -1,14 +1,10 @@
 <template>
   <div id="sante">
-    <div>
-      <ul>
-        <li v-for="(crumb, index) in arrayBread" :key="index"><div>{{crumb.name}}</div></li>
-      </ul>
-    </div>
+    <button @click="truefalse">log</button>
     <div v-show="!activeAssures">
       <div class="type-wrapping">
-        <div class="type-title" v-if="hTableInit" v-bind:class="{ isActive: tableType }" @click="swapType(true)">{{this.tableTitleH}}</div>
-        <div class="type-title" v-if="eTableInit" v-bind:class="{ isActive: !tableType }" @click="swapType(false)">{{this.tableTitleE}}</div>
+        <div class="type-title" v-if="hTableInit" v-bind:class="{ isActive: tableType }" @click="swapType(true)">Liste des Holdings</div>
+        <div class="type-title" v-if="eTableInit" v-bind:class="{ isActive: !tableType }" @click="swapType(false)">Liste des Entreprises</div>
       </div>
       <div v-if="this.tableType">
         <div class="wrapping-search">
@@ -16,13 +12,13 @@
           <el-button class="button inner-button" @click="toggleSelection()">Résiliés</el-button>
         </div>
         <transition name="slide-in">
-          <div class="table-wrapping" v-show="holdingTable">
+          <div class="table-wrapping" v-show="this.$store.state.holdingTable">
             <el-table ref="multipleTable" :data="holdings" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}" class="h-border">
               <el-table-column type="selection" width="42"></el-table-column>
-              <el-table-column property="name" label="NOM" sortable><template scope="scope" ><div class="data-wrapper md-txt" @click="showEntreprise(scope.row.entreprises, 'hold')">{{scope.row.name}}</div></template></el-table-column>
+              <el-table-column property="name" label="NOM" sortable><template scope="scope" ><div class="data-wrapper md-txt" @click="showEntreprise(scope.row.entreprises, scope.row.name)">{{scope.row.name}}</div></template></el-table-column>
               <el-table-column property="entreprises.length" label="ENTREPRISES" sortable width="117"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.entreprises.length}}</div></template></el-table-column>
               <el-table-column property="contrats.length" label="CONTRATS" sortable width="100"><template scope="scope"><div @click="showContrats(scope.row.entreprises, 'hcont')" class="data-wrapper pointer md-txt">{{contratsLength(scope.row.entreprises, 'hcontl')}}</div></template></el-table-column>
-              <el-table-column property="beneficiaire" label="ASSURES ET BENEFICIAIRES" width="160"><template scope="scope" ><div @click="showContrats(scope.row.entreprises, 'hben')" class="data-wrapper pointer md-txt">{{contratsLength(scope.row.entreprises, 'hbenl')}}</div></template></el-table-column>
+              <el-table-column property="beneficiaire" label="ASSURES ET BENEFICIAIRES" width="170"><template scope="scope" ><div @click="showContrats(scope.row.entreprises, 'hben')" class="data-wrapper pointer md-txt">{{contratsLength(scope.row.entreprises, 'hbenl')}}</div></template></el-table-column>
               <el-table-column property="totalCotisations" label="COTISATIONS" sortable width="115">
                 <template slot-scope="scope">
                   <el-popover trigger="hover" placement="top">
@@ -32,7 +28,7 @@
                 </template>
               </el-table-column>
               <el-table-column property="totalPrestations" label="PRESTATIONS" sortable width="115"><template scope="scope" ><div @click="showContrats(scope.row.entreprises, 'hprest')" class="data-wrapper pointer md-txt">{{scope.row.entreprises[0].prestations}}</div></template></el-table-column>
-              <el-table-column property="totalTauxTele" label="TAUX TELETRANSMISSION" sortable><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.totalTauxTele"></el-progress></template></el-table-column>
+              <el-table-column property="totalTauxTele" label="TAUX TELETRANSMISSION" sortable width="180"><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.totalTauxTele"></el-progress></template></el-table-column>
               <!-- <el-table-column property="documents" label="DOCUMENTS" width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.Documents" icon="download" class="size-export"/></template></el-table-column> -->
               <el-table-column property="typologie" label="TYPOLOGIE DES APPELS" width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.typologie" icon="chart-pie" class="size-export" @click="openTypa" /></template></el-table-column>
             </el-table>
@@ -40,15 +36,15 @@
         </transition>
 
         <transition name="slide-in">
-            <div class="table-wrapping" v-show="entrepriseTable">
+            <div class="table-wrapping" v-show="this.$store.state.entrepriseTable">
               <el-table ref="multipleTable" :data="activeEntreprise" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}" class="e-border">
                 <el-table-column type="selection" width="42"></el-table-column>
-                <el-table-column property="name" label="ENTREPRISES" sortable width="120"><template scope="scope" ><div class="data-wrapper md-txt" @click="openEnt(scope.row)">{{scope.row.name}}</div></template></el-table-column>
+                <el-table-column property="name" label="ENTREPRISES" sortable min-width="120"><template scope="scope" ><div class="data-wrapper md-txt" @click="openEnt(scope.row)">{{scope.row.name}}</div></template></el-table-column>
                 <el-table-column property="contrats" label="CONTRATS" show-overflow-tooltip sortable width="100"><template scope="scope" ><div class="data-wrapper pointer md-txt" @click="showContrats(scope.row, 'econt')">{{contratsLength(scope.row,'econtl')}}</div></template></el-table-column>
                 <el-table-column property="beneficiaire" label="ASSURES / BENEFICIAIRES" show-overflow-tooltip width="160"><template scope="scope" ><div @click="showContrats(scope.row, 'heben')" class="data-wrapper pointer md-txt">{{contratsLength(scope.row, 'ebenl')}}</div></template></el-table-column>
                 <el-table-column property="cotisations" label="COTISATIONS" show-overflow-tooltip sortable width="115"><template scope="scope"><div class="md-txt">{{scope.row.cotisations}}</div></template></el-table-column>
                 <el-table-column property="prestations" label="PRESTATIONS" show-overflow-tooltip sortable width="115"><template scope="scope"><div class="md-txt">{{scope.row.prestations}}</div></template></el-table-column>
-                <el-table-column property="tauxTeletransmissions" label="TAUX TELETRANSMISSION" show-overflow-tooltip sortable><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.tauxTeletransmissions"></el-progress></template></el-table-column>
+                <el-table-column property="tauxTeletransmissions" label="TAUX TELETRANSMISSION" show-overflow-tooltip sortable width="180"><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.tauxTeletransmissions"></el-progress></template></el-table-column>
                 <el-table-column property="documents" label="DOCUMENTS" show-overflow-tooltip width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.Documents" icon="download" class="size-export"/></template></el-table-column>
               </el-table>
             </div>
@@ -57,15 +53,15 @@
             <div class="table-wrapping" v-show="contratsTable">
               <el-table ref="multipleTable" :data="entrContrats" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}" class="c-border">
                 <el-table-column type="selection" width="42"></el-table-column>
-                <el-table-column property="contrat" label="CONTRAT" sortable width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.contrat}}</div></template></el-table-column>
-                <el-table-column property="type" label="TYPE CONTRAT" sortable width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.type}}</div></template></el-table-column>
-                <el-table-column property="assureur" label="ASSUREUR" sortable width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.assureur}}</div></template></el-table-column>
-                <el-table-column property="reseauDeSoin" label="RESEAU DE SOIN" sortable width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.reseauDeSoin}}</div></template></el-table-column>
+                <el-table-column property="contrat" label="CONTRAT" sortable min-width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.contrat}}</div></template></el-table-column>
+                <el-table-column property="type" label="TYPE CONTRAT" sortable width="125"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.type}}</div></template></el-table-column>
+                <el-table-column property="assureur" label="ASSUREUR" sortable width="110"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.assureur}}</div></template></el-table-column>
+                <el-table-column property="reseauDeSoin" label="RESEAU DE SOIN" sortable width="130"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.reseauDeSoin}}</div></template></el-table-column>
                 <el-table-column property="debut" label="DEBUT" sortable width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.debut}}</div></template></el-table-column>
                 <el-table-column property="fin" label="FIN" sortable width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.fin}}</div></template></el-table-column>
-                <el-table-column property="cotisations" label="COTISATIONS" sortable width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.cotisations}}</div></template></el-table-column>
-                <el-table-column property="prestations" label="PRESTATIONS" sortable width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.prestations}}</div></template></el-table-column>
-                <el-table-column property="tauxCotisations" label="TAUX DE COTISATIONS" sortable><template scope="scope" ><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.tauxCotisations"></el-progress></template></el-table-column>
+                <el-table-column property="cotisations" label="COTISATIONS" sortable width="120"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.cotisations}}</div></template></el-table-column>
+                <el-table-column property="prestations" label="PRESTATIONS" sortable width="120"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.prestations}}</div></template></el-table-column>
+                <el-table-column property="tauxCotisations" label="TAUX DE COTISATIONS" sortable width="160"><template scope="scope" ><el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.tauxCotisations"></el-progress></template></el-table-column>
               </el-table>
             </div>
           </transition>
@@ -105,17 +101,16 @@
               <el-table ref="multipleTable" :data="hAssures" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}" class="a-border">
                 <el-table-column type="selection" width="42"></el-table-column>
                 <el-table-column property="name" label="NOM" sortable><template scope="scope" ><div class="data-wrapper md-txt" @click="openAssures(scope.row)">{{scope.row.name}}</div></template></el-table-column>
-                <el-table-column property="birthdate" label="birthdate" sortable><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.birthdate}}</div></template></el-table-column>
+                <el-table-column property="birthdate" label="DATE DE NAISSANCE" sortable><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.birthdate}}</div></template></el-table-column>
                 <el-table-column property="numSecu" label="numSecu" sortable><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.numSecu}}</div></template></el-table-column>
                 <el-table-column property="beneficiaires" label="beneficiaires" sortable><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.beneficiaires}}</div></template></el-table-column>
-                <el-table-column property="regime" label="regime" sortable><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.regime}}</div></template></el-table-column>
-                <el-table-column property="teletransmission" label="teletransmission" sortable><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.teletransmission}}</div></template></el-table-column>
-                <el-table-column property="carte" label="carte" sortable><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.carte}}</div></template></el-table-column>
-                <el-table-column property="Documents" label="Documents" sortable><template scope="scope"><font-awesome-icon v-if="scope.row.Documents" icon="download" class="size-export"/></template></el-table-column>
+                <el-table-column property="regime" label="REGIME" sortable><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.regime}}</div></template></el-table-column>
+                <el-table-column property="teletransmission" label="TELETRANSMISSION" sortable><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.teletransmission}}</div></template></el-table-column>
+                <el-table-column property="carte" label="CARTE" sortable><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.carte}}</div></template></el-table-column>
+                <el-table-column property="Documents" label="DOCUMENTS" sortable><template scope="scope"><font-awesome-icon v-if="scope.row.Documents" icon="download" class="size-export"/></template></el-table-column>
               </el-table>
             </div>
           </transition>
-        <el-button @click="test"></el-button>
       </div>
       <div v-if="!this.tableType">
         <div class="wrapping-search">
@@ -200,11 +195,7 @@ export default {
     return {
       tableType: true,
       holdings: this.$store.state.holdings,
-      tableTitleH: 'Liste des Holdings',
-      tableTitleE: 'Liste des Entreprises',
-      tableNameT: '',
       activeIndex: '',
-      // entreprises: '',
       currentView: '',
       activeEntreprise: [],
       multipleSelection: [],
@@ -214,13 +205,12 @@ export default {
       globEntreprises: [],
       activeAss: [],
       detailsEnt: [],
-      arrayBread: [{name: 'entreprise'},{name: 'contrat'},{name: 'assurés'}],
 
       hTableInit: true,
       eTableInit: true,
 
       holdingTable: true,
-      entrepriseTable: false,
+      // entrepriseTable: false,
       contratsTable: false,
       assuresTable: false,
       gEntTable: false,
@@ -245,9 +235,22 @@ export default {
   },
   props: {
   },
-  computed: {
-  },
+computed: {
+  doneTodosCount () {
+    console.log(this.$store.state.entrepriseTable, 'entreprise')
+    return this.$store.state.holdingTable, this.$store.state.entrepriseTable
+  }
+},
+
+watch:{
+    doneTodosCount(value) {
+       console.log(`My store value for 'doneTodosCount' changed to ${value}`);
+    }
+},
   methods: {
+    truefalse () {
+      console.log(this.$store.state.holdingTable, 'true or false')
+    },
     openTypa () {
     this.graphTypo = true
     },
@@ -272,6 +275,7 @@ export default {
       console.log(this.multipleSelection,'selection')
     },
     openEnt (param) {
+      this.$store.state.breadArray.push({name: param.name})
       this.currentView = 'detailsEntreprise'
       this.activeAssures = true
       this.detailsEnt = param
@@ -286,43 +290,45 @@ export default {
       this.activeAssures = false
     },
     swapType(param) {
-      this.tableTitleH = 'Liste des Holdings'
-      this.tableTitleE = 'Liste des Entreprises'
       this.tableType = param
-      this.entrepriseTable= false
+      this.$store.state.entrepriseTable= false
+      // this.entrepriseTable= false
       this.contratsTable= false
       this.assuresTable= false
       this.eConTable= false
       this.eAssTable= false
-      this.holdingTable= true
+      this.$store.state.holdingTable= true
       this.eTable = true
       this.prestTable= false
       this.cotTable= false
       this.activeAssures= false
       this.bottomPop= false
-
+      
       this.activeEntreprise= []
       this.multipleSelection= []
       this.entrContrats= []
       this.activeC= []
       this.hAssures= []
+      this.switchFirstBread(param);
     },
-    showEntreprise (param) {
+    showEntreprise (param, name) {
+      this.$store.state.breadArray.push({name: name})
       this.activeEntreprise = param
-      this.holdingTable = false
-      this.entrepriseTable = true
+      this.$store.state.holdingTable = false
+
+      this.$store.state.entrepriseTable= true
+      // this.entrepriseTable = true
       this.eTableInit = false
-      this.tableTitleH = 'Liste des Entreprises'
     },
     showContrats (param, item) {
       this.holdingTable = false
-      this.entrepriseTable = false
+      this.$store.state.entrepriseTable=false
+      // this.entrepriseTable = false
       this.eTable = false
 
       if (item == 'hcont') {
         this.contratsTable = true
         this.eTableInit = false
-        this.tableTitleH = 'Liste des Contrats'
         for (var i = 0; i < param.length; i++) {
           for (var y = 0; y < param[i].contrats.length; y++) {
           this.entrContrats.push(param[i].contrats[y])
@@ -332,7 +338,6 @@ export default {
       if (item == 'hcot') {
         this.cotTable = true
         this.eTableInit = false
-        this.tableTitleH = 'Liste des Cotisations'
         for (var i = 0; i < param.length; i++) {
           for (var y = 0; y < param[i].contrats.length; y++) {
           this.entrContrats.push(param[i].contrats[y])
@@ -342,7 +347,6 @@ export default {
       if (item == 'hprest') {
         this.prestTable = true
         this.eTableInit = false
-        this.tableTitleH = 'Liste des Prestations'
         for (var i = 0; i < param.length; i++) {
           for (var y = 0; y < param[i].contrats.length; y++) {
           this.entrContrats.push(param[i].contrats[y])
@@ -350,8 +354,8 @@ export default {
         }
       }
       if (item == 'econt') {
+        this.$store.state.breadArray.push({name: param.name},{name: 'Contrats'})
           this.contratsTable = true
-          this.tableTitleH = 'Liste des Contrats'
         for (var i = 0; i < param.contrats.length; i++) {
           this.entrContrats.push(param.contrats[i])
         }
@@ -359,7 +363,6 @@ export default {
       if (item == 'gecont') {
           this.eConTable = true
           this.hTableInit = false
-          this.tableTitleE = 'Liste des Contrats'
         for (var i = 0; i < param.contrats.length; i++) {
           this.entrContrats.push(param.contrats[i])
         }
@@ -367,7 +370,6 @@ export default {
       if (item == 'hben') {
         this.assuresTable = true
         this.eTableInit = false
-        this.tableTitleH = 'Liste des Assurés et Bénéficiaires'
         for (var i = 0; i < param.length; i++) {
           for (var y = 0; y < param[i].contrats.length; y++) {
             for (var z = 0; z < param[i].contrats[y].assures.length; z++) {
@@ -378,7 +380,6 @@ export default {
       }
       if (item == 'heben') {
         this.assuresTable = true
-        this.tableTitleH = 'Liste des Assurés et Bénéficiaires'
         for (var i = 0; i < param.contrats.length; i++) {
           for (var y = 0; y < param.contrats[i].assures.length; y++) {
             this.hAssures.push(param.contrats[i].assures[y])
@@ -411,19 +412,6 @@ export default {
         this.bottomPop = false
       } else
         this.bottomPop = true
-    },
-    test () {
-      this.holdingTable = true
-      this.entrepriseTable = false
-      this.contratsTable = false
-      this.assuresTable= false
-      this.prestTable = false
-      this.cotTable = false
-
-      this.activeEntreprise= [],
-      this.entrContrats= [],
-      this.activeC= [],
-      this.hAssures= []
     },
     contratsLength (param, item) {
       var lCont = [];
@@ -463,11 +451,27 @@ export default {
         lBen = lBen.reduce(function(acc, val) { return acc + val; }, 0)
         return lAss.length + '/' + lBen
       }
+    },
+    initBread() {
+      if (this.$store.state.breadArray) {
+        this.$store.state.breadArray= [{name: 'Holdings'}]
+      }
+    },
+    switchFirstBread(param) {
+      if(param === true){
+        this.$store.state.breadArray= [{name: 'Holdings'}]
+      } else this.$store.state.breadArray= [{name: 'Entreprises'}]
     }
   },
   created () {
     this.getEntreprises();
-    this.tableNameT = 'this'
+    this.initBread();
+
+  },
+  mounted () {
+        this.$store.state.holdindTable= true
+    this.$store.state.entrepriseTable= false
+
   }
 }
 </script>

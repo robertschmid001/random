@@ -1,7 +1,17 @@
 <template>
   <div id="my-header">
     <el-row class="padding-left">
-      <el-col :span="20" :xs="16" class="wrapper"><img src="../../assets/logoCPMS.png" alt="" class="image"><div class="breadcrumbs">{{$route.name}}</div></el-col>
+      <el-col :span="20" :xs="16" class="wrapper"><img src="../../assets/logoCPMS.png" alt="" class="image">
+        <div class="breadcrumbs">
+          <ul class="breadcrumbsStyle">
+            <el-breadcrumb separator-class="el-icon-arrow-right">
+              <el-breadcrumb-item :to="{ path: $route.fullPath }" ><span @click="turnOffTable">{{$route.name}}</span></el-breadcrumb-item>
+              <el-breadcrumb-item v-for="crumbs in this.$store.state.breadArray"><span @click="turnOffTable">{{crumbs.name}}</span></el-breadcrumb-item>
+            </el-breadcrumb>
+          </ul>
+        </div>
+        <button @click="log">breadArray</button>
+      </el-col>
       <el-col :span="4" :xs="8" v-click-outside="closeEvent">
         <div @mouseover="deconnexion = true" class="btn-wrapper-con btn-gen" :class="{active: deconnexion == true}"><router-link to="/Profile" class="btn-inner"><font-awesome-icon icon="user-circle" class="size-header-icon"/>Mr. Dupont</router-link></div>
         <transition name="slide-out"><div v-show="deconnexion" class="btn-wrapper-dec btn-gen"><div class="prof-deco btn-inner pointer" @click="logOut">Deconnexion</div></div></transition>
@@ -25,6 +35,13 @@ export default {
 
   },
   methods: {
+    turnOffTable () {
+      console.log('click')
+      this.$store.state.holdingTable = true;
+    },
+    log () {
+    console.log(this.$store.state.breadArray, 'store.state.bread')
+    },
     toProfile () {
       this.$store.state.authenticated = false
       this.$router.replace('Profile')
@@ -41,6 +58,15 @@ export default {
       this.$store.state.authenticated = false
       this.$router.replace('Login')
     },
+  },
+  created () {
+  },
+    watch:{
+    $route (to, from){
+      if(from.name === 'Portefeuille') {
+        this.$store.state.breadArray = [];
+      }
+    }
   }
 }
 </script>
@@ -63,6 +89,9 @@ export default {
       justify-content: flex-end;
       padding-right: 30px;
     }
+}
+.breadcrumbsStyle {
+ display: inline;
 }
 .padding-left {
   padding-left: 70px;

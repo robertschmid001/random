@@ -5,6 +5,19 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
+        holdingTable: true,  //cabled
+
+        entrepriseTable: false,
+        contratsTable: false,
+        assuresTable: false,
+        gEntTable: false,
+        eTable: true,
+        eConTable: false,
+        eAssTable: false,
+        cotTable: false,
+        prestTable: false,
+
+        breadArray: [],
         authenticated: "",
         newsLetters: [
             {
