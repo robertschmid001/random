@@ -36,7 +36,6 @@ export default {
   methods: {
     close () {
         this.$emit('close');
-        this.$store.state.breadArray.pop()
     },
   }
 }

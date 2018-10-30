@@ -214,6 +214,7 @@ export default {
   methods: {
     close () {
       this.activeAssures = false
+      this.breadArray.pop()
     },
     getEntreprises () {
       for (var i = 0; i < this.holdings.length; i++) {

@@ -5,8 +5,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-        holdingTable: true,  //cabled
-
+        holdingTable: true,
         entrepriseTable: false,
         contratsTable: false,
         assuresTable: false,
@@ -16,6 +15,9 @@ export const store = new Vuex.Store({
         eAssTable: false,
         cotTable: false,
         prestTable: false,
+        tableHeader: true,
+        activeAssures: false,
+        detailsEntreprise: false,
 
         breadArray: [],
         authenticated: "",
