@@ -168,7 +168,6 @@ $button-color: rgb(4, 151, 151);
   display: none;
 }
 
-
 //**Scroll
 ::-webkit-scrollbar {
   width: 10px;
@@ -208,3 +207,11 @@ $button-color: rgb(4, 151, 151);
   background-color: rgba(114, 248, 37, 0.589);
   border-radius: 0px 0px 7px 0px;
 }
+
+//**Table colours
+$holTable-color: rgba(4, 172, 172, 0.8); //#04abab
+$entTable-color: rgba(90, 61, 253, 0.8); //#5a3cfd
+$assTable-color: rgba(128, 31, 31, 0.8); //#801e1e
+$cotTable-color: rgba(160, 189, 32, 0.87); //#a0bc1f
+$prestTable-color: rgba(115, 173, 6, 0.904); //#73ac06
+$contTable-color: rgba(255, 177, 59, 0.9); //#ffb13b
