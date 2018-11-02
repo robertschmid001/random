@@ -2,6 +2,7 @@
   <div id="my-header">
     <el-row class="padding-left">
       <el-col :span="20" :xs="16" class="wrapper"><img src="../../assets/logoCPMS.png" alt="" class="image">
+      <div class="rout-wrap">{{$route.name}}</div>
         <!-- <div class="breadcrumbs">
           <ul class="breadcrumbsStyle">
             <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -34,75 +35,6 @@ export default {
 
   },
   methods: {
-    // initTables() {
-    //   this.$store.state.holdingTable = true;
-    //   this.$store.state.entrepriseTable = false;
-    //   this.$store.state.contratsTable = false;
-    //   this.$store.state.assuresTable = false;
-    //   this.$store.state.gEntTable = false;
-    //   this.$store.state.eTable = true;
-    //   this.$store.state.eConTable = false;
-    //   this.$store.state.eAssTable = false;
-    //   this.$store.state.cotTable = false;
-    //   this.$store.state.prestTable = false;
-    //   this.$store.state.tableHeader = true;
-    // },
-    // turnOffTable (id, index) {
-    //   if(!id) {
-    //     return console.log('click')
-    //   }
-    //   this.$store.state.holdingTable = false;
-    //   this.$store.state.entrepriseTable = false;
-    //   this.$store.state.contratsTable = false;
-    //   this.$store.state.assuresTable = false;
-    //   this.$store.state.gEntTable = false;
-    //   this.$store.state.eTable = false;
-    //   this.$store.state.eConTable = false;
-    //   this.$store.state.eAssTable = false;
-    //   this.$store.state.cotTable = false;
-    //   this.$store.state.prestTable = false;
-
-    //   if (id === 'Portefeuille' || id === 'begin') {
-    //     this.initTables();
-    //     this.$store.state.breadArray.splice(1)
-    //   }
-    //    if (id === 'holding') {
-    //     this.$store.state.entrepriseTable = true;
-    //     this.$store.state.breadArray.splice(index+1)
-    //   }
-    //   if (id === 'hcont') {
-    //     this.$store.state.contratsTable = true;
-    //     this.$store.state.breadArray.splice(index+1)
-    //   }
-    //   if (id === 'econt') {
-    //     this.$store.state.eConTable = false;
-    //      this.$store.state.breadArray.splice(index+1)
-    //   }
-    //   if (id === 'hben') {
-    //     this.$store.state.assuresTable = true;
-    //     this.$store.state.breadArray.splice(index+1)
-    //   }
-    //   if (id === 'hcot') {
-    //     this.$store.state.cotTable = true;
-    //     this.$store.state.breadArray.splice(index+1)
-    //   }
-    //   if (id === 'hprest') {
-    //     this.$store.state.prestTable = true;
-    //     this.$store.state.breadArray.splice(index+1)
-    //   }
-    //   if (id === 'heben') {
-    //     this.$store.state.assuresTable = true
-    //     this.$store.state.breadArray.splice(index+1)
-    //   }
-    //   if (id === 'eben') {
-    //     this.$store.state.eAssTable = true
-    //     this.$store.state.breadArray.splice(index+1)
-    //   }
-    //   if (id === 'gecont') {
-    //     this.$store.state.eConTable = true
-    //     this.$store.state.breadArray.splice(index+1)
-    //   }
-    // },
     toProfile () {
       this.$store.state.authenticated = false
       this.$router.replace('Profile')
@@ -161,6 +93,9 @@ export default {
   flex-direction: row;
   display: flex;
   align-items: center;
+}
+.rout-wrap {
+  padding-left: 10px;
 }
 .image {
   width: 150px;

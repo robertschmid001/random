@@ -7,7 +7,7 @@
         <el-menu default-active="1" :router="true" :collapse="isCollapse" class="main-menu">
         <el-menu-item index="/Home" class="hover border">
           <font-awesome-icon icon="home" class="size-menu-icons"/>
-          <span  class="padding-menu menu-title">Acceuil</span>
+          <span  class="padding-menu menu-title">Accueil</span>
         </el-menu-item>
         <el-menu-item index="/portefeuille" class="hover border">
           <font-awesome-icon icon="euro-sign" class="size-menu-icons"/>
@@ -15,7 +15,7 @@
         </el-menu-item>
         <el-menu-item index="/Recherche" class="hover border">
           <font-awesome-icon icon="user-friends" class="size-menu-icons"/>
-          <span class="padding-menu menu-title">Recherche</span>
+          <span class="padding-menu menu-title">Rechercher un assuré</span>
         </el-menu-item>
         <el-submenu index="4" class="">
           <template slot="title">
@@ -105,12 +105,19 @@ span.padding-menu {
   justify-content: center;
 }
 .main-menu:not(.el-menu--collapse) {
-  width: 200px;
+  width: 220px;
   min-height: 400px;
 }
 .size2 {
   width: 20px;
   height: 20px;
+  transition:transform 0.4s;   //testing rotation animation
+}
+.size2:active {   //testing rotation animation
+   transform: rotate(45deg);
+   -webkit-transform: rotate(45deg);
+   -ms-transform: rotate(45deg);
+   color: $button-color;
 }
 .size-menu-icons {
   font-size: 20px;
