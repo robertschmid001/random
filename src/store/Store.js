@@ -19,7 +19,6 @@ export const store = new Vuex.Store({
         activeAssures: false,
         detailsEntreprise: false,
 
-        breadArray: [],
         authenticated: "",
         newsLetters: [
             {

@@ -1,7 +1,42 @@
 <template>
   <div id="email">
-    <div>
-    </div>
+    <el-row>
+      <el-col :span="24" class="col-wrap">
+        <div class="outer-wrapper">
+          <el-select v-model="value" placeholder="Votre demande concerne" class="input-style">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-form class="area-wrap">
+            <el-form-item prop="desc" class="area-inner-wrap">
+              <el-input type="textarea" v-model="ruleForm.desc" class="area-style"></el-input>
+            </el-form-item>
+          </el-form>
+          <el-row>
+            <el-col :span="12">
+              <el-upload
+                class="upload-demo"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :before-remove="beforeRemove"
+                multiple
+                :limit="3"
+                :on-exceed="handleExceed"
+                :file-list="fileList">
+                <button class="joindre-style pointer" size="small" type="primary"><font-awesome-icon icon="paperclip" class="paperclip-icon"  @click="close"/>Joindre un fichier</button>
+                <!-- <div slot="tip" class="el-upload__tip">//alerte < 500 ko?</div> -->
+              </el-upload>
+            </el-col>
+            <el-col :span="12"><button class="button button-style pointer">Envoyer</button></el-col>
+          </el-row>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -10,133 +45,93 @@
 export default {
   name: 'Email',
   props: {
+  },
+  data() {
+    return {
+      fileList: [{name: 'fichier.pdf', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'fichier.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
+      options: [{
+        value: 'Option1',
+        label: 'Option1'
+      }, {
+        value: 'Option2',
+        label: 'Option2'
+      }],
+      value: '',
+      ruleForm: {
+          desc: ''
+      },
+    }
+  },
+    methods: {
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`The limit is 3, you selected ${files.length} files this time, add up to ${files.length + fileList.length} totally`);
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`Delete ce ${ file.name }？`);
+    },
+    close () {
+      console.log('closed')
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../styles/_global.scss";
-img {
-  width: 100%;
-  height: auto;
+.area-style {
+  height: 300px;
 }
-#email {
-  padding: 20px;
+.paperclip-icon {
+  font-weight: 100;
+  padding-right: 5px;
+  color: rgba(128, 128, 128, 0.678);
 }
-.search {
-  padding: 15px 20px;
-  border-bottom: 1px solid $background-global;
+.area-wrap {
+  padding-top: 20px;
 }
-.search-icon {
-  font-size: 12px;
-  justify-items: center;
-}
-.write-wrapper {
-  width: 100%;
-  border-radius: 7px;
-  background-color: white;
-  padding: 15px;
-  box-sizing: border-box;
-}
-.mails-wrapper {
-  width: 100%;
-  border-radius: 7px;
-  background-color: white;
-}
-.message-wrapper {
-  width: 100%;
-  border-radius: 7px;
-  background-color: white;
-}
-.button {
-  width: 100%;
-}
-.messagerie-wrapper {
+.inner-wrapper {
   display: flex;
-  flex-direction: row;
-  font-weight: 600;
-}
-.inner-circle {
-  display: flex;
-}
-.mes-num {
-  text-align: right;
-  color: $button-color;
-}
-.padding {
-  padding: 5px 0px;
-}
-.content-padding {
   padding-top: 10px;
 }
-.outer-padding {
-  padding: 0 10px;
-}
-.input {
-  border-radius: 8px;
-  height: 20px;
+.joindre-style {
   border: none;
-  outline: none;
-  box-sizing: border-box;
-  padding-left: 20px;
-  font-size: 12px;
+  background-color: white;
+  color: rgba(128, 128, 128, 0.678);
+  font-weight: 550;
 }
-    .details-list {
-        list-style: none;
-        padding: 0;
-        max-height: 400px;
-        .list-wrapper {
-          padding: 10px 10px;
-            height: 32px;
-            display: flex;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid $background-global;
-            .ellipsis-list {
-                position: absolute;
-                bottom: 5px;
-                right: 10px;
-                background-color: white;
-                padding-bottom: 8px;
-                padding-left: 2px;
-            }
-            .date{
-                position: absolute;
-                top: 5px;
-                right: 10px;
-                background-color: white;
-                color:$button-color;
-                font-weight: 550;
-            }
-            .wrapper {
-                padding-left: 10px;
-                text-align: left;
-                line-height: 15px;
-                .message-object-wrapper {
-                    font-size: 11px;
-                }
-                .message-content-wrapper {
-                    font-size: 10px;
-                    height: 13px;
-                    overflow: hidden;
-                }
-            }
-        }
+.input-style {
+  width: 50%;
 }
-.message-circle {
-  justify-content: center;
-  display: flex;
-    border: none;
-    border-radius: 50%;
-    height: 30px;
-    min-width: 30px;
-    background-color: rgb(221, 221, 221);
-    align-items: center;
+.mess {
+  text-align: left;
+  font-weight: 600;
+  color: rgba(128, 128, 128, 0.678);
 }
-.bottom-list {
-  height: 50px;
+.content-var {
+  text-align: right;
+  width: 100%;
+  color: $button-color;
 }
-        ul {
-            margin: 0;
-          }
+.col-wrap {
+  padding: 10px;
+}
+.button-style {
+  width: 100%;
+}
+#email {
+  padding: 20px 30px;
+  .outer-wrapper {
+    background-color: white;
+    padding: 20px;
+    border-radius: 7px;
+    max-width: 500px;
+  }
+}
+
 </style>

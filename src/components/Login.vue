@@ -104,7 +104,7 @@ export default {
         setTimeout(() => {
           this.submitStatus = 'OK'
           this.$store.state.authenticated = true;
-          this.$router.replace("home");
+          this.$router.replace("accueil");
           console.log(this.submitStatus)
         }, 500)
       }

@@ -5,7 +5,7 @@
           <font-awesome-icon icon="bars" class="size2 collapse-icon" @click="changeCollapse"/>
         </div>
         <el-menu default-active="1" :router="true" :collapse="isCollapse" class="main-menu">
-        <el-menu-item index="/Home" class="hover border">
+        <el-menu-item index="/Accueil" class="hover border">
           <font-awesome-icon icon="home" class="size-menu-icons"/>
           <span  class="padding-menu menu-title">Accueil</span>
         </el-menu-item>

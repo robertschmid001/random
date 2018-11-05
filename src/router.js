@@ -8,7 +8,6 @@ import Search from './components/Search.vue'
 import Portefeuille from './components/Portefeuille/Portefeuille.vue'
 import Email from './components/Email.vue'
 
-import Home2 from './components/Home2.vue'
 import Documents from './components/Documents.vue'
 import Actualites from './components/Actualites.vue'
 import Extraction from './components/Extraction.vue'
@@ -25,23 +24,23 @@ let router = new Router({
             }
         },{
             path: '*',
-            name: 'Home',
+            name: 'Accueil',
             component: Home
         },{
             path: '/login',
             name: 'Login',
             component: Login
         }, {
-            path: '/home',
-            name: 'Home',
+            path: '/accueil',
+            name: 'Accueil',
             component: Home
         }, {
-            path: '/profile',
-            name: 'Profile',
+            path: '/profil',
+            name: 'Profil',
             component: Profile
         }, {
             path: '/recherche',
-            name: 'Search',
+            name: 'Recherche assuré',
             component: Search
         }, {
             path: '/portefeuille',
@@ -49,12 +48,8 @@ let router = new Router({
             component: Portefeuille
         }, {
             path: '/messagerie',
-            name: 'Email',
+            name: 'Messagerie',
             component: Email
-        }, {
-            path: '/home2',
-            name: 'Home2',
-            component: Home2
         }, {
             path: '/documents',
             name: 'Documents',
