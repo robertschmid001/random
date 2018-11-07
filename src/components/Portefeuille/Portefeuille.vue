@@ -1,18 +1,27 @@
 <template>
   <div id="portefeuille">
     <div class="header" :class="[{active: currentView == 'sante'},{active2: currentView == 'prevoyance'},{active3: currentView == 'risques'}]">
-      <button class="header-button pointer" :class="{active: currentView == 'sante'}" @click="currentView = 'sante'">Santé</button>
-      <button class="header-button pointer" :class="{active2: currentView == 'prevoyance'}" @click="currentView = 'prevoyance'">Prévoyance</button>
-      <button class="header-button pointer" :class="{active3: currentView == 'risques'}" @click="currentView = 'risques'">Autres risques</button>
+      <button class="header-button pointer" :class="{active: currentView == 'sante'}" @click="spaFilter('s')">Santé</button>
+      <button class="header-button pointer" :class="{active2: currentView == 'prevoyance'}" @click="spaFilter('p')">Prévoyance</button>
+      <button class="header-button pointer" :class="{active3: currentView == 'risques'}" @click="spaFilter('a')">Autres risques</button>
     </div>
+      <div class="type-wrapping">
+        <div class="type-title" v-bind:class="{ isActive: currentView == 'holding-table' }" @click="swapType('holding-table')">Liste des Holdings</div>
+        <div class="type-title" v-bind:class="{ isActive: currentView == 'entreprise-table' }" @click="swapType('entreprise-table')">Liste des Entreprises</div>
+      </div>
+      <div class="wrapping-search">
+        <el-button class="button inner-button"  @click="erFilter('e')">En cours</el-button>
+        <el-button class="button inner-button" @click="erFilter('r')">Résiliés</el-button>
+      </div>
+      <button @click="click">LOG</button>
     <component :is="currentView" keep-alive :holdings="holdings"></component>
-    <button @click="click">LOG</button>
+
   </div>
 </template>
 <script>
-import Prevoyance from "./_subs/Prevoyance.vue"
-import Sante from "./_subs/Sante.vue"
-import Risques from "./_subs/Risques.vue"
+// import Prevoyance from "./_subs/Prevoyance.vue"
+// import Sante from "./_subs/Sante.vue"
+// import Risques from "./_subs/Risques.vue"
 
 import EntTable from "./tables/EntTable.vue"
 import AssTable from "./tables/AssTable.vue"
@@ -26,7 +35,9 @@ export default {
   data () {
       return {
         currentView: 'holding-table',
-        holdings: this.$store.state.holdings
+        holdingsAll: [],
+        spa: 's',
+        eR: 'e',
       }
   },
   props: {
@@ -46,8 +57,43 @@ export default {
   },
   methods: {
     click () {
-      console.log(this.holdings, 'data')
+      console.log(this.spa, 'spa')
+    },
+    swapType(param) {
+      this.currentView = param
+
+    // this.bottomPop= false
+
+    // this.switchFirstBread(param);
+    },
+    erFilter(param) {
+      return this.eR = param
+    },
+    spaFilter (param) {
+      return this.spa = param
+    },
+
+  },
+  computed: {
+    holdings () {
+      let spaEr = this.spa + this.eR;
+      console.log(spaEr,'spaEr')
+      return this.holdingsAll.filter( function(h) {
+
+        h.iA = h.iA[spaEr]
+        h.iB = h.iB[spaEr]
+        h.iC = h.iC[spaEr]
+        h.iCo = h.iCo[spaEr]
+        h.iE = h.iE[spaEr]
+        h.iPr = h.iPr[spaEr]
+        return h
+      })
     }
+  },
+  mounted () {
+    this.holdingsAll = this.$store.state.holdings
+  },
+  created () {
   }
 }
 </script>
@@ -56,6 +102,7 @@ export default {
 @import "../../styles/_global.scss";
 
 #portefeuille {
+  background-color: white;
   .header {
     display: flex;
     height: 60px;
@@ -89,5 +136,25 @@ export default {
 .active3 {
   background: rgba(53, 170, 112, 0.8)!important;
   outline: none;
+}
+.type-wrapping {
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+}
+.type-title {
+  padding: 30px;
+  font-size: 18px;
+  color: rgb(185, 185, 185);
+}
+.isActive {
+  color: rgb(104, 103, 103);
+  cursor: default
+}
+.wrapping-search {
+  padding: 0px 40px 10px 40px;
+}
+.inner-button {
+  padding: 0 10px;
 }
 </style>
