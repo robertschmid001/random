@@ -48,6 +48,7 @@
 import { required, maxLength, email, or} from "vuelidate/lib/validators";
 import modalSignup from "./modals/modal-signup.vue";
 import modalPassword from "./modals/modal-password.vue";
+import axios from "axios"
 
 export default {
   name: "login",
@@ -109,6 +110,16 @@ export default {
         }, 500)
       }
     }
+  },
+  mounted () {
+      axios
+      .post('https://courtier.cpms.fr/getCourtier')
+      .then(response => {
+        this.$store.state.holdings = response.data.holding
+        this.$store.state.cabinet = response.data.cabinet
+        console.log(this.$store.state.holdings)
+        console.log(this.$store.state.cabinet)
+      })
   }
 };
 </script>

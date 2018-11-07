@@ -5,9 +5,7 @@ import router from './router'
 import { store } from './store/Store'
 
 import Vuelidate from 'vuelidate'
-import locale from 'element-ui/lib/locale/lang/en'
 import VueI18n from 'vue-i18n'
-import enLocale from 'element-ui/lib/locale/lang/en'
 import frLocale from 'element-ui/lib/locale/lang/fr'
 
 import './plugins/element.js'
@@ -46,11 +44,14 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.use(VueI18n)
 Vue.config.lang = 'fr'
-Vue.locale('en', enLocale)
 Vue.locale('fr', frLocale)
+// Vue.config.lang = 'fr'
+// Object.keys(locales).forEach(function (lang) {
+//   Vue.locale(lang, locales[lang])
+// })
 
 library.add(faPaperclip,faBars, faInfoCircle, faUserCircle, faChartPie, faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
-Vue.use(ElementUI, { locale });
+Vue.use(ElementUI);
 Vue.use(Lodash)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(Vuelidate)

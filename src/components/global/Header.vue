@@ -13,7 +13,7 @@
         </div> -->
       </el-col>
       <el-col :span="4" :xs="8" v-click-outside="closeEvent">
-        <div @mouseover="deconnexion = true" class="btn-wrapper-con btn-gen" :class="{active: deconnexion == true}"><router-link to="/Profil" class="btn-inner"><font-awesome-icon icon="user-circle" class="size-header-icon"/>Mr. Dupont</router-link></div>
+        <div @mouseover="deconnexion = true" class="btn-wrapper-con btn-gen" :class="{active: deconnexion == true}"><router-link to="/Profil" class="btn-inner"><font-awesome-icon icon="user-circle" class="size-header-icon"/>{{name}}</router-link></div>
         <transition name="slide-out"><div v-show="deconnexion" class="btn-wrapper-dec btn-gen"><div class="prof-deco btn-inner pointer" @click="logOut">Deconnexion</div></div></transition>
       </el-col>
     </el-row>
@@ -29,6 +29,7 @@ export default {
   data () {
     return {
       deconnexion: false,
+      name: this.$store.state.cabinet.nom_courtier
     }
   },
   events: {

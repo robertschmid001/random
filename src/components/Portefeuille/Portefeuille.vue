@@ -5,7 +5,8 @@
       <button class="header-button pointer" :class="{active2: currentView == 'prevoyance'}" @click="currentView = 'prevoyance'">Prévoyance</button>
       <button class="header-button pointer" :class="{active3: currentView == 'risques'}" @click="currentView = 'risques'">Autres risques</button>
     </div>
-    <component :is="currentView" keep-alive></component>
+    <component :is="currentView" keep-alive :holdings="holdings"></component>
+    <button @click="click">LOG</button>
   </div>
 </template>
 <script>
@@ -13,19 +14,40 @@ import Prevoyance from "./_subs/Prevoyance.vue"
 import Sante from "./_subs/Sante.vue"
 import Risques from "./_subs/Risques.vue"
 
+import EntTable from "./tables/EntTable.vue"
+import AssTable from "./tables/AssTable.vue"
+import ContTable from "./tables/ContTable.vue"
+import CotTable from "./tables/CotTable.vue"
+import HolTable from "./tables/HolTable.vue"
+import PresTable from "./tables/PresTable.vue"
+
 export default {
   name: 'Portefeuille',
   data () {
       return {
-        currentView: 'sante',
+        currentView: 'holding-table',
+        holdings: this.$store.state.holdings
       }
   },
   props: {
   },
+  // components: {
+  //   'prevoyance': Prevoyance,
+  //   'sante': Sante,
+  //   'risques': Risques
+  // }
   components: {
-    'prevoyance': Prevoyance,
-    'sante': Sante,
-    'risques': Risques
+    'entreprise-table' : EntTable,
+    'assure-table' : AssTable,
+    'contrat-table' : ContTable,
+    'cotisation-table' : CotTable,
+    'holding-table' : HolTable,
+    'prestation-table' : PresTable,
+  },
+  methods: {
+    click () {
+      console.log(this.holdings, 'data')
+    }
   }
 }
 </script>

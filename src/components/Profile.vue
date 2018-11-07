@@ -156,6 +156,7 @@ export default {
         isEditing: false,
         isAdding: false,
         passwordCheck: '',
+        cabinet: this.$store.state.cabinet,
 
         newUser: {surname: '', forename: '', tel: '', email: '', edit: false},
 
