@@ -14,7 +14,7 @@
         <el-button class="button inner-button" @click="erFilter('r')">Résiliés</el-button>
       </div>
       <button @click="click">LOG</button>
-    <component :is="currentView" keep-alive :holdings="holdings"></component>
+    <component :is="currentView" keep-alive :holdings="holdings" :entreprises="entreprises"></component>
 
   </div>
 </template>
@@ -36,17 +36,13 @@ export default {
       return {
         currentView: 'holding-table',
         holdingsAll: [],
+        entreprisesAll: [],
         spa: 's',
         eR: 'e',
       }
   },
   props: {
   },
-  // components: {
-  //   'prevoyance': Prevoyance,
-  //   'sante': Sante,
-  //   'risques': Risques
-  // }
   components: {
     'entreprise-table' : EntTable,
     'assure-table' : AssTable,
@@ -57,13 +53,12 @@ export default {
   },
   methods: {
     click () {
-      console.log(this.spa, 'spa')
+      console.log(this.entreprisesAll, 'this.entreprises')
     },
     swapType(param) {
       this.currentView = param
 
     // this.bottomPop= false
-
     // this.switchFirstBread(param);
     },
     erFilter(param) {
@@ -72,28 +67,47 @@ export default {
     spaFilter (param) {
       return this.spa = param
     },
-
-  },
-  computed: {
-    holdings () {
-      let spaEr = this.spa + this.eR;
-      console.log(spaEr,'spaEr')
-      return this.holdingsAll.filter( function(h) {
-
-        h.iA = h.iA[spaEr]
-        h.iB = h.iB[spaEr]
-        h.iC = h.iC[spaEr]
-        h.iCo = h.iCo[spaEr]
-        h.iE = h.iE[spaEr]
-        h.iPr = h.iPr[spaEr]
-        return h
+    initEntreprise () {
+      this.holdingsAll.filter(d => {
+        let eAdd = {noh: d.noH}
+         return d.entreprises.filter(e => {
+           var obj = Object.assign({}, eAdd,e);
+          this.entreprisesAll.push(obj)
+        })
       })
     }
   },
+  computed: {
+    entreprises () {
+      let spaEr = this.spa + this.eR;
+         return this.entreprisesAll.filter(e => {
+          e.iCc = e.iC[spaEr]
+          e.iAa = e.iA[spaEr]
+          e.iBb = e.iB[spaEr]
+          e.iPrr = e.iPr[spaEr]
+          e.iCoo = e.iCo[spaEr]
+          return e
+        })
+    },
+    holdings () {
+      let spaEr = this.spa + this.eR;
+      return this.holdingsAll.filter( h => {
+        h.iEe = h.iE[spaEr]
+        h.iCc = h.iC[spaEr]
+        h.iAa = h.iA[spaEr]
+        h.iBb = h.iB[spaEr]
+        h.iPrr = h.iPr[spaEr]
+        h.iCoo = h.iCo[spaEr]
+        return h
+      })
+    },
+
+  },
   mounted () {
-    this.holdingsAll = this.$store.state.holdings
+    this.initEntreprise();
   },
   created () {
+    this.holdingsAll = this.$store.state.holdings
   }
 }
 </script>

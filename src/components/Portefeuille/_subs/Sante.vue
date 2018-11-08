@@ -216,7 +216,7 @@ export default {
   data () {
     return {
       tableType: true,
-      holdings: this.$store.state.holdings,
+      // holdings: this.$store.state.holdings,
       activeIndex: '',
       currentView: '',
       activeEntreprise: [],

@@ -109,17 +109,17 @@ export default {
           console.log(this.submitStatus)
         }, 500)
       }
-    }
-  },
-  mounted () {
-      axios
-      .post('https://courtier.cpms.fr/getCourtier')
+    },
+    getCabinets: function() {
+      axios.post('https://courtier.cpms.fr/getCourtier')
       .then(response => {
         this.$store.state.holdings = response.data.holding
         this.$store.state.cabinet = response.data.cabinet
-        console.log(this.$store.state.holdings)
-        console.log(this.$store.state.cabinet)
       })
+    },
+  },
+  mounted () {
+    this.getCabinets();
   }
 };
 </script>
