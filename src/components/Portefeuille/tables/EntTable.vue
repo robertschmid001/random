@@ -2,11 +2,11 @@
     <div id="entreprise-table" >
       <button class="button" @click="clickity">FFF</button>
             <div class="table-wrapping">
-              <el-table ref="multipleTable" :data="entreprises" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}" class="e-border">
+              <el-table ref="multipleTable" :data="holdEntreprise" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}" class="e-border">
                 <el-table-column type="selection" width="42"></el-table-column>
                 <el-table-column property="holding" label="NOM" sortable><template scope="scope" ><div class="data-wrapper md-txt entHover pointer" > {{scope.row.noh }} </div></template></el-table-column>
                 <el-table-column property="noC" label="ENTREPRISES" sortable min-width="120"><template scope="scope" ><div class="data-wrapper md-txt entHover pointer" >{{scope.row.noC}}</div></template></el-table-column>
-                <el-table-column property="contrats" label="CONTRAT" show-overflow-tooltip sortable width="100"><template scope="scope" ><div class="data-wrapper pointer md-txt entHover" >{{scope.row.iCc}}</div></template></el-table-column>
+                <el-table-column property="contrats" label="CONTRAT" show-overflow-tooltip sortable width="100"><template scope="scope" ><div class="data-wrapper pointer md-txt entHover" @click="contratsRowData(scope.row.contracts)">{{scope.row.iCc}}</div></template></el-table-column>
                 <el-table-column property="beneficiaire" label="NOMBRE D'ASSURES ET BENEFICIAIRES" show-overflow-tooltip width="230"><template scope="scope" ><div class="data-wrapper pointer md-txt entHover">{{scope.row.iAa}} / {{scope.row.iBb}} </div></template></el-table-column>
                 <el-table-column property="cotisations" label="COTISATIONS" show-overflow-tooltip sortable width="115"><template scope="scope"><div class="md-txt">{{scope.row.iCoo}}</div></template></el-table-column>
                 <el-table-column property="prestations" label="PRESTATIONS" show-overflow-tooltip sortable width="115"><template scope="scope"><div class="md-txt">{{scope.row.iPrr}}</div></template></el-table-column>
@@ -20,12 +20,17 @@
 <script>
 export default {
   name: 'EntTable',
-  props: ['entreprises'],
+  props: ['holdEntreprise'],
   data () {
     return {
     }
   },
   methods: {
+    contratsRowData (data) {
+      console.log(data, 'data entre row')
+      this.$store.state.holdEntCont = data;
+      this.$emit('holdEntContRow')
+    },
     toggleSelection(rows) {
       if (rows) {
           rows.forEach(row => {

@@ -66,7 +66,9 @@ Vue.directive('click-outside', {
         vnode.context[binding.expression](event);
       }
     };
-    document.body.addEventListener('click', el.clickOutsideEvent)
+    document.body.addEventListener('click', el.clickOutsideEvent, {
+          passive: true
+        })
   },
   unbind: function (el) {
     document.body.removeEventListener('click', el.clickOutsideEvent)

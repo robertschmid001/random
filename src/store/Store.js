@@ -68,6 +68,8 @@ export const store = new Vuex.Store({
         ],
         holdings: [],
         cabinet: [],
+        holdEnt: [],
+        holdEntCont: [],
         mutations: {
         }
     }

@@ -1,21 +1,20 @@
 <template>
   <div id="portefeuille">
-    <div class="header" :class="[{active: currentView == 'sante'},{active2: currentView == 'prevoyance'},{active3: currentView == 'risques'}]">
-      <button class="header-button pointer" :class="{active: currentView == 'sante'}" @click="spaFilter('s')">Santé</button>
-      <button class="header-button pointer" :class="{active2: currentView == 'prevoyance'}" @click="spaFilter('p')">Prévoyance</button>
-      <button class="header-button pointer" :class="{active3: currentView == 'risques'}" @click="spaFilter('a')">Autres risques</button>
+    <div class="header" :class="[{active: spa == 's'},{active2: spa == 'p'},{active3: spa == 'a'}]">
+      <button class="header-button pointer" :class="{ active: spa == 's' }" @click="spaFilter('s')">Santé</button>
+      <button class="header-button pointer" :class="{ active2: spa == 'p' }" @click="spaFilter('p')">Prévoyance</button>
+      <button class="header-button pointer" :class="{ active3: spa == 'a' }" @click="spaFilter('a')">Autres risques</button>
     </div>
       <div class="type-wrapping">
         <div class="type-title" v-bind:class="{ isActive: currentView == 'holding-table' }" @click="swapType('holding-table')">Liste des Holdings</div>
-        <div class="type-title" v-bind:class="{ isActive: currentView == 'entreprise-table' }" @click="swapType('entreprise-table')">Liste des Entreprises</div>
+        <div class="type-title" v-bind:class="{ isActive: currentView == 'globEnt-table' }" @click="swapType('globEnt-table')">Liste des Entreprises</div>
       </div>
       <div class="wrapping-search">
-        <el-button class="button inner-button"  @click="erFilter('e')">En cours</el-button>
-        <el-button class="button inner-button" @click="erFilter('r')">Résiliés</el-button>
+        <button class="button inner-button pointer" v-bind:class="{ fisActive: eR == 'e' }" @click="erFilter('e')">En cours</button>
+        <button class="button inner-button pointer" v-bind:class="{ fisActive: eR == 'r' }" @click="erFilter('r')">Résiliés</button>
       </div>
-      <button @click="click">LOG</button>
-    <component :is="currentView" keep-alive :holdings="holdings" :entreprises="entreprises"></component>
-
+      <button @click="holdEntFilter">LOG</button>
+      <keep-alive><component :is="currentView" :holdings="holdings" :contrats="holdEntContrats" :entreprises="entreprises" :holdEntreprise="holdEntreprise" @holdEntRow="holdEntFilter" @holdEntContRow="holdEntContFilter"></component></keep-alive>
   </div>
 </template>
 <script>
@@ -29,6 +28,7 @@ import ContTable from "./tables/ContTable.vue"
 import CotTable from "./tables/CotTable.vue"
 import HolTable from "./tables/HolTable.vue"
 import PresTable from "./tables/PresTable.vue"
+import GlobEntTable from "./tables/GlobEntTable.vue"
 
 export default {
   name: 'Portefeuille',
@@ -39,12 +39,14 @@ export default {
         entreprisesAll: [],
         spa: 's',
         eR: 'e',
+        holdEnt: [],
+        holdEntCon: []
       }
   },
-  props: {
-  },
+
   components: {
     'entreprise-table' : EntTable,
+    'globEnt-table' : GlobEntTable,
     'assure-table' : AssTable,
     'contrat-table' : ContTable,
     'cotisation-table' : CotTable,
@@ -52,12 +54,16 @@ export default {
     'prestation-table' : PresTable,
   },
   methods: {
-    click () {
-      console.log(this.entreprisesAll, 'this.entreprises')
+    holdEntContFilter () {
+      this.holdEntCon = this.$store.state.holdEntCont
+      this.currentView = 'contrat-table'
+    },
+    holdEntFilter () {
+      this.holdEnt = this.$store.state.holdEnt
+      this.currentView = 'entreprise-table'
     },
     swapType(param) {
       this.currentView = param
-
     // this.bottomPop= false
     // this.switchFirstBread(param);
     },
@@ -78,6 +84,28 @@ export default {
     }
   },
   computed: {
+    holdEntContrats () {
+      let spaEr = this.spa + this.eR;
+        return this.holdEntCon.filter(e => {
+        if (e.t === spaEr) {
+          return e
+        } else return
+      })
+    }
+    ,
+    holdEntreprise () {
+      let spaEr = this.spa + this.eR;
+        return this.holdEnt.filter(e => {
+        e.iCc = e.iC[spaEr]
+        e.iAa = e.iA[spaEr]
+        e.iBb = e.iB[spaEr]
+        e.iPrr = e.iPr[spaEr]
+        e.iCoo = e.iCo[spaEr]
+        if (e.iC[spaEr] > 0) {
+          return e
+        } else return
+      })
+    },
     entreprises () {
       let spaEr = this.spa + this.eR;
          return this.entreprisesAll.filter(e => {
@@ -133,22 +161,20 @@ export default {
       background-color: rgba(255, 255, 255, 0);
       color: white;
       font-weight: 550;
-      border-radius: 7px;
-      margin-right: 30px;
-      height: 30px;
+      height: 100%;
     }
   }
 }
 .active {
-  background: rgba(4, 172, 172, 0.8)!important;
+  background: rgba(13, 151, 151, 0.582)!important;
   outline: none;
 }
 .active2 {
-  background: rgba(119, 78, 196, 0.8)!important;
+  background: rgba(111, 73, 182, 0.397)!important;
   outline: none;
 }
 .active3 {
-  background: rgba(53, 170, 112, 0.8)!important;
+  background: rgba(99, 157, 196, 0.651)!important;
   outline: none;
 }
 .type-wrapping {
@@ -161,6 +187,11 @@ export default {
   font-size: 18px;
   color: rgb(185, 185, 185);
 }
+.fisActive {
+  background-color: white;
+  color: $button-color;
+  cursor: default
+}
 .isActive {
   color: rgb(104, 103, 103);
   cursor: default
@@ -170,5 +201,7 @@ export default {
 }
 .inner-button {
   padding: 0 10px;
+  margin-right: 10px;
+  font-weight: 700;
 }
 </style>
