@@ -1,7 +1,7 @@
 <template>
     <div id="holding-table" >
         <div class="table-wrapping">
-            <el-table ref="multipleTable" :data="holdings" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}" class="h-border">
+            <el-table ref="multipleTable" height="500" :data="holdings" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}" class="h-border">
                 <el-table-column type="selection" width="42" ></el-table-column>
                 <el-table-column property="noH" label="NOM" sortable min-width="150"><template scope="scope" ><div class="data-wrapper md-txt holHover pointer" @click="holdingRowData(scope.row.entreprises)" >{{scope.row.noH}}</div></template></el-table-column>
                 <el-table-column property="entreprises" label="ENTREPRISES" sortable width="117"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.iEe}}</div></template></el-table-column>
@@ -53,10 +53,18 @@ export default {
     props: ['holdings'],
 }
 </script>
-<style>
+<style lang="scss" scoped>
+@import "../../../styles/_global.scss";
 
 #holding-table {
-    height: fill;
+    overflow-y: visible;
+    height: auto;
+}
+.h-border {
+  border-left: 4px solid $holTable-color;
+}
+.holHover:hover {
+  color: $holTable-color;
 }
 
 

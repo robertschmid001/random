@@ -13,7 +13,7 @@
         <button class="button inner-button pointer" v-bind:class="{ fisActive: eR == 'e' }" @click="erFilter('e')">En cours</button>
         <button class="button inner-button pointer" v-bind:class="{ fisActive: eR == 'r' }" @click="erFilter('r')">Résiliés</button>
       </div>
-      <button @click="holdEntFilter">LOG</button>
+      <!-- <button @click="holdEntFilter">LOG</button> -->
       <keep-alive><component :is="currentView" :holdings="holdings" :contrats="holdEntContrats" :entreprises="entreprises" :holdEntreprise="holdEntreprise" @holdEntRow="holdEntFilter" @holdEntContRow="holdEntContFilter"></component></keep-alive>
   </div>
 </template>
@@ -40,7 +40,8 @@ export default {
         spa: 's',
         eR: 'e',
         holdEnt: [],
-        holdEntCon: []
+        holdEntCon: [],
+        search: ''
       }
   },
 
@@ -54,6 +55,7 @@ export default {
     'prestation-table' : PresTable,
   },
   methods: {
+
     holdEntContFilter () {
       this.holdEntCon = this.$store.state.holdEntCont
       this.currentView = 'contrat-table'
@@ -61,6 +63,7 @@ export default {
     holdEntFilter () {
       this.holdEnt = this.$store.state.holdEnt
       this.currentView = 'entreprise-table'
+      console.log(this.holdEn, 'entreprises')
     },
     swapType(param) {
       this.currentView = param
@@ -81,7 +84,14 @@ export default {
           this.entreprisesAll.push(obj)
         })
       })
-    }
+    },
+    // modifyData (data, filter) {
+    //     data.iCc = data.iC[filter]
+    //     data.iAa = data.iA[filter]
+    //     data.iBb = data.iB[filter]
+    //     data.iPrr = data.iPr[filter]
+    //     data.iCoo = data.iCo[filter]
+    // }
   },
   computed: {
     holdEntContrats () {
@@ -95,7 +105,8 @@ export default {
     ,
     holdEntreprise () {
       let spaEr = this.spa + this.eR;
-        return this.holdEnt.filter(e => {
+      return this.holdEnt.filter(e => {
+        // this.modifyData(e, spaEr);
         e.iCc = e.iC[spaEr]
         e.iAa = e.iA[spaEr]
         e.iBb = e.iB[spaEr]
@@ -108,14 +119,14 @@ export default {
     },
     entreprises () {
       let spaEr = this.spa + this.eR;
-         return this.entreprisesAll.filter(e => {
-          e.iCc = e.iC[spaEr]
-          e.iAa = e.iA[spaEr]
-          e.iBb = e.iB[spaEr]
-          e.iPrr = e.iPr[spaEr]
-          e.iCoo = e.iCo[spaEr]
-          return e
-        })
+      return this.entreprisesAll.filter(e => {
+        e.iCc = e.iC[spaEr]
+        e.iAa = e.iA[spaEr]
+        e.iBb = e.iB[spaEr]
+        e.iPrr = e.iPr[spaEr]
+        e.iCoo = e.iCo[spaEr]
+        return e
+      })
     },
     holdings () {
       let spaEr = this.spa + this.eR;
@@ -133,6 +144,8 @@ export default {
   },
   mounted () {
     this.initEntreprise();
+    console.log(this.holdingsAll, ' holdingsAll')
+    console.log(this.entreprisesAll, ' entrepriseAll')
   },
   created () {
     this.holdingsAll = this.$store.state.holdings

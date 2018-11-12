@@ -12,7 +12,7 @@
             </el-option>
           </el-select>
           <el-form class="area-wrap">
-            <el-form-item prop="desc" class="area-inner-wrap">
+            <el-form-item prop="desc">
               <el-input type="textarea" v-model="ruleForm.desc" class="area-style"></el-input>
             </el-form-item>
           </el-form>
@@ -84,6 +84,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/_global.scss";
+.area-style /deep/ .el-textarea__inner {
+  height: fill;
+}
 .area-style {
   height: 300px;
 }
@@ -111,7 +114,7 @@ export default {
 .mess {
   text-align: left;
   font-weight: 600;
-  color: rgba(128, 128, 128, 0.678);
+  color: rgba(128, 128, 128, 0.68);
 }
 .content-var {
   text-align: right;
