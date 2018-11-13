@@ -1,7 +1,7 @@
 <template>
   <div id="portefeuille">
     <div class="header" :class="[{active: spa == 's'},{active2: spa == 'p'},{active3: spa == 'a'}]">
-      <button class="header-button pointer" :class="{ active: spa == 's' }" @click="spaFilter('s')">Santé</button>
+      <button class="header-button pointer" :class="{ active: spa == 's' }"  @click="spaFilter('s')">Santé</button>
       <button class="header-button pointer" :class="{ active2: spa == 'p' }" @click="spaFilter('p')">Prévoyance</button>
       <button class="header-button pointer" :class="{ active3: spa == 'a' }" @click="spaFilter('a')">Autres risques</button>
     </div>
@@ -9,18 +9,30 @@
         <div class="type-title" v-bind:class="{ isActive: currentView == 'holding-table' }" @click="swapType('holding-table')">Liste des Holdings</div>
         <div class="type-title" v-bind:class="{ isActive: currentView == 'globEnt-table' }" @click="swapType('globEnt-table')">Liste des Entreprises</div>
       </div>
+
+      <div class="breadcrumbs">
+        <ul>
+          <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: $route.fullPath }" ><span @click="turnOffTable($route.name)" class="eachBread">{{$route.name}}</span></el-breadcrumb-item>
+            <el-breadcrumb-item v-for="(crumbs, index) in breadArray" :key="index"><span @click="turnOffTable(crumbs.trail, index)"  class="eachBread">{{crumbs.name}}</span></el-breadcrumb-item>
+          </el-breadcrumb>
+        </ul>
+      </div>
+      
       <div class="wrapping-search">
         <button class="button inner-button pointer" v-bind:class="{ fisActive: eR == 'e' }" @click="erFilter('e')">En cours</button>
         <button class="button inner-button pointer" v-bind:class="{ fisActive: eR == 'r' }" @click="erFilter('r')">Résiliés</button>
+      </div>
+      <div class="wrapping-search">
+        <button class="button inner-button pointer" @click="show('holding-table')">holding-table</button>
+        <button class="button inner-button pointer" @click="show('entreprise-table')">entreprise-table</button>
+        <button class="button inner-button pointer" @click="show('contrat-table')">contrat-table</button>
       </div>
       <!-- <button @click="holdEntFilter">LOG</button> -->
       <keep-alive><component :is="currentView" :holdings="holdings" :contrats="holdEntContrats" :entreprises="entreprises" :holdEntreprise="holdEntreprise" @holdEntRow="holdEntFilter" @holdEntContRow="holdEntContFilter"></component></keep-alive>
   </div>
 </template>
 <script>
-// import Prevoyance from "./_subs/Prevoyance.vue"
-// import Sante from "./_subs/Sante.vue"
-// import Risques from "./_subs/Risques.vue"
 
 import EntTable from "./tables/EntTable.vue"
 import AssTable from "./tables/AssTable.vue"
@@ -41,7 +53,8 @@ export default {
         eR: 'e',
         holdEnt: [],
         holdEntCon: [],
-        search: ''
+        search: '',
+        color: 'red',
       }
   },
 
@@ -55,6 +68,9 @@ export default {
     'prestation-table' : PresTable,
   },
   methods: {
+    show (param) {
+      this.currentView = param
+    },
 
     holdEntContFilter () {
       this.holdEntCon = this.$store.state.holdEntCont
@@ -62,8 +78,8 @@ export default {
     },
     holdEntFilter () {
       this.holdEnt = this.$store.state.holdEnt
+      console.log(this.holdEnt, 'holdent')
       this.currentView = 'entreprise-table'
-      console.log(this.holdEn, 'entreprises')
     },
     swapType(param) {
       this.currentView = param
@@ -78,20 +94,27 @@ export default {
     },
     initEntreprise () {
       this.holdingsAll.filter(d => {
-        let eAdd = {noh: d.noH}
-         return d.entreprises.filter(e => {
-           var obj = Object.assign({}, eAdd,e);
-          this.entreprisesAll.push(obj)
+        let eAdd = {noH: d.noH}
+        return d.entreprises.filter(e => {
+          e.noH = d.noH
+          this.entreprisesAll.push(e)
         })
       })
     },
-    // modifyData (data, filter) {
-    //     data.iCc = data.iC[filter]
-    //     data.iAa = data.iA[filter]
-    //     data.iBb = data.iB[filter]
-    //     data.iPrr = data.iPr[filter]
-    //     data.iCoo = data.iCo[filter]
-    // }
+    modifyData (data, filter) {
+
+        // data.iCc = data.iC[filter]
+        // data.iAa = data.iA[filter]
+        // data.iBb = data.iB[filter]
+        // data.iPrr = data.iPr[filter]
+        // data.iCoo = data.iCo[filter]
+
+        data.iCc = 2
+        data.iAa = 2
+        data.iBb = 2
+        data.iPrr = 2
+        data.iCoo = 2
+    }
   },
   computed: {
     holdEntContrats () {
@@ -106,13 +129,16 @@ export default {
     holdEntreprise () {
       let spaEr = this.spa + this.eR;
       return this.holdEnt.filter(e => {
-        // this.modifyData(e, spaEr);
-        e.iCc = e.iC[spaEr]
-        e.iAa = e.iA[spaEr]
-        e.iBb = e.iB[spaEr]
-        e.iPrr = e.iPr[spaEr]
-        e.iCoo = e.iCo[spaEr]
-        if (e.iC[spaEr] > 0) {
+        this.modifyData(e, 2);
+
+        // e.iCc = e.iC[spaEr]
+        // e.iAa = e.iA[spaEr]
+        // e.iBb = e.iB[spaEr]
+        // e.iPrr = e.iPr[spaEr]
+        // e.iCoo = e.iCo[spaEr]
+
+        // if (e.iC[spaEr] > 0) {
+          if (e.iCc > 0) {
           return e
         } else return
       })
@@ -120,23 +146,40 @@ export default {
     entreprises () {
       let spaEr = this.spa + this.eR;
       return this.entreprisesAll.filter(e => {
-        e.iCc = e.iC[spaEr]
-        e.iAa = e.iA[spaEr]
-        e.iBb = e.iB[spaEr]
-        e.iPrr = e.iPr[spaEr]
-        e.iCoo = e.iCo[spaEr]
+
+        e.iCc = 2
+        e.iAa = 2
+        e.iBb = 2
+        e.iPrr = 2
+        e.iCoo = 2
+
+        // e.iCc = e.iC[spaEr]
+        // e.iAa = e.iA[spaEr]
+        // e.iBb = e.iB[spaEr]
+        // e.iPrr = e.iPr[spaEr]
+        // e.iCoo = e.iCo[spaEr]
+
         return e
       })
     },
     holdings () {
       let spaEr = this.spa + this.eR;
       return this.holdingsAll.filter( h => {
-        h.iEe = h.iE[spaEr]
-        h.iCc = h.iC[spaEr]
-        h.iAa = h.iA[spaEr]
-        h.iBb = h.iB[spaEr]
-        h.iPrr = h.iPr[spaEr]
-        h.iCoo = h.iCo[spaEr]
+
+        h.iEe = 1
+        h.iCc = 1
+        h.iAa = 1
+        h.iBb = 1
+        h.iPrr = 1
+        h.iCoo = 1
+
+        // h.iEe = h.iE[spaEr]
+        // h.iCc = h.iC[spaEr]
+        // h.iAa = h.iA[spaEr]
+        // h.iBb = h.iB[spaEr]
+        // h.iPrr = h.iPr[spaEr]
+        // h.iCoo = h.iCo[spaEr]
+
         return h
       })
     },
@@ -144,8 +187,6 @@ export default {
   },
   mounted () {
     this.initEntreprise();
-    console.log(this.holdingsAll, ' holdingsAll')
-    console.log(this.entreprisesAll, ' entrepriseAll')
   },
   created () {
     this.holdingsAll = this.$store.state.holdings
@@ -202,7 +243,6 @@ export default {
 }
 .fisActive {
   background-color: white;
-  color: $button-color;
   cursor: default
 }
 .isActive {
@@ -210,7 +250,7 @@ export default {
   cursor: default
 }
 .wrapping-search {
-  padding: 0px 40px 10px 40px;
+  padding: 0px 40px 0px 40px;
 }
 .inner-button {
   padding: 0 10px;

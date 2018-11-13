@@ -7,7 +7,7 @@
                 <input class="base-search search-style" v-model="search" size="mini" placeholder="Recherchez par nom d'entreprise"/>
               </div> -->
                 <el-table-column type="selection" width="42"></el-table-column>
-                <el-table-column property="holding" label="NOM" ><template scope="scope" ><div class="data-wrapper md-txt entHover pointer" >{{scope.row.noh }}</div></template></el-table-column>
+                <el-table-column property="noH" label="NOM" ><template scope="scope" ><div class="data-wrapper md-txt entHover pointer" >{{scope.row.noH }}</div></template></el-table-column>
                 <el-table-column property="noC" label="ENTREPRISES" sortable min-width="120"><template scope="scope" ><div class="data-wrapper md-txt entHover pointer" >{{scope.row.noC}}</div></template></el-table-column>
                 <el-table-column property="contrats" label="CONTRAT" show-overflow-tooltip width="100"><template scope="scope" ><div class="data-wrapper pointer md-txt entHover">{{scope.row.iCc}}</div></template></el-table-column>
                 <el-table-column property="beneficiaire" label="NOMBRE D'ASSURES ET BENEFICIAIRES" show-overflow-tooltip width="230"> <template scope="scope" ><div class="data-wrapper pointer md-txt entHover">{{scope.row.iAa}} / {{scope.row.iBb}}</div></template></el-table-column>
@@ -54,16 +54,11 @@ export default {
   overflow-y: visible;
   height: auto;
 }
-.table-wrapping {
-}
-
-
-
 .entHover:hover {
   color: $entTable-color;
 }
 .e-border {
-  border-left: 4px solid $entTable-color;
+  border-top: 3px solid $entTable-color;
 }
 </style>
 

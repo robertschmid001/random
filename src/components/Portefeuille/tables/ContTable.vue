@@ -1,6 +1,6 @@
 <template>
     <div id="contrat-table" >
-        <button @click="log">Contracts</button>
+        <!-- <button @click="log">Contracts</button> -->
         <div class="table-wrapping">
             <el-table ref="multipleTable" :data="contrats" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}" class="c-border">
             <el-table-column type="selection" width="42"></el-table-column>
@@ -47,9 +47,15 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
+@import "../../../styles/_global.scss";
 
-
+.contHover:hover {
+  color: $contTable-color;
+}
+.c-border {
+  border-top: 3px solid $contTable-color;
+}
 
 
 </style>
