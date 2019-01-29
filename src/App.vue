@@ -1,10 +1,11 @@
 <template>
 
   <div id="app">
-    <el-container>
+    <el-container class="main-height" v-loading.fullscreen.lock="this.$store.state.fullscreenLoading">
         <el-header><MyHeader v-if="this.$store.state.authenticated"/></el-header>
         <MyNavbar class="navbar" v-if="this.$store.state.authenticated"/>
-        <el-main class="no-padding" ><router-view></router-view></el-main>
+        <el-main class="no-padding main" ><router-view></router-view></el-main>
+        <MyFooter/>
     </el-container>
   </div>
 
@@ -26,9 +27,6 @@ export default {
     Login,
   },
   mounted() {
-        if(!this.$store.state.authenticated) {
-        this.$router.replace({ name: "Login" });
-    }
   }
 }
 </script>
@@ -37,14 +35,17 @@ export default {
 @import "./styles/_global.scss";
 
 #app {
+  box-sizing: border-box;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
   color: #2c3e50;
-  height: 100%;
+  // height: auto;
+  height: 100vh;
   background-color: $background-global;
-  overflow: hidden;
+  // overflow: hidden;
+  overflow: auto;
+  box-sizing: border-box;
 
 }
 header.el-header {
@@ -52,5 +53,13 @@ header.el-header {
 }
 main.el-main {
   padding: 0 0 0 64px;
+  box-sizing: border-box;
 }
+.main-height {
+  box-sizing: border-box;
+}
+.main {
+  box-sizing: border-box;
+}
+
 </style>

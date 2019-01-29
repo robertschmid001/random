@@ -1,8 +1,8 @@
 <template>
   <div id="my-header">
     <el-row class="padding-left">
-      <el-col :span="20" :xs="16" class="wrapper"><img src="../../assets/logoCPMS.png" alt="" class="image">
-      <div class="rout-wrap">{{$route.name}}</div>
+      <el-col :sm="18" :xs="16" class="wrapper"><img src="../../assets/logoCPMS.png" alt="" class="image">
+      <div class="rout-wrap">{{headerRoute}}</div>
         <!-- <div class="breadcrumbs">
           <ul class="breadcrumbsStyle">
             <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -12,15 +12,16 @@
           </ul>
         </div> -->
       </el-col>
-      <el-col :span="4" :xs="8" v-click-outside="closeEvent">
-        <div @mouseover="deconnexion = true" class="btn-wrapper-con btn-gen" :class="{active: deconnexion == true}"><router-link to="/Profil" class="btn-inner"><font-awesome-icon icon="user-circle" class="size-header-icon"/>{{name}}</router-link></div>
-        <transition name="slide-out"><div v-show="deconnexion" class="btn-wrapper-dec btn-gen"><div class="prof-deco btn-inner pointer" @click="logOut">Deconnexion</div></div></transition>
+      <el-col :sm="6" :xs="8" v-click-outside="closeEvent">
+        <div @mouseover="deconnexion = true" class="btn-wrapper-con btn-gen dark-grey" :class="{active: deconnexion == true}"><router-link to="/Profil" class="btn-inner"><font-awesome-icon icon="user-circle" class=" size-header-icon"/>{{addData}}</router-link></div>
+        <transition name="slide-out"><div v-show="deconnexion" class="btn-wrapper-dec btn-gen"><div class="prof-deco btn-inner pointer" @click="logOut">Déconnexion</div></div></transition>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import axios from "axios"
 
 export default {
   name: 'MyHeader',
@@ -29,16 +30,28 @@ export default {
   data () {
     return {
       deconnexion: false,
-      name: this.$store.state.cabinet.nom_courtier
+      name: ''
     }
   },
   events: {
 
   },
+  computed:{
+    headerRoute () {
+      // console.log(this.$route.matched[0].path, 'this.$route.matched[0].path')
+      if(this.$route.matched[0].path === "/portefeuille") {
+        return "Mon Portefeuille clients"
+      } else return this.$route.name
+    },
+    addData () {
+      this.name = this.$store.state.cabinet.nom_courtier
+      return this.name
+    }
+  },
   methods: {
     toProfile () {
       this.$store.state.authenticated = false
-      this.$router.replace('Profile')
+      this.$router.replace('/profile')
     },
     mouseOver (){
       this.deconnexion = true;
@@ -49,9 +62,17 @@ export default {
       }
     },
     logOut () {
-      this.$store.state.authenticated = false
-      this.$router.replace('Login')
+      axios.post('https://courtier.cpms.fr/logout')
+      .then(response => {
+        if (response.data.status) {
+          this.$router.replace({ name: "Login" });
+          this.$store.state.authenticated = false
+        }
+      })
     },
+  },
+  mounted () {
+    this.name = this.$store.state.cabinet.nom_courtier
   },
   created () {
   },
@@ -67,6 +88,7 @@ export default {
 
 <style lang="scss" scoped>
 #my-header {
+  box-sizing: border-box;
     background-color: white;
     height: 60px;
     width: 100%;
@@ -75,8 +97,10 @@ export default {
       align-items: center;
       height: 100%;
       padding-left: 10px;
+      box-sizing: border-box;
     }
     .profile-style {
+      box-sizing: border-box;
       display: flex;
       align-items: center;
       height: 100%;
@@ -94,15 +118,17 @@ export default {
   flex-direction: row;
   display: flex;
   align-items: center;
+  height: 60px;
 }
 .rout-wrap {
   padding-left: 10px;
 }
 .image {
   width: 150px;
-  height: 60px;
+  // height: 60px;
   margin-right: 10px;
-  object-fit: contain;
+  // object-fit: contain;
+
   box-sizing: border-box;
 }
 .size-header-icon {

@@ -1,5 +1,18 @@
 $background-global: #e2e2ec;
 $button-color: rgb(4, 151, 151);
+//**Table colours
+$holTable-color: rgba(38, 211, 211, 0.7); //#26d3d3
+$entTable-color: rgba(137, 76, 250, 0.7); //#894cfa
+$assTable-color: rgba(253, 55, 55, 0.7); //#fd3737
+$cotTable-color: rgba(200, 253, 103, 0.7); //#c8fd67
+$prestTable-color: rgba(140, 253, 75, 0.7); //#8cfd4b
+$contTable-color: rgba(253, 178, 38, 0.7); //#fdb226
+.fontWeight {
+  font-weight: 550;
+}
+.dark-grey {
+  color:rgb(97, 96, 96);
+}
 .button {
     padding: 0;
     // max-width: 250px;
@@ -130,6 +143,14 @@ $button-color: rgb(4, 151, 151);
   font-size: 16px;
 }
 
+//**CHART EXPORT LIST
+
+.amcharts-amexport-item {
+  background-color: $button-color !important;
+  color: white!important;
+}
+.amcharts-amexport-top .amcharts-amexport-item>.amcharts-amexport-menu {
+}
 
 //**Transition
 
@@ -195,32 +216,32 @@ $button-color: rgb(4, 151, 151);
 
 //**Home-page colours
 .red {
-  background-color: rgba(255, 0, 0, 0.644);
-  border-radius: 0px 7px 0px 0px;
+  border: 1.5px solid $assTable-color;
+  // background-color: $assTable-color;
+  // border-radius: 0px 7px 0px 0px;
 }
 .orange {
-  background-color: rgba(255, 166, 0, 0.6);
+  // background-color: $contTable-color;
+  border: 1.5px solid $contTable-color;
 }
 .blue {
-  background-color: rgb(4, 172, 172);
-  border-radius: 7px 0px 0px 0px;
+  // background-color: $holTable-color;
+  border: 1.5px solid $holTable-color;
+  // border-radius: 7px 0px 0px 0px;
 }
 .purple {
-  background-color: rgba(119, 78, 196, 0.6);
+  // background-color: $entTable-color;
+  border: 1.5px solid $entTable-color;
 }
 .lgt-green {
-  background-color: rgb(212, 255, 131);
-  border-radius: 0px 0px 0px 7px;
+  // background-color: $cotTable-color;
+  border: 1.5px solid $cotTable-color;
+  // border-radius: 0px 0px 0px 7px;
 }
 .green {
-  background-color: rgba(114, 248, 37, 0.589);
-  border-radius: 0px 0px 7px 0px;
+  // background-color: $prestTable-color;
+  border: 1.5px solid $prestTable-color;
+  // border-radius: 0px 0px 7px 0px;
 }
 
-//**Table colours
-$holTable-color: rgba(4, 172, 172, 0.8); //#04abab
-$entTable-color: rgba(90, 61, 253, 0.8); //#5a3cfd
-$assTable-color: rgba(128, 31, 31, 0.8); //#801e1e
-$cotTable-color: rgba(160, 189, 32, 0.87); //#a0bc1f
-$prestTable-color: rgba(115, 173, 6, 0.904); //#73ac06
-$contTable-color: rgba(255, 177, 59, 0.9); //#ffb13b
+

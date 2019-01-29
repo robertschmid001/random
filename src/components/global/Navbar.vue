@@ -5,19 +5,19 @@
           <font-awesome-icon icon="bars" class="size2 collapse-icon" @click="changeCollapse"/>
         </div>
         <el-menu default-active="1" :router="true" :collapse="isCollapse" class="main-menu">
-        <el-menu-item index="/Accueil" class="hover border">
+        <el-menu-item index="/Accueil" class="hover border" title="Accueil">
           <font-awesome-icon icon="home" class="size-menu-icons"/>
           <span  class="padding-menu menu-title">Accueil</span>
         </el-menu-item>
-        <el-menu-item index="/portefeuille" class="hover border">
+        <el-menu-item index="/portefeuille" class="hover border" title="Mon Portefeuille clients">
           <font-awesome-icon icon="euro-sign" class="size-menu-icons"/>
-          <span class="padding-menu menu-title">Portefeuille</span>
+          <span class="padding-menu menu-title">Mon Portefeuille clients</span>
         </el-menu-item>
-        <el-menu-item index="/Recherche" class="hover border">
+        <el-menu-item index="/Recherche" class="hover border" title="Rechercher d'un assuré">
           <font-awesome-icon icon="user-friends" class="size-menu-icons"/>
-          <span class="padding-menu menu-title">Rechercher un assuré</span>
+          <span class="padding-menu menu-title">Rechercher d'un assuré</span>
         </el-menu-item>
-        <el-submenu index="4" class="">
+        <el-submenu index="4" class="" title="Extraction">
           <template slot="title">
             <div class="hover">
               <font-awesome-icon icon="file-export" class="size-menu-icons"/>
@@ -25,21 +25,21 @@
             </div>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/extraction" class="menu-title underline">Prestations</el-menu-item>
-            <el-menu-item index="4-2" class="menu-title underline">Cotisations</el-menu-item>
-            <el-menu-item index="4-3" class="menu-title underline">Assurés</el-menu-item>
-            <el-menu-item index="4-4" class="menu-title underline">Contrats</el-menu-item>
+            <el-menu-item index="/extraction" class="menu-title underline" @click="changeExtr('prestations')">Prestations</el-menu-item>
+            <el-menu-item index="/extraction" class="menu-title underline" @click="changeExtr('cotisations')">Cotisations</el-menu-item>
+            <el-menu-item index="/extraction" class="menu-title underline" @click="changeExtr('assures')">Assurés</el-menu-item>
+            <el-menu-item index="/extraction" class="menu-title underline" @click="changeExtr('contrats')">Contrats</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="/Documents" class="hover border">
+        <el-menu-item index="/Documents" class="hover border" title="Documents">
           <font-awesome-icon icon="file-alt" class="size-menu-icons"/>
           <span class="padding-menu menu-title">Documents</span>
         </el-menu-item>
-        <el-menu-item index="/Actualites" class="hover border">
+        <!-- <el-menu-item index="/Actualites" class="hover border">
           <font-awesome-icon icon="newspaper" class="size-menu-icons"/>
           <span class="padding-menu menu-title">Actualités</span>
-        </el-menu-item>
-        <el-menu-item index="/messagerie" class="hover border">
+        </el-menu-item> -->
+        <el-menu-item index="/messagerie" class="hover border" title="Messagerie">
           <font-awesome-icon icon="envelope" class="size-menu-icons"/>
           <span class="padding-menu menu-title">Nous contacter</span>
         </el-menu-item>
@@ -60,6 +60,26 @@ export default {
     }
   },
   methods: {
+    changeExtr (data) {
+      switch(data)
+            {
+                case "prestations":
+                    return this.$store.state.extrType = data;
+
+                case "cotisations":
+                    return this.$store.state.extrType = data;
+
+                case "assures":
+                    return this.$store.state.extrType = data;
+
+                case "contrats":
+                    return this.$store.state.extrType = data;
+
+                default:
+                console.log('DEFAULT')
+                    return ""
+            }
+    },
     changeCollapse () {
       this.isCollapse = !this.isCollapse
     },
@@ -76,11 +96,12 @@ export default {
 
 #my-navbar {
   background-color: white;
+  box-sizing: border-box;
   position: absolute;
   left: 0;
   top: 0px;
   height: 100%;
-  z-index: 5;
+  z-index: 6;
   box-shadow: 13px 0px 19px -19px;
   h1 {
     margin: 0px;

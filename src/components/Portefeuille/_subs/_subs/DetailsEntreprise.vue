@@ -1,33 +1,50 @@
 <template>
     <div id="detailsEntreprise">
-        <div class="title">{{this.detailsEnt.name}} <font-awesome-icon icon="times" class="close-icon"  @click="close"/></div>
-        <el-row>
-            <el-col :span="7" class="block-wrapper">
-                <div class="details-wrapper">
-                    <div class="content">{{this.detailsEnt.NumSiret}}</div><br>
-                     <div class="descrip">n° siret</div>
-                </div>
-                
-            </el-col>
-            <el-col :span="7" class="block-wrapper">
-                <div class="details-wrapper">
-                    <div class="content">{{this.detailsEnt.codeNaf}}</div>
-                    <div class="descrip">code Naf</div>
-                </div>
-            </el-col>
-            <el-col :span="7" class="block-wrapper">
-                <div class="details-wrapper">
-                    <div class="content">{{this.detailsEnt.adresse}}</div>
-                </div>
-            </el-col>
-        </el-row>
+        <div class="wrapper">
+            <div class="title"><h2>{{this.aEntDet.nom_client}}</h2> <font-awesome-icon icon="times" class="close-icon pointer"  @click="close"/></div>
+            <el-row>
+                <el-col :span="24" class="block-wrapper">
+                    <div class="details-wrapper">
+                        <div class="content">{{this.aEntDet.num_siret}}</div><br>
+                        <div class="descrip">N° Siret</div>
+                    </div>
+                </el-col>
+                <el-col :span="24" class="block-wrapper">
+                    <div class="details-wrapper">
+                        <div class="content">{{this.aEntDet.code_naf}}</div>
+                        <div class="descrip">Code Naf</div>
+                    </div>
+                </el-col>
+                <el-col :span="24" class="block-wrapper">
+                    <div class="details-wrapper">
+                        <div class="content">
+                            {{this.aEntDet.adresse}}, {{this.aEntDet.adresse_comp}} <br>
+                            {{this.aEntDet.cp}} {{this.aEntDet.ville}}
+                        </div>
+                        <div class="descrip">Adresse</div>
+                    </div>
+                </el-col>
+                <el-col :span="24" class="block-wrapper">
+                    <div class="details-wrapper">
+                        <div class="content">{{this.aEntDet.date_entre}}</div>
+                        <div class="descrip">Date d'entrée</div>
+                    </div>
+                </el-col>
+                <el-col :span="24" class="block-wrapper">
+                    <div class="details-wrapper">
+                        <div class="content" v-if="this.aEntDet.sortie !== '0000-00-00'">{{this.aEntDet.sortie}}</div>
+                        <div class="descrip">Date de résiliation</div>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
     name: 'DetailsEntreprise',
-    props: ['detailsEnt'],
+    props: ['aEntDet'],
     data () {
       return {
 
@@ -37,6 +54,11 @@ export default {
     close () {
         this.$emit('close');
     },
+  },
+  mounted () {
+  },
+  created () {
+
   }
 }
 </script>
@@ -45,23 +67,41 @@ export default {
 @import "../../../../styles/_global.scss";
 
 #detailsEntreprise {
-    padding: 40px;
+    background-color: rgba(0, 0, 0, 0.349);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.wrapper {
     background-color: $background-global;
-    height: fill;
+    height: auto;
+    width: auto;
+    box-sizing: border-box;
+    margin-right: 64px;
+    padding: 30px;
+    position: relative;
+}
+h2 {
+    margin: 0;
+    font-size: 20px;
+    padding-bottom: 20px;
 }
 .title {
     font-size: 30px;
-    position: relative;
 }
 .close-icon {
     position: absolute;
-    top: 0;
+    top: 10px;
     right: 15px;
+    font-size: 20px;
 }
 .content {
     color: $button-color;
     font-weight: 600;
     font-size: 18px;
+    box-sizing: border-box;
 }
 .descrip {
     position: absolute;
@@ -69,19 +109,20 @@ export default {
     left: 20px;
     font-style: italic;
     font-size: 12px;
+    box-sizing: border-box;
 }
 .details-wrapper {
     position: relative;
     display: flex;
-    padding: 20px;
-    height: 60px;
+    padding: 20px 0px;
     justify-content: center;
     align-items: center;
     background-color: white;
     border-radius: 7px;
+    box-sizing: border-box;
 }
 .block-wrapper {
-    padding: 30px 40px 0 0;
+    padding: 10px 0;
 }
 
 

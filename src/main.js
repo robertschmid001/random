@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import axios from "axios"
 
 import router from './router'
 import { store } from './store/Store'
@@ -13,6 +14,7 @@ import ElementUI from 'element-ui'
 
 import './element-variables.scss'
 import Lodash from 'lodash'
+import JsonExcel from 'vue-json-excel'
 
 import './styles/_global.scss';
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -37,7 +39,10 @@ import {
   faLandmark,
   faHistory,
   faDownload,
-  faPaperclip
+  faPaperclip,
+  faPhoneSquare,
+  faFolderOpen,
+  faSquare
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -50,14 +55,87 @@ Vue.locale('fr', frLocale)
 //   Vue.locale(lang, locales[lang])
 // })
 
-library.add(faPaperclip,faBars, faInfoCircle, faUserCircle, faChartPie, faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
+library.add(faSquare, faFolderOpen, faPhoneSquare, faPaperclip, faBars, faInfoCircle, faUserCircle, faChartPie, faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
 Vue.use(ElementUI);
 Vue.use(Lodash)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('downloadExcel', JsonExcel)
 Vue.use(Vuelidate)
 
 
 Vue.config.productionTip = false
+
+Vue.mixin({
+  methods: {
+    getCabinets: function () {
+      axios.post('https://courtier.cpms.fr/getCourtier')
+        .then(response => {
+          this.$store.state.holdings = response.data.holding
+          this.$store.state.cabinet = response.data.cabinet
+          this.$store.state.coCourtiers = response.data.coCourtiers
+          console.log('=> holdings, cabinet, cocourtier')
+        })
+    },
+    getCabinetInfo: function () {
+      axios.post('https://courtier.cpms.fr/getCourtier')
+        .then(response => {
+          this.$store.state.cabinet = response.data.cabinet
+          this.$store.state.coCourtiers = response.data.coCourtiers
+          console.log('=> cabinet, cocourtier')
+        })
+    },
+    getCotisation: function () {
+      axios.post('https://courtier.cpms.fr/getCotisation')
+        .then(response => {
+          this.$store.state.cotisations = response.data
+          console.log('=> cotisations')
+        })
+    },
+    getAssure: function () {
+      axios.post('https://courtier.cpms.fr/getAssure')
+        .then(response => {
+          this.$store.state.assure = response.data
+          console.log('=> assure')
+        })
+    },
+    getCourtierDocs: function () {
+      axios.post('https://courtier.cpms.fr/getCourtierDocs')
+        .then(response => {
+          this.$store.state.docs = response.data
+          console.log('=> courtierDocs')
+
+        })
+    },
+    getInfoAccueil: function () {
+      axios.post('https://courtier.cpms.fr/getMainInfo')
+        .then(response => {
+          this.$store.state.Main = response.data
+          console.log('=> getMainInfo')
+        })
+    },
+    getTranslation: function () {
+      axios.post('https://courtier.cpms.fr/getTranslation')
+        .then(response => {
+          this.$store.state.translation = response.data
+          console.log('=> getTranslation')
+        })
+    },
+    getAppel: function () {
+      axios.post('https://courtier.cpms.fr/getAppel')
+        .then(response => {
+          this.$store.state.appel = response.data
+          console.log('=> getAppel')
+        })
+    },
+    getDocs: function () {
+      axios.post('https://courtier.cpms.fr/getDocs')
+        .then(response => {
+          this.$store.state.tableDocs = response.data
+          console.log('=> getDocs')
+        })
+    }
+  }
+})
 
 Vue.directive('click-outside', {
   bind: function (el, binding, vnode) {
@@ -83,3 +161,4 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+

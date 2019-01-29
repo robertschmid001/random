@@ -1,70 +1,317 @@
 <template>
     <div id="holding-table" >
+<!-- :default-sort = "{prop: 'noH', order: 'ascending'}" -->
         <div class="table-wrapping">
-            <el-table ref="multipleTable" height="500" :data="holdings" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" :default-sort = "{prop: 'nom', order: 'ascending'}" class="h-border">
-                <el-table-column type="selection" width="42" ></el-table-column>
-                <el-table-column property="noH" label="NOM" sortable min-width="150"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH}}</div></template></el-table-column>
-                <el-table-column property="entreprises" label="ENTREPRISES" sortable width="117"><template scope="scope" ><div class="data-wrapper md-txt pointer holHover" @click="holdingRowData(scope.row.entreprises,)">{{scope.row.iEe}}</div></template></el-table-column>
-                <el-table-column property="contrats.length" label="CONTRAT" sortable width="100"><template scope="scope"><div class="data-wrapper pointer md-txt holHover">{{scope.row.iCc}}</div></template></el-table-column>
-                <el-table-column property="beneficiaire" label="NOMBRE D'ASSURES ET BENEFICIAIRES" width="230"><template scope="scope" ><div class="data-wrapper pointer md-txt holHover">{{scope.row.iAa}}/{{scope.row.iBb}}</div></template></el-table-column>
-                <el-table-column property="totalCotisations" label="COTISATIONS" sortable width="115">
+            <el-table ref="multipleTable" border :max-height="700" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true"  class="h-border">
+                <el-table-column type="selection" render-header="Sélectionner" width="42" ></el-table-column>
+                <el-table-column property="noH" label="HOLDING" prop="noH" sortable min-width="220"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH}} <br> {{scope.row.nuH}} </div></template></el-table-column>
+                <el-table-column property="Entreprises" prop="iEe" sortable label="NOMBRE D'ENTREPRISES" width="180"><template slot-scope="scope" ><div class="data-wrapper md-txt pointer holHover" @click="holdingRowData(scope.row.entreprises, 'e', scope.row)">{{scope.row.iEe}}</div></template></el-table-column>
+                <el-table-column property="NOMBRE DE CONTRATS" prop="iCc" sortable label="NOMBRE DE CONTRATS" width="170"><template slot-scope="scope"><div class="data-wrapper pointer md-txt holHover" @click="holdingRowData(scope.row.entreprises, 'c', scope.row)">{{scope.row.iCc}}</div></template></el-table-column>
+                <el-table-column property="beneficiaire" prop="iAa" sortable label="NOMBRE D'ASSURES ET NOMBRE DE BENEFICIAIRES" width="190"><template slot-scope="scope" ><div class="data-wrapper pointer md-txt holHover"  @click="holdingRowData(scope.row.entreprises, 'a', scope.row.noH)">{{scope.row.iAa}}/{{scope.row.iBb}}</div></template></el-table-column>
+                <el-table-column property="totalCotisations" label="COTISATIONS ENCAISSEES" width="200">
                 <template slot-scope="scope">
                     <el-popover trigger="hover" placement="top">
-                    <span>date: waiting info</span>
-                    <div slot="reference" class="name-wrapper"><div class="data-wrapper pointer md-txt holHover">{{scope.row.iCoo}}</div></div>
+                        <span>{{new Date().getFullYear()}}: <font-awesome-icon icon="square" class="cGreen fontWeight"/><br>{{new Date().getFullYear()-1}}: <font-awesome-icon icon="square" class="cRed"/></span>
+                        <div slot="reference" class="name-wrappe"><div class="data-wrapper pointer md-txt align-right"  @click="holdingRowData(scope.row.entreprises, 'cot')"><div class="cGreen fontWeight">{{scope.row.iCoo[0]}}</div><div class="cRed fontWeight">{{scope.row.iCoo[1]}}</div></div></div>
                     </el-popover>
                 </template>
                 </el-table-column>
-                <el-table-column property="totalPrestations" label="PRESTATIONS" sortable width="115"><template scope="scope" >{{scope.row.iPrr}}<div class="data-wrapper pointer md-txt holHover"></div></template></el-table-column>
-                <el-table-column property="totalTauxTele" label="TAUX TELETRANSMISSION" sortable width="180"><template scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="35" color="#04abab"></el-progress></template></el-table-column>
-                <el-table-column property="documents" label="DOCUMENTS" width="85" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.Documents" icon="download" class="size-export pointer holHover"/></template></el-table-column>
-                <el-table-column property="typologie" label="TYPOLOGIE DES APPELS" width="160" style="text-align: center;"><template scope="scope"><font-awesome-icon v-if="scope.row.typologie" icon="chart-pie" class="size-export pointer holHover" @click="openTypa" /></template></el-table-column>
+                <el-table-column property="totalPrestations" label="PRESTATIONS REGLEES" width="180">
+                    <template slot-scope="scope">
+                        <el-popover trigger="hover" placement="top">
+                            <span>{{new Date().getFullYear()}}: <font-awesome-icon icon="square" class="cGreen fontWeight"/><br>{{new Date().getFullYear()-1}}: <font-awesome-icon icon="square" class="cRed"/></span>
+                            <div slot="reference" class="name-wrappe"><div class="data-wrapper md-txt align-right"><div class="cGreen fontWeight">{{scope.row.iPrr[0]}}</div><div class="cRed fontWeight">{{scope.row.iPrr[1]}}</div></div></div>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+                <el-table-column property="totalTauxTele" v-if="actFilter === 's'" prop="iTt" sortable label="TAUX DE TELETRANSMISSION" width="200"><template slot-scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="formatTaux(scope.row.iTt)" color="#26d3d3"></el-progress></template></el-table-column>
+                <el-table-column property="documents" label="DOCUMENTS" width="90" style="text-align: center;">
+                    <template slot-scope="scope">
+                        <el-popover trigger="hover" placement="right" class="align-center">
+                            <div class="align-center">
+                                <ul>
+                                    <li v-for="(doc, index) in filterDocsholding(scope.row.nuH)" :key="index"><a :href="'/getDoc/' + doc.id" target="_blank" class="align-center"><font-awesome-icon icon="file-alt" class="icons align-center"/>{{doc.fn}}</a></li>
+                                </ul>
+                            </div>
+                            <div slot="reference" class="name-wrappe"><font-awesome-icon icon="folder-open" class="size-export pointer holHover"/></div>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+                <el-table-column property="typologie" v-if="actFilter === 's'" label="TYPOLOGIE DES APPELS TELEPHONIQUE" width="240" style="text-align: center;"><template slot-scope="scope"><div class="align-center" @click="getTypo(scope.row.nuH)" title="Typologie des appels" ><font-awesome-icon icon="phone-square" class="size-export pointer holHover" /></div></template></el-table-column>
+                <el-table-column type="selection" width="42" ></el-table-column>
             </el-table>
         </div>
+
+        <el-pagination v-if="pagination"  @current-change="handleCurrentChange" :current-page.sync="currentPage"
+            :page-size="100" layout="total, prev, pager, next" :total="itemsCount">
+        </el-pagination>
+        <typo-chart v-if="typoChart" class="typoChart" @close="closeTypo" :name="this.name" :typoChartData="this.typoData" />
+        <select-box v-if="multipleSelect.length > 0" :selection="this.multipleSelect" :current="this.name" />
     </div>
 </template>
 <script>
+import SelectBox from './../SelectBox.vue'
+import TypoChart from './../_subs/charts/_subs_charts/TypoChart.vue'
+import Lodash from 'lodash'
+
 export default {
     name: 'HolTable',
+    props: ['holdings', 'actFilter', 'search'],
     data () {
         return {
-            holdEnt:[],
+            filteredDocs: [],
+            docs:[],
+            typoData:[],
+            typoChart: false,
+            multipleSelect: [],
+            name:'HolTable',
+            pagination: false,
+            currentPage: 1,
+            n: 0,
+            p: 99,
+            amount: 0,
         }
+    },
+    components:{
+        'select-box': SelectBox,
+        'typo-chart': TypoChart
+    },
+    computed: {
+        itemsCount () {
+            var count = this.amount
+            return count
+        },
+        dataPagination () {
+            var self = this;
+            if (!this.holdings || this.holdings.length === 0) return [];
+            var data = this.holdings;
+
+            if(this.search.length >= 3) {
+                const filtered = data.filter(function (holding) {
+                return holding.noH.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
+                || holding.nuH.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
+            });
+            if (filtered) {
+                this.amount = filtered.length
+                this.pagination = true
+                if (this.currentPage === 1 ){
+                    this.n = 0;
+                    this.p = 99;
+                    return filtered.slice(this.n,this.p);
+                }
+                if (this.currentPage > 1) {
+                    this.p = 0 + 100 * this.currentPage;
+                    this.n = this.p - 100;
+                    return filtered.slice(this.n,this.p);
+                }
+            }
+            } else
+            this.amount = data.length
+            this.pagination = true
+            if (this.currentPage === 1 ){
+                this.n = 0;
+                this.p = 99;
+                return data.slice(this.n,this.p);
+            }
+            if (this.currentPage > 1) {
+                this.p = 0 + 100 * this.currentPage;
+                this.n = this.p - 100;
+                return data.slice(this.n,this.p);
+            }
+        }
+    },
+    created () {
+        if (this.holdings.length > 99 ) this.pagination = true;
+    },
+    mounted () {
+        this.docs = this.$store.state.tableDocs
+        this.search = ''
     },
     methods: {
-        holdingRowData (data) {
-            console.log(data, 'data holding row')
-            this.$store.state.holdEnt = data;
-            this.$emit('holdEntRow')
+        sort({ column, prop, order }) {
+        // doBackEndSorting(this.sortPropMap[prop], order)
+            // console.log(prop, order, column, 'sort order');
+        },
+        filterDocsholding(data) {
+            var allDocs = this.docs
+            if (allDocs) {
+                var filteredDocs = [];
+                    _.find(allDocs, function(doc){
+                        if (doc.nh === data) {
+                        filteredDocs.push(doc)
+                        }
+                    }
+                );
+                return filteredDocs
+            } else {
+                return
+            }
+        },
+        closeTypo () {
+            this.typoChart = false;
+        },
+        getTypo (data) {
+            this.typoData = data
+            this.typoChart = true
+        },
+        formatTaux (data) {
+            return parseInt(data)
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val;
+        },
+        clickLog(data) {
+            // console.log(data, 'data iPrr')
+        },
+        // handleSizeChange(val) {
+        //     console.log(`${val} items per page`);
+        // },
+        // handleCurrentChange(val) {
+        //     console.log(`current page: ${val}`);
+        // },
+        holdingRowData (data, id, parent) {
+            if (id === 'e') {
+                this.$store.state.holdEnt = data;
+                this.$emit('holdEntRow')
+                // this.$router.push({ name: 'entreprise', params:{hol:data[0].noH.toLowerCase(), nuH:data[0].nuH}})
+            }
+            if (id === 'c') {
+                var filteredData = []
+                data.filter( e => {
+                    if (e.contracts === false) {
+                        return
+                    } else
+                        e.contracts.forEach( f => {
+                            f.noC = e.noC
+                            f.nuC = e.nuC
+                            f.noH = parent.noH
+                            f.nuH = parent.nuH
+                            filteredData.push(f)
+                        })
+                })
+                this.$store.state.holdEntCont = filteredData
+                this.$store.state.parentBread = filteredData[0].noH.toLowerCase()
+                this.$emit('holdContRow')
+                this.$router.push({ name: 'contrats', params:{hol:this.$store.state.parentBread.toLowerCase(), nuH:data.nuH}})
+            }
+            if (id === 'a') {
+                var assurefilter = this.$store.state.assure
+                var filteredAssure = []
+                data.filter( e => {
+                    if (e.contracts === false) {
+                        return
+                    } else
+                    e.contracts.forEach( f => {
+                        _.find(assurefilter, function(assure){
+                            if (assure.c.n === f.n) {
+                                assure.noC = e.noC
+                                assure.nuC = e.nuC
+                                assure.noH = e.noH
+                                assure.nuH = e.nuH
+                                filteredAssure.push(assure)
+                            }
+                        })
+                    })
+                })
+                this.$store.state.filteredAssures = filteredAssure
+                this.$store.state.parentBread = filteredAssure[0].noH.toLowerCase()
+                this.$emit('enterAssure')
+                this.$router.push({ name: 'assures', params:{hol: this.$store.state.parentBread.toLowerCase(), nuH: data[0].nuH}})
+            }
+            if (id === 'cot') {
+                var cotFilter = this.$store.state.cotisations
+                var filteredCotisation = []
+                data.filter( e => {
+                    e.contracts.forEach( f => {
+                        _.find(cotFilter, function(cotisation){
+                            if (cotisation.h === e.nuH && cotisation.c === f.n) {
+                                cotisation.noC = e.noC
+                                cotisation.nuC = e.nuC
+                                cotisation.noH = e.noH
+                                cotisation.nuH = e.nuH
+                                cotisation.l = f.l
+                                cotisation.l1 = f.l1
+                                cotisation.l2 = f.l2
+                                filteredCotisation.push(cotisation)
+                            }
+                        })
+                    })
+                })
+                this.$store.state.filteredCotisations = filteredCotisation
+                this.$store.state.parentBread = filteredCotisation[0].noH
+                this.$emit('enterCotisation')
+                this.$router.push({ name: 'cotisations', params:{hol: this.$store.state.filteredCotisations[0].noH.toLowerCase(), nuH: this.$store.state.filteredCotisations[0].nuH.toLowerCase()} })
+            }
         },
         toggleSelection(rows) {
-        if (rows) {
-            rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-            });
-        } else {
-            this.$refs.multipleTable.clearSelection();
-        }
+            if (rows) {
+                rows.forEach(row => {
+                this.$refs.multipleTable.toggleRowSelection(row);
+                });
+            } else {
+                this.$refs.multipleTable.clearSelection();
+            }
         },
         handleSelectionChange(val) {
-        this.multipleSelection = val;
-        }
-    },
-    props: ['holdings'],
+            this.multipleSelect = val;
+            // console.log(this.multipleSelect,' multiple selection')
+        },
+    }
 }
 </script>
 <style lang="scss" scoped>
 @import "../../../styles/_global.scss";
-
 #holding-table {
-    overflow-y: visible;
+    // position: relative;
+    box-sizing: border-box;
+    padding-bottom: 41px;
+}
+a {
+text-decoration: none;
+color: black;
+}
+ul {
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+a:hover {
+color: $button-color;
+}
+.table-wrapping {
     height: auto;
+    box-sizing: border-box;
+}
+.typoChart {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .h-border {
   border-top: 3px solid $holTable-color;
 }
 .holHover:hover {
   color: $holTable-color;
+}
+.holHover {
+  font-weight: 550;
+  color: rgb(105, 105, 105);
+}
+.cGreen {
+    color: green;
+}
+.cRed {
+color: rgba(0, 60, 255, 0.726);
+}
+.size-export {
+  font-size: 20px;
+}
+.size-export:hover {
+  color: $holTable-color
+}
+.el-pagination {
+  display: flex;
+  justify-content: center;
 }
 
 </style>

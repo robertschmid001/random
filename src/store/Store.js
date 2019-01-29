@@ -18,7 +18,6 @@ export const store = new Vuex.Store({
         tableHeader: true,
         activeAssures: false,
         detailsEntreprise: false,
-
         authenticated: "",
         newsLetters: [
             {
@@ -66,11 +65,28 @@ export const store = new Vuex.Store({
                 imgUrl: require('../assets/image2.jpg')
             },
         ],
+        fullscreenLoading: false,
         holdings: [],
         cabinet: [],
         holdEnt: [],
         holdEntCont: [],
+        translation: [],
+        assure: [],
+        filteredCotisations: [], //added
+        cotisations: [],
+        filteredAssures: [],
+        multSelectStore: [],
+        selection:[], //added
+        selectedItems: [], //added
+        parentBread: [], //added
+        breadArray: [], //added
+        docs: [], //added
+        extrType: [], //added
+        Main: [], //added
+        appel: [], //added
+        tableDocs: [], //added
+        coCourtiers: [],
         mutations: {
-        }
-    }
+        },
+    },
 })

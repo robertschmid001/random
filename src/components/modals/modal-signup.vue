@@ -9,7 +9,7 @@
               Merci de nous contacter à l'adresse suivante: <a href="mailto:dcommerciale@cpms.fr">dcommerciale@cpms.fr</a>
             </p>
             </div>
-            <span class="size text-size-small pointer text-decoration" @click="close">Se connecter</span>
+            <span class="size text-size-small pointer text-decoration" @click="close">Retour</span>
         </section>
 
     </div>
@@ -23,7 +23,7 @@
 
     methods: {
       close() {
-        this.$emit('close');
+      this.$router.push({name: 'Login'})
       },
     },
   };

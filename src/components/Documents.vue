@@ -1,44 +1,24 @@
 <template>
   <div id="documents">
+    <div v-if="this.docs">
       <el-collapse v-model="activeNames" @change="handleChange">
-        <el-collapse-item name="1">
-          <template slot="title">
-            <div class="col-head">
-              Guides pratiques
-            </div>
-          </template>
-          <ul>
-            <li><font-awesome-icon icon="file-alt" class="icons"/>Présentation de gestion</li>
-            <li><font-awesome-icon icon="file-alt" class="icons"/>Présentation extranet</li>
-            <li><font-awesome-icon icon="file-alt" class="icons"/>Guide BIA</li>
-          </ul>
-        </el-collapse-item>
-        <el-collapse-item name="2">
-          <template slot="title">
-            <div class="col-head">
-              Formulaires
-            </div>
-          </template>
-          <ul>
-            <li><font-awesome-icon icon="file-alt" class="icons"/>Formulaire de portabilité</li>
-            <li><font-awesome-icon icon="file-alt" class="icons"/>Formulaire de maintien de garantie (loi Evin et portabilité)</li>
-            <li><font-awesome-icon icon="file-alt" class="icons"/>BIA</li>
-          </ul>
-        </el-collapse-item>
-        <el-collapse-item name="3">
-          <template slot="title">
-            <div class="col-head">
-              Mes documents
-            </div>
-          </template>
-          <ul>
-            <li><font-awesome-icon icon="file-alt" class="icons"/>Un document très important</li>
-            <li><font-awesome-icon icon="file-alt" class="icons"/>Un autre</li>
-            <li><font-awesome-icon icon="file-alt" class="icons"/>Puis un dernier</li>
-            <li><font-awesome-icon icon="file-alt" class="icons"/>...Ou pas.</li>
-          </ul>
-        </el-collapse-item>
+        <div v-for="(doc, index) in docs" :key="index" >
+          <el-collapse-item :name="nameOfFile(index)">
+            <template slot="title" class="titlehead">
+              <div class="col-head">
+                {{doc.fn}}
+              </div>
+            </template>
+            <ul>
+              <li v-for="(file, index) in doc.files" :key="index"><a :href="'/getCourtierDoc/' + file.id" target="_blank" ><font-awesome-icon icon="file-alt" class="icons"/>{{file.fn}}</a></li>
+            </ul>
+          </el-collapse-item>
+        </div>
       </el-collapse>
+    </div>
+    <div v-else>
+      <h4>Aucun document n'a été trouvé</h4>
+    </div>
 
   </div>
 </template>
@@ -48,16 +28,40 @@ export default {
   name: 'Documents',
   data() {
     return {
-      activeNames: ['1']
+      activeNames: [],
+      docs: [],
     };
   },
   props: {
   },
+  computed: {
+
+  },
   methods: {
-  handleChange(val) {
-        console.log(val);
-      }
-  }
+    nameOfFile (index) {
+      return index
+    },
+    handleChange(val) {
+          console.log(val);
+        },
+    setData () {
+      this.$store.state.fullscreenLoading = true;
+      this.getInfoAccueil();
+      this.getCabinetInfo();
+      this.getCourtierDocs();
+      setTimeout(() => {
+        this.docs = this.$store.state.docs
+        this.$store.state.fullscreenLoading = false;
+      }, 500);
+    }
+    },
+    mounted () {
+      this.docs = this.$store.state.docs
+    },
+    created () {
+      if (this.$store.state.docs.length === 0) return this.setData();
+    }
+
 }
 </script>
 
@@ -65,8 +69,9 @@ export default {
 @import "../styles/_global.scss";
 
 #documents {
-  padding: 30px;
+  padding: 30px 30px 0 30px;
   box-sizing: border-box;
+  background-color: $background-global;
   .col-head {
     padding-left: 20px;
     font-size: 15px;
@@ -86,9 +91,26 @@ export default {
   li {
     cursor: pointer;
   }
-  li:hover {
+  .el-collapse-item /deep/ .is-active {
+    background-color: $button-color;
+    color: white;
+  }
+  .el-collapse-item /deep/ .el-collapse-item__header .is-active {
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+     .el-collapse-item__arrow {
+     color: white;
+ }
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  a:hover {
     color: $button-color;
   }
-
+  h4 {
+    text-align: center;
+  }
 }
 </style>

@@ -3,9 +3,9 @@
     <div class="login-container  align-center">
     <img src="../assets/cpms_logo_trans.png" alt="">
       <div class="outer-wrapper">
-        <el-row>
+        <el-row v-loading.fullscreen.lock="isLoading">
           <div class="inner-wrapper">
-            <form v-on:submit.prevent="submit">
+            <form v-on:submit.prevent="submit" autocomplete="on">
               <el-row>
                 <el-col :span="24" class="pword-error-wrapper">
                   <div class="input-icon-wrapper">
@@ -20,27 +20,30 @@
               </el-row>
               <el-row>
                 <el-col :span="12" class="pword-wrapper">
-                  <span class="text-size-small pointer text-decoration width" @click="showModalLostPassword">Mot de passe oublié ?</span>
+                  <span class="text-size pointer text-decoration width" @click="showModalLostPassword">Mot de passe oublié</span>
                 </el-col>
                 <el-col :span="12">
                   <el-col :span="24">
-                      <button type="submit" class="size text-size-small button" @click="submit" >Se connecter</button>
+                      <button type="button" class="size text-size-small button pointer" @click="submit" >Se connecter</button>
                   </el-col>
                 </el-col>
               </el-row>
             </form>
-            <div class="error" v-if="$v.id.$error"> Merci de renseigner un format de mail ou un N° Courtier valide</div>
-            <div class="error" v-if="$v.id.customValidate.$error"> Merci de renseigner un format de mail ou un N° Courtier valide</div>
-            <div class="error" v-if="$v.password.$error">veuillez saisir votre mot de passe</div>
+            <div class="error" v-if="$v.id.$error"> Vous avez saisi un identifiant ou un mot de passe incorrect.</div>
+            <div class="error" v-if="$v.id.customValidate.$error"> Merci de saisir une adresse email ou un n° de courtier </div>
+            <div class="error" v-if="$v.password.$error">Merci de saisir votre mot de passe </div>
+            <div class="error" v-if="errorMessage">{{setError}}</div>
           </div>
         </el-row>
       </div>
       <el-row>
-        <el-col :span="24"><span class="text-size-small pointer" @click="showModalCreate">Vous n'avez pas encore de compte ? <span class="text-decoration">Contactez-nous</span></span></el-col>
+        <div  class="bottom-wrapper">
+        <el-col :span="12"><div class="text-size pointer bot-cont" @click="showModalCreate">Vous n'avez pas encore de compte ? <div class="text-decoration">Contactez-nous</div></div></el-col>
+        <el-col :span="12" class="bottom-wrap"><button type="button" class="size text-size-small style bouton pointer" @click="showModalInitPassword" >Première connexion</button></el-col>
+        </div>
       </el-row>
     </div>
-    <transition name="slide-fade"><modal-password v-show="isModalVisibleP" @close="closeModal"/></transition>
-    <transition name="slide-fade"><modal-signup v-show="isModalVisible" @close="closeModal"/></transition>
+    <transition name="slide-fade"><router-view></router-view></transition>
   </div>
 </template>
 
@@ -58,8 +61,25 @@ export default {
       password: "",
       isModalVisible: false,
       isModalVisibleP: false,
-      submitStatus: ""
+      submitStatus: "",
+      isLoading: false,
+      errorMessage: ""
     };
+  },
+  computed: {
+    setError () {
+      var error = this.errorMessage
+      if (error === "Wrong Password or Mail - " ) {
+        return "Vous avez saisi un identifiant ou un mot de passe incorrect."
+      }
+      if (error === "Wrong Password or Mail" ) {
+        return "Vous avez saisi un identifiant ou un mot de passe incorrect."
+      }
+      if (error === 'Courtier not found' ) {
+        return 'Votre adresse email ou n° de courtier n’est pas reconnu. Pour tout reseignement, contactez-nous sur dcommerciale@cpms.fr' 
+      }
+      else return error
+    }
   },
   components: {
     "modal-signup": modalSignup,
@@ -76,38 +96,70 @@ export default {
   },
   methods: {
     showModalCreate() {
-      this.isModalVisible = true;
+      this.$router.push({name: 'signup'})
     },
     showModalLostPassword() {
-      this.isModalVisibleP = true;
+      this.$router.push({name: 'mdp'})
     },
-    closeModal() {
-      this.isModalVisible = false;
-      this.isModalVisibleP = false;
+    showModalCreatePassword() {
+      this.$router.push({name: 'createPassword'})
+    },
+    showModalInitPassword () {
+      this.$router.push({name: 'initialisation'})
+    },
+    login () {
+      this.errorMessage = "";
+      this.isLoading = true
+      axios.post('https://courtier.cpms.fr/login', {
+        user: this.id,
+        password: this.password
+      })
+      .then(response => {
+        // console.log(response, 'response')
+        if (response.data.status === true) {
+          axios.post('https://courtier.cpms.fr/isLoged')
+          .then(response => {
+            if (response.data.status) {
+              this.getInfoAccueil();
+              this.getCabinets();
+              this.getAssure();
+              this.getCotisation();
+              this.getTranslation();
+              this.getAppel();
+              this.getDocs();
+              this.getCourtierDocs();
+              this.waitLoad();
+            }
+            else {
+              // console.log('inside else')
+              this.isLoading = false
+              this.errorMessage = "La connexion n'a pas pu être établie, veuillez réessayer."
+              }
+          })
+        }
+        else {
+          // console.log('inside Error')
+          this.isLoading = false
+          this.errorMessage = response.data.errorMesage
+        }
+      })
+    },
+    waitLoad(){
+      setTimeout(() => {
+        this.isLoading = false
+        this.$router.push('/accueil');
+        this.$store.state.authenticated = true;
+      }, 6000)
     },
     submit() {
-      console.log('submit!')
+      this.isLoading = true
+      // console.log('submit!')
       this.$v.$touch()
       if (this.$v.$invalid) {
-        this.submitStatus = 'ERROR'
-        return console.log(this.submitStatus)
-        
+        this.isLoading = false
+        return
       } else {
-
-        // this is my login logic!
-        // if name and pword
-        // than check with database if they exist
-        // if they are valid,
-        // ROUTE and this.authenticated
-
-        this.submitStatus = 'PENDING'
-        console.log(this.submitStatus)
-        setTimeout(() => {
-          this.submitStatus = 'OK'
-          this.$store.state.authenticated = true;
-          this.$router.replace("accueil");
-          console.log(this.submitStatus)
-        }, 500)
+        this.login();
       }
     },
     getCabinets: function() {
@@ -115,18 +167,83 @@ export default {
       .then(response => {
         this.$store.state.holdings = response.data.holding
         this.$store.state.cabinet = response.data.cabinet
+        this.$store.state.coCourtiers = response.data.coCourtiers
+        // console.log(response.data.coCourtiers, '=> coCou')
+        // console.log(response.data.cabinet, '=> cabinet')
+      })
+    },
+    getCotisation: function() {
+      axios.post('https://courtier.cpms.fr/getCotisation')
+      .then(response => {
+        this.$store.state.cotisations = response.data
+        // console.log(response.data,'response.data')
+      })
+    },
+    getAssure: function() {
+      axios.post('https://courtier.cpms.fr/getAssure')
+      .then(response => {
+        this.$store.state.assure = response.data
+      })
+    },
+    getCourtierDocs: function() {
+      axios.post('https://courtier.cpms.fr/getCourtierDocs')
+      .then(response => {
+        this.$store.state.docs = response.data
+
+      })
+    },
+    getInfoAccueil: function() {
+      axios.post('https://courtier.cpms.fr/getMainInfo')
+      .then(response => {
+        this.$store.state.Main = response.data
+      })
+    },
+    getTranslation: function() {
+      axios.post('https://courtier.cpms.fr/getTranslation')
+      .then(response => {
+        this.$store.state.translation = response.data
+      })
+    },
+    getAppel: function() {
+      axios.post('https://courtier.cpms.fr/getAppel')
+      .then(response => {
+        this.$store.state.appel = response.data
+      })
+    },
+    getDocs: function() {
+      axios.post('https://courtier.cpms.fr/getDocs')
+      .then(response => {
+        this.$store.state.tableDocs = response.data
       })
     },
   },
   mounted () {
-    this.getCabinets();
   }
 };
 </script>
 
 <style lang="scss" scoped>
 @import '../styles/_global.scss';
-
+.bouton {
+  border-radius: 7px;
+  border: none;
+  // border: 1px solid $button-color;
+  background-color: white;
+  color: $button-color;
+}
+.bot-cont {
+}
+.bottom-wrapper {
+  box-sizing: border-box;
+}
+.bottom-wrap {
+  box-sizing: border-box;
+  padding-right: 21px;
+}
+.text-size {
+  font-size: 11px;
+  box-sizing: border-box;
+}
 img {
   height: 40px;
 }
@@ -134,7 +251,6 @@ img {
   text-decoration: underline;
 }
 .pword-wrapper {
-  padding-top: 7px;
   text-align: left;
 }
 .outer-wrapper {
@@ -143,7 +259,7 @@ img {
   padding: 20px;
   box-shadow: 0px 0px 27px -8px;
   border-radius: 7px;
-  margin: 10px;
+  margin: 10px 0;
 }
 .inner-wrapper {
   width: auto;

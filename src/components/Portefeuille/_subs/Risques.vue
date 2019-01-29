@@ -313,7 +313,7 @@ export default {
         }
       }
       if (item == 'heben') {
-        console.log(param, 'param')
+        // console.log(param, 'param')
         this.assuresTable = true
         for (var i = 0; i < param.contrats.length; i++) {
           for (var y = 0; y < param.contrats[i].assures.length; y++) {
