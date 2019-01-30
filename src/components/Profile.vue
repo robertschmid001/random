@@ -8,11 +8,11 @@
                         <el-col :span="14" class="md-txt align-left grey-text colorYellow"><font-awesome-icon icon="user" class="profile-icon"/>Mon Profil</el-col>
                         <el-col :span="10" class="md-txt align-right colorBlue" v-show="!isEditing"><font-awesome-icon icon="pen" class="profile-icon" /><span class="hover pointer" @click="edit">Editer mon profil</span></el-col>
                         <div v-show="isEditing">
-                            <el-col :span="7" class="md-txt colorRed pointer">
-                                <div class="header-valider" @click="confirm">Valider</div>
+                            <el-col :span="7" class="md-txt colorRed pointer" @click="confirm">
+                                <div class="header-valider">Valider</div>
                             </el-col>
-                            <el-col :span="3" class="md-txt colorRed pointer">
-                                <div class="header-valider"  @click="closeEdit">
+                            <el-col :span="3" class="md-txt colorRed pointer" @click="closeEdit">
+                                <div class="header-valider">
                                     <font-awesome-icon icon="times" class="icon pointer" title="retour" alt="retour"/>
                                 </div>
                             </el-col>
@@ -48,11 +48,6 @@
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">E-mail</el-col>
                             <el-col :span="15" class="padding-item grey-text">{{cabinet.email}}</el-col>
-                            <!-- <el-col :span="15" class="padding-item" v-show="isEditing">
-                                <div class="input-icon-wrapper">
-                                    <input class="base-form-input" placeholder="email" v-model.trim.lazy="this.email"/>
-                                </div>
-                            </el-col> -->
                         </el-row>
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Identifiant</el-col>
@@ -69,18 +64,6 @@
                                 </div>
                             </el-col>
                         </el-row>
-                        <!-- <el-row>
-                            <el-col :span="9" class="padding-item lgt-grey-text">Mot de passe</el-col>
-                            <el-col :span="15" class="padding-item grey-text" v-show="!isEditing">{{this.password}}</el-col>
-                            <el-col :span="15" class="padding-item" v-show="isEditing">
-                                <div class="input-icon-wrapper">
-                                    <input class="base-form-input" placeholder="password" v-model.trim.lazy="this.password"/>
-                                </div>
-                                <div class="input-icon-wrapper">
-                                    <input class="base-form-input" placeholder="password" v-model.trim.lazy="this.passwordCheck"/>
-                                </div>
-                            </el-col>
-                        </el-row> -->
                     </div>
                 </div>
             </el-col>
@@ -88,57 +71,6 @@
                 <button class="pointer buttonShow" v-if="!showList" @click="showUsersList"><div class="inner-button-wrapper sm-txt"><font-awesome-icon icon="user" class="profile-icon" /><span>Voir la liste des utilisateurs habilités</span> </div></button>
                 <div v-else class="radius outer-wrapper">
                 <coUsers-list :key="componentKey" :isAdding="curAdding" @conEdit="forceRerender" @edit="forceRerender" @showList="showListOff"/>
-                    <!-- <div v-if="!isAdding">
-                        <div class="inner-header header-border">
-                            <el-row>
-                                <el-col :span="2" class="md-txt align-left grey-text"><font-awesome-icon icon="times" class="close-icon pointer"  @click="close"/></el-col>
-                                <el-col :span="12" class="md-txt align-left grey-text"><font-awesome-icon icon="user" class="profile-icon"/> Liste des utilisateurs habilités</el-col>
-                                <el-col :span="10" class="md-txt align-right"><font-awesome-icon icon="user-plus" class="profile-icon"/><span class="hover pointer" @click="isAdding=true">Ajouter un utilisateur</span></el-col>
-                            </el-row>
-                        </div>
-                        <div class="align-left inner-body-r md-txt">
-                            <div v-for="(user, index) in upCoCourtiers" :key="user.id">
-                                <div class="box-user">
-                                    <div class="input-box grey-text">
-                                        <span>{{user.edit}}</span> <br>
-                                        <span v-if="!user.edit">{{user.user_fname}}</span> <input v-else class="base-input" placeholder="Prénom" v-model.trim.lazy="user.user_fname"/><br>
-                                        <span v-if="!user.edit">{{user.user_lname}}</span> <input v-else class="base-input" placeholder="Nom" v-model.trim.lazy="user.user_lname"/><br>
-                                        <span v-if="!user.edit">{{'06 01 02 03 04'}}</span>  -->
-                                        <!-- <input v-show="user.edit" class="base-input" placeholder="Téléphone" v-model.trim.lazy="user.tel"/>
-                                        <br>
-                                        <span v-if="!user.edit">{{user.user_mail}}</span> <input  :key="user.edit" v-else class="base-input" placeholder="@mail" v-model.trim.lazy="user.user_mail"/><br>
-                                    </div>
-                                    <div class="icons-wrapper grey-text">
-                                        <font-awesome-icon icon="pen" class="profile-icon pointer" title="modifier un utilisateur" alt="modifier un utilisateur" @click="editUser(index, user)" v-show="!user.edit"/>
-                                        <font-awesome-icon icon="check" class="profile-icon pointer" title="confirmer la modification" alt="confirmer la modification" @click="confirmEdit(index, user)" v-show="user.edit"/>
-                                        <font-awesome-icon icon="times" class="profile-icon pointer" title="retour" alt="retour"  @click="openWarning(index, user)"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-else>
-                        <div class="inner-header header-border">
-                            <el-row>
-                                <el-col :span="12" class="sm-txt align-left"><font-awesome-icon icon="user" class="profile-icon"/> Liste des utilisateurs habilités</el-col>
-                                <el-col :span="12" class="md-txt align-right"></el-col>
-                            </el-row>
-                        </div>
-                        <div class="align-left inner-body-r md-txt">
-                            <input class="base-input" placeholder="Nom" v-model.trim.lazy="coUserLn"/>
-                            <input class="base-input" placeholder="Prénom" v-model.trim.lazy="newUser.forename"/>
-                            <!-- <input class="base-input" placeholder="Numéro de téléphone" v-model.trim.lazy="newUser.tel"/> -->
-                            <!-- <input class="base-input" placeholder="Email" v-model.trim.lazy="newUser.email"/>
-                            <el-row>
-                                <el-col :span="12" class="align-left">
-                                    <button type="submit" class=" text-size-vsm button button-width pointer" @click="cancelAdd">Annuler</button>
-                                </el-col>
-                                <el-col :span="12" class="align-right">
-                                    <button type="submit" class=" text-size-vsm button button-width pointer" @click="addUser">Ajouter</button>
-                                </el-col>
-                            </el-row>
-                        </div>
-                    </div> -->
                 </div>
             </el-col>
         </el-row>
@@ -320,26 +252,25 @@ export default {
         })
           .then(response => {
               console.log(response, 'response')
-              if (response.data.status) {
+              if (response.data.status == true) {
                 this.$message({
                     type: 'success',
                     message: 'Vos modifications ont été prises en compte et seront traitées dans les plus brefs délais.',
                 })
-
-              } else {
-                if (response.data.errorMesage === 'User exist') {
-                    this.$message({
-                        type: 'error',
-                        message: 'Cet utilisateur exist déjà.',
-                    })
-                    }  else {
-                        this.$message({
-                            type: 'error',
-                            message: 'Vos modifications n\'ont pas été prise en compte.',
-                        })
-                }
-                this.isEditing = false
               }
+            if (response.data.errorMesage === 'User exist') {
+                this.$message({
+                    type: 'error',
+                    message: 'Cet utilisateur exist déjà.',
+                })
+            } 
+             if (response.data.errorMesage === 'Invalid Mail'){
+                 this.$message({
+                     type: 'error',
+                     message: 'Veuillez saisir un mail valide.',
+                 })
+             }
+            this.isEditing = false
         })
     },
     submit () {
