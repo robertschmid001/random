@@ -2,10 +2,17 @@
     <div id="holding-table" >
 <!-- :default-sort = "{prop: 'noH', order: 'ascending'}" -->
         <div class="table-wrapping">
-            <el-table ref="multipleTable" border :max-height="700" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true"  class="h-border">
+            <el-table ref="multipleTable" border :max-height="700" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true"  class="h-border" :default-sort = "{prop: 'noH', order: 'ascending'}">
+                <el-table-column width="33" >
+                    <template slot-scope="scope">
+                        <el-tooltip class="item" effect="light" content="En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats »" placement="top-start">
+                            <i class="el-icon-info icon-info pointer"></i>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
                 <el-table-column type="selection" render-header="Sélectionner" width="42" ></el-table-column>
-                <el-table-column property="noH" label="HOLDING" prop="noH" sortable min-width="220"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH}} <br> {{scope.row.nuH}} </div></template></el-table-column>
-                <el-table-column property="Entreprises" prop="iEe" sortable label="NOMBRE D'ENTREPRISES" width="180"><template slot-scope="scope" ><div class="data-wrapper md-txt pointer holHover" @click="holdingRowData(scope.row.entreprises, 'e', scope.row)">{{scope.row.iEe}}</div></template></el-table-column>
+                <el-table-column property="noH" label="HOLDINGS" prop="noH" sortable min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH}} <br> {{scope.row.nuH}} </div></template></el-table-column>
+                <el-table-column property="Entreprises" prop="iEe" sortable label="NOMBRE D'ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt pointer holHover" @click="holdingRowData(scope.row.entreprises, 'e', scope.row)">{{scope.row.iEe}}</div></template></el-table-column>
                 <el-table-column property="NOMBRE DE CONTRATS" prop="iCc" sortable label="NOMBRE DE CONTRATS" width="170"><template slot-scope="scope"><div class="data-wrapper pointer md-txt holHover" @click="holdingRowData(scope.row.entreprises, 'c', scope.row)">{{scope.row.iCc}}</div></template></el-table-column>
                 <el-table-column property="beneficiaire" prop="iAa" sortable label="NOMBRE D'ASSURES ET NOMBRE DE BENEFICIAIRES" width="190"><template slot-scope="scope" ><div class="data-wrapper pointer md-txt holHover"  @click="holdingRowData(scope.row.entreprises, 'a', scope.row.noH)">{{scope.row.iAa}}/{{scope.row.iBb}}</div></template></el-table-column>
                 <el-table-column property="totalCotisations" label="COTISATIONS ENCAISSEES" width="200">
@@ -37,7 +44,7 @@
                         </el-popover>
                     </template>
                 </el-table-column>
-                <el-table-column property="typologie" v-if="actFilter === 's'" label="TYPOLOGIE DES APPELS TELEPHONIQUE" width="240" style="text-align: center;"><template slot-scope="scope"><div class="align-center" @click="getTypo(scope.row.nuH)" title="Typologie des appels" ><font-awesome-icon icon="phone-square" class="size-export pointer holHover" /></div></template></el-table-column>
+                <el-table-column property="typologie" v-if="actFilter === 's'" label="TYPOLOGIE DES APPELS TELEPHONIQUES" width="240" style="text-align: center;"><template slot-scope="scope"><div class="align-center" @click="getTypo(scope.row.nuH)" title="Typologie des appels" ><font-awesome-icon icon="phone-square" class="size-export pointer holHover" /></div></template></el-table-column>
                 <el-table-column type="selection" width="42" ></el-table-column>
             </el-table>
         </div>
@@ -265,6 +272,9 @@ export default {
     // position: relative;
     box-sizing: border-box;
     padding-bottom: 41px;
+}
+.icon-info:hover {
+    color: $holTable-color;
 }
 a {
 text-decoration: none;

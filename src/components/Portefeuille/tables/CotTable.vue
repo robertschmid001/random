@@ -3,13 +3,20 @@
         <div class="table-wrapping">
             <!-- <el-button @click="LOG">LOG</el-button> -->
             <el-table ref="multipleTable" border :max-height="700" size="medium" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="cot-border">
+                <el-table-column width="33" >
+                    <template slot-scope="scope">
+                        <el-tooltip class="item" effect="light" content="En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats »" placement="top-start">
+                            <i class="el-icon-info icon-info pointer"></i>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
                 <el-table-column type="selection" width="42"></el-table-column>
-                <el-table-column property="holding" prop="noH" sortable label="HOLDING"  min-width="190"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH}}</div></template></el-table-column>
-                <el-table-column property="entreprise" prop="noC" sortable label="ENTREPRISE" min-width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noC}}</div></template></el-table-column>
-                <el-table-column property="contrat" prop="iCc" sortable label="CONTRAT"  min-width="130"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.l)}} <br> {{scope.row.l1 }} {{ scope.row.l2}}  </div></template></el-table-column>
+                <el-table-column property="holding" prop="noH" sortable label="HOLDING" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH }}<br>{{ scope.row.nuH}}</div></template></el-table-column>
+                <el-table-column property="entreprise" prop="noC" sortable label="ENTREPRISE" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noC}}<br>{{ scope.row.nuC}}</div></template></el-table-column>
+                <el-table-column property="contrat" prop="iCc" sortable label="CONTRAT"  min-width="150"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.l)}} <br> {{scope.row.l1 }} {{ scope.row.l2}}  </div></template></el-table-column>
                 <el-table-column property="type" prop="ts" sortable label="TYPE DE CONTRAT"  width="140"><template slot-scope="scope" ><div class="data-wrappe md-txtr">{{transType(scope.row.ts)}}</div></template></el-table-column>
-                <el-table-column property="cat" prop="cg" sortable label="CATEGORIE"  width="140"><template slot-scope="scope" ><div class="data-wrappe md-txtr">{{transCat(scope.row.cg)}}</div></template></el-table-column>
                 <el-table-column property="col" prop="cl" sortable label="COLLEGE"  width="140"><template slot-scope="scope" ><div class="data-wrappe md-txtr">{{transCol(scope.row.cl)}}</div></template></el-table-column>
+                <el-table-column property="cat" prop="cg" sortable label="CATEGORIE"  width="140"><template slot-scope="scope" ><div class="data-wrappe md-txtr">{{transCat(scope.row.cg)}}</div></template></el-table-column>
                 <el-table-column property="debut" prop="dp" sortable label="DEBUT DE PERIODE"  width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dp}}</div></template></el-table-column>
                 <el-table-column property="fin" prop="fp" sortable label="FIN DE PERIODE"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.fp}}</div></template></el-table-column>
                 <el-table-column property="montant" prop="me" sortable label="MONTANT ENCAISSE"  width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt align-right">{{formatCurrency(scope.row.me)}}</div></template></el-table-column>
@@ -62,8 +69,8 @@ export default {
             if(this.search.length >= 3){
                 this.pagination = false
                 const filtered = data.filter(function (cotisation) {
-                return cotisation.cl.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
-                || cotisation.ts.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
+                return cotisation.noH.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
+                || cotisation.noC.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
             });
             if (filtered) {
                 this.amount = filtered.length
@@ -211,6 +218,9 @@ export default {
     box-sizing: border-box;
     max-height: 70%;
     padding-bottom: 41px;
+}
+.icon-info:hover {
+    color: $holTable-color;
 }
 .cot-border {
   border-top: 3px solid $holTable-color;

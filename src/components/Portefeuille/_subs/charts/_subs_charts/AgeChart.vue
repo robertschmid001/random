@@ -157,6 +157,8 @@ export default {
       console.log(this.listAssure, 'hello')
     },
     createChart1 () {
+            var n1 = new Date().getFullYear()
+            var year = n1.toString()
       // Create chart instance
       var chart = am4core.create("chartdiv3", am4charts.XYChart);
 
@@ -244,7 +246,7 @@ export default {
       femaleLabel.label.fontWeight = 600;
 
       var title = chart.titles.create();
-      title.text = new Date().getFullYear();
+      title.text = year;
       title.fontSize = 20;
       title.marginBottom = 10;
 
@@ -268,6 +270,8 @@ export default {
       }
     },
     createChart2 () {
+      var n2 = new Date().getFullYear()-1
+      var lastYear = n2.toString()
       // Create chart instance
       var chart = am4core.create("chartdiv4", am4charts.XYChart);
 
@@ -376,7 +380,7 @@ export default {
       femaleLabel.label.fontWeight = 600;
 
       var title = chart.titles.create();
-      title.text = new Date().getFullYear()-1;
+      title.text = lastYear;
       title.fontSize = 20;
       title.marginBottom = 10;
        }

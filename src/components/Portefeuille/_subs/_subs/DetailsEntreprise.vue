@@ -26,13 +26,13 @@
                 </el-col>
                 <el-col :span="24" class="block-wrapper">
                     <div class="details-wrapper">
-                        <div class="content">{{this.aEntDet.date_entre}}</div>
+                        <div class="content">{{dateFormatEntree}}</div>
                         <div class="descrip">Date d'entrée</div>
                     </div>
                 </el-col>
                 <el-col :span="24" class="block-wrapper">
                     <div class="details-wrapper">
-                        <div class="content" v-if="this.aEntDet.sortie !== '0000-00-00'">{{this.aEntDet.sortie}}</div>
+                        <div class="content" v-if="this.aEntDet.sortie !== '0000-00-00'">{{dateFormatSortie}}</div>
                         <div class="descrip">Date de résiliation</div>
                     </div>
                 </el-col>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
     name: 'DetailsEntreprise',
     props: ['aEntDet'],
@@ -49,6 +51,18 @@ export default {
       return {
 
       }
+  },
+  computed: {
+    dateFormatEntree() {
+        var date = moment(this.aEntDet.date_entre).format('L')
+            console.log(moment(this.aEntDet.date_entre).format('L'), 'date1')
+        return date
+    },
+    dateFormatSortie() {
+        var date = moment(this.aEntDet.sortie).format('L')
+            console.log(moment(this.aEntDet.sortie).format('L'), 'date2')
+        return date
+    },
   },
   methods: {
     close () {

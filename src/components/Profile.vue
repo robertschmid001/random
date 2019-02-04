@@ -8,11 +8,11 @@
                         <el-col :span="14" class="md-txt align-left grey-text colorYellow"><font-awesome-icon icon="user" class="profile-icon"/>Mon Profil</el-col>
                         <el-col :span="10" class="md-txt align-right colorBlue" v-show="!isEditing"><font-awesome-icon icon="pen" class="profile-icon" /><span class="hover pointer" @click="edit">Editer mon profil</span></el-col>
                         <div v-show="isEditing">
-                            <el-col :span="7" class="md-txt colorRed pointer" @click="confirm">
-                                <div class="header-valider">Valider</div>
+                            <el-col :span="7" class="md-txt colorRed pointer" >
+                                <div class="header-valider" @click="validateConfirm">Valider</div>
                             </el-col>
-                            <el-col :span="3" class="md-txt colorRed pointer" @click="closeEdit">
-                                <div class="header-valider">
+                            <el-col :span="3" class="md-txt colorRed pointer">
+                                <div class="header-valider" @click="closeEdit">
                                     <font-awesome-icon icon="times" class="icon pointer" title="retour" alt="retour"/>
                                 </div>
                             </el-col>
@@ -29,11 +29,11 @@
                             <el-col :span="15" class="padding-item grey-text">
                                 <div v-show="!isEditing">{{cabinet.adresse}} <br>{{this.emptyAdd}} <br> {{cabinet.cp}} <span> </span> {{cabinet.ville}}</div>
                                 <el-col :span="24" v-show="isEditing">
-                                    <div class="input-icon-wrapper adresse-input"><input class="base-form-input" :placeholder="cabinet.adresse" v-model.trim.lazy="newAd1"/></div>
+                                    <div class="input-icon-wrapper adresse-input"><input class="base-form-input" :placeholder="cabinet.adresse" v-model.trim.lazy="newAd1"/><i class="el-icon-warning" v-if="this.validate.adresse" ></i></div>
                                     <div class="input-icon-wrapper adresse-input"><input class="base-form-input" :placeholder="emptyAdd" v-model.trim.lazy="newAd2"/></div>
                                     <el-row>
                                         <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" :placeholder="cabinet.ville" v-model.trim.lazy="newAd3"/></div></el-col>
-                                        <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" :placeholder="cabinet.cp" v-model.trim.lazy="  newAd4"/></div></el-col>
+                                        <el-col  :span="12"><div class="input-icon-wrapper adresse-input"><input class="base-form-input" :placeholder="cabinet.cp" v-model.trim.lazy="  newAd4"/><i class="el-icon-warning" v-if="this.validate.cp" ></i></div></el-col>
                                     </el-row>
                                 </el-col>
                             </el-col>
@@ -42,7 +42,7 @@
                             <el-col :span="9" class="padding-item lgt-grey-text">N° téléphone</el-col>
                             <el-col :span="15" class="padding-item grey-text" v-show="!isEditing">{{cabinet.tel}}</el-col>
                             <el-col :span="15" class="padding-item" v-show="isEditing">
-                                <div class="input-icon-wrapper"><input class="base-form-input" :placeholder="cabinet.tel" v-model.trim.lazy="newTel"/></div>
+                                <div class="input-icon-wrapper"><input class="base-form-input" :placeholder="cabinet.tel" v-model.trim.lazy="newTel"/><i class="el-icon-warning" v-if="this.validate.tel" ></i></div>
                             </el-col>
                         </el-row>
                         <el-row>
@@ -53,7 +53,7 @@
                             <el-col :span="9" class="padding-item lgt-grey-text">Identifiant</el-col>
                             <el-col :span="15" class="padding-item grey-text">{{this.cabinet.num_personne_courtier}}</el-col>
                         </el-row>
-                        <el-row v-show="isEditing">
+                        <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Mot de passe</el-col>
                              <el-col :span="15" class="padding-item lgt-grey-text">
                                 <div class="input-icon-wrapper" v-if="isSent === false">
@@ -62,6 +62,13 @@
                                 <div class="input-icon-wrapper" v-if="isSent  === true">
                                     <div class="button custom-style font-size align-center">L’email de modification de mot de passe a bien été envoyé</div>
                                 </div>
+                            </el-col>
+                        </el-row>
+                        <el-row v-show="isEditing">
+                            <el-col :span="24" class="padding-item lgt-grey-text">
+                                <div v-if="this.validate.cp" class="validate"> {{this.validate.cp}}</div>
+                                <div v-if="this.validate.tel" class="validate"> {{this.validate.tel}}</div>
+                                <div v-if="this.validate.adresse" class="validate"> {{this.validate.adresse}}</div>
                             </el-col>
                         </el-row>
                     </div>
@@ -81,16 +88,17 @@
 import axios from "axios"
 import coUsers from "./profile-sub/coUser-list.vue"
 
-
 export default {
   name: 'profile',
   props: {
   },
-  components: {
-      'coUsers-list': coUsers
-  },
   data () {
       return {
+        validate: {
+            cp: '',
+            tel: '',
+            adresse: ''
+        },
         isSent: false,
         showList: false,
         isEditing: false,
@@ -113,6 +121,9 @@ export default {
         usersList: [
         ]
       }
+  },
+    components: {
+      'coUsers-list': coUsers
   },
   computed: {
     emptyAdd () {
@@ -202,22 +213,29 @@ export default {
         this.newAd4 = this.cabinet.cp
         this.newTel = this.cabinet.tel
     },
+    validateConfirm () {
+        this.validate.cp = '';
+        this.validate.tel = '';
+        this.validate.adresse = '';
+        var reg = new RegExp('^[0-9]+$');
+        var checkTel = reg.test(this.newTel);
+        var checkCp = reg.test(this.newAd4);
+        
+        if ( this.newAd1.length === 0) this.validate.adresse = 'Merci de saisir une adresse'
+        if ( this.newAd4 !== this.cabinet.cp && this.newAd4.length !== 5 || !checkCp ) this.validate.cp = 'Veuillez saisir un code postal à 5 chiffres'
+        if ( this.newTel.length !== 10 || this.newTel.length == 0 || !checkTel) this.validate.tel = 'Veuillez saisir un numéro de téléphone à 10 chiffres'
+        if ( this.validate.cp == '' && this.validate.tel  == '' && this.validate.adresse  == '' ) return this.confirm();
+    },
     confirm () {
         axios.post('https://courtier.cpms.fr/modifCourtier',{
             adresse: this.newAd1,
             adresse_suite: this.newAd2,
-            cp: this.newAd3,
+            cp: this.newAd4,
             tel: this.newTel,
-            ville: this.newAd4
+            ville: this.newAd3
         })
         .then(response => {
-            // console.log(response, 'response')
             if (response.data.status) {
-                this.cabinet.adresse = this.newAd1
-                this.cabinet.adresse_suite = this.newAd2
-                this.cabinet.cp = this.newAd3
-                this.cabinet.tel = this.newTel
-                this.cabinet.ville = this.newAd4
             this.$message({
                 type: 'success',
                 message: 'Vos modifications ont été prises en compte et seront traitées dans les plus brefs délais.',
@@ -230,7 +248,6 @@ export default {
             }
             this.isEditing = false
             }).catch( error => {
-                console.log(error)
                 this.newAd1= '',
                 this.newAd2= '',
                 this.newAd3= '',
@@ -242,54 +259,8 @@ export default {
                 })
             })
     },
-    addUser () {
-        this.isAdding = false
-
-        axios.post('https://courtier.cpms.fr/modifCourtier',{
-            mailCourtier: this.coUserMail,
-            nomCourtier: this.coUserLn,
-            prenomCourtier: this.coUserFn
-        })
-          .then(response => {
-              console.log(response, 'response')
-              if (response.data.status == true) {
-                this.$message({
-                    type: 'success',
-                    message: 'Vos modifications ont été prises en compte et seront traitées dans les plus brefs délais.',
-                })
-              }
-            if (response.data.errorMesage === 'User exist') {
-                this.$message({
-                    type: 'error',
-                    message: 'Cet utilisateur exist déjà.',
-                })
-            } 
-             if (response.data.errorMesage === 'Invalid Mail'){
-                 this.$message({
-                     type: 'error',
-                     message: 'Veuillez saisir un mail valide.',
-                 })
-             }
-            this.isEditing = false
-        })
-    },
     submit () {
         this.isAdding = false
-    },
-    deleteUser (index, user) {
-
-        axios.get('https://courtier.cpms.fr/deleteCoUser/'+ `${user.id}`
-        ).then(response => {
-              console.log(response, 'response')
-              if ( response.data.status) {
-                this.$message({
-                    type: 'success',
-                    message: 'Vos modifications ont été prises en compte et seront traitées dans les plus brefs délais.',
-                })
-              } else {
-                this.isEditing = false
-              }
-          })
     },
     forceRerender () {
         this.filtercoCourtiers();
@@ -297,14 +268,10 @@ export default {
     },
     editUser (index) {
         this.coCourtiers.forEach((e, i) => {
-
             if (i == index) {
-                console.log(this.coCourtiers[i].edit,'before')
                 this.coCourtiers[i].edit = !this.coCourtiers[i].edit;
                 this.updateCoCourtiers();
                 this.hasChanged = !this.hasChanged
-                console.log(this.coCourtiers[i].edit,'after')
-                // Vue.set(this.coCourtiers[index],this.coCourtiers[index].edit, true)
                 this.forceRerender();
             }
         });
@@ -317,15 +284,6 @@ export default {
     cancelAdd () {
         this.isAdding = false
     },
-    openWarning(index, user) {
-        this.$confirm('Souhaitez-vous supprimer cet utilisateur?', {
-          confirmButtonText: 'Oui',
-          cancelButtonText: 'Non'
-        }).then(() => {
-        this.deleteUser(index, user)
-        }).catch(() => {
-        });
-      }
   },
   mounted () {
       this.filtercoCourtiers();
@@ -338,6 +296,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/_global.scss";
+.validate {
+    color: #ff4c4c;
+    font-size: 10px;
+    justify-content: center;
+    display: flex;
+    font-size: 10px;
+}
 .custom-style {
     display: flex;
     align-items: center;
@@ -349,6 +314,12 @@ export default {
     padding-right: 10px;
 }
 .header-valider {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    /* align-content: center; */
+    align-items: center;
+    justify-content: center;
 }
 .hover:hover {
     text-decoration: underline;
@@ -480,5 +451,11 @@ h1 {
     top: -3px;
     left: -33px;
 }
-
+.el-icon-warning {
+    color: #fe7979!important;
+    font-size: 13px!important;
+    position: absolute!important;
+    right: 4px!important;
+    top: 4px!important;
+}
 </style>

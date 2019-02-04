@@ -268,7 +268,7 @@ export default {
         },
 
         remove () {
-            console.log('ee')
+            // console.log('ee')
         },
         changedList (array) {
             var list = array;

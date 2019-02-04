@@ -1,10 +1,17 @@
 <template>
   <div id="glob-table" >
     <div class="table-wrapping">
-      <el-table ref="multipleTable" :max-height="700" size="medium" show-pagination border :data="dataPagination" style="width: 100%; font-size: 10px; overflow: auto;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="e-border table-style">
+      <el-table ref="multipleTable" :max-height="700" size="medium" show-pagination border :data="dataPagination" style="width: 100%; font-size: 10px; overflow: auto;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="e-border table-style" :default-sort = "{prop: 'noC', order: 'ascending'}">
+        <el-table-column width="33" >
+          <template slot-scope="scope">
+              <el-tooltip class="item" effect="light" content="En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats »" placement="top-start">
+                  <i class="el-icon-info icon-info pointer"></i>
+              </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column type="selection" width="42"></el-table-column>
-        <el-table-column property="noH" prop="noH" sortable label="HOLDING" min-width="220"><template slot-scope="scope" ><div class="data-wrapper md-txt" >{{scope.row.noH}} <br> {{scope.row.nuH}} </div></template></el-table-column>
-        <el-table-column property="noC" prop="noC" sortable label="ENTREPRISES" min-width="150"><template slot-scope="scope"><div class="data-wrapper md-txt entHover pointer" @click="openDetailsEnt(scope.row)">{{scope.row.noC}} <br> {{scope.row.nuC}}</div></template></el-table-column>
+        <el-table-column property="noH" prop="noH" sortable label="HOLDING" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt" >{{scope.row.noH}} <br> {{scope.row.nuH}} </div></template></el-table-column>
+        <el-table-column property="noC" prop="noC" sortable label="ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope"><div class="data-wrapper md-txt entHover pointer" @click="openDetailsEnt(scope.row)">{{scope.row.noC}} <br> {{scope.row.nuC}}</div></template></el-table-column>
         <el-table-column property="contrats" prop="iCc" sortable label="NOMBRE DE CONTRATS" show-overflow-tooltip width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt pointer entHover" @click="contratsRowData(scope.row)">{{scope.row.iCc}}</div></template></el-table-column>
         <el-table-column property="beneficiaire" prop="iAa" sortable label="NOMBRE D'ASSURES ET NOMBRE DE BENEFICIAIRES"  width="190"> <template slot-scope="scope" ><div class="data-wrapper pointer md-txt entHover" @click="assRowData(scope.row)">{{scope.row.iAa}} / {{scope.row.iBb}}</div></template></el-table-column>
           <el-table-column property="cotisations" label="COTISATIONS ENCAISSEES" width="115">
@@ -37,7 +44,7 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column property="typologie" v-if="actFilter === 's'" label="TYPOLOGIE DES APPELS TELEPHONIQUE" width="230" style="text-align: center;"><template slot-scope="scope"><div class="align-center" title="Typologie des appels" @click="getTypo(scope.row.nuC)"><font-awesome-icon icon="phone-square" class="size-export pointer entHover" /></div></template></el-table-column>
+        <el-table-column property="typologie" v-if="actFilter === 's'" label="TYPOLOGIE DES APPELS TELEPHONIQUES" width="230" style="text-align: center;"><template slot-scope="scope"><div class="align-center" title="Typologie des appels" @click="getTypo(scope.row.nuC)"><font-awesome-icon icon="phone-square" class="size-export pointer entHover" /></div></template></el-table-column>
         <el-table-column type="selection" width="42"></el-table-column>
       </el-table>
       <el-pagination v-if="pagination" @current-change="handleCurrentChange" :current-page.sync="currentPage"
@@ -287,6 +294,9 @@ export default {
   max-height: auto;
   padding-bottom: 41px;
   overflow: hidden;
+}
+.icon-info:hover {
+    color: $entTable-color;
 }
 .typoChart {
     position: absolute;

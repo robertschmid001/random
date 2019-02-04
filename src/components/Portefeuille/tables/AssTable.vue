@@ -1,15 +1,22 @@
 <template>
     <div id="assure-table">
         <div class="table-wrapping">
-            <!-- <el-button @click="LOG">LOG</el-button> -->
+            <el-button @click="LOG">LOG</el-button>
             <el-table ref="multipleTable" :max-height="700" border size="medium" :data="filteredPerson" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="a-border">
-                <el-table-column type="selection" width="42" v-if="search === undefined"></el-table-column>
-                <el-table-column property="holding" prop="noH" sortable label="HOLDING"  min-width="180"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH }}<br>{{ scope.row.nuH}}</div></template></el-table-column>
-                <el-table-column property="entreprise"  prop="noC" sortable label="ENTREPRISE"  min-width="180"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noC }}<br>{{ scope.row.nuC}}</div></template></el-table-column>
-                <el-table-column property="contrat"  prop="c.l" sortable label="CONTRAT"  width="200"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.c.l)}}<br>{{scope.row.c.n}}</div></template></el-table-column>
+                <el-table-column width="33" >
+                    <template slot-scope="scope">
+                        <el-tooltip class="item" effect="light" content="En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats »" placement="top-start">
+                            <i class="el-icon-info icon-info pointer"></i>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
+                <el-table-column type="selection" width="42" v-if="this.$router.currentRoute.name !== 'Recherche assuré'"></el-table-column>
+                <el-table-column property="holding" prop="noH" sortable label="HOLDING" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH }}<br>{{ scope.row.nuH}}</div></template></el-table-column>
+                <el-table-column property="entreprise"  prop="noC" sortable label="ENTREPRISE" min-width="180" max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noC }}<br>{{ scope.row.nuC}}</div></template></el-table-column>
+                <el-table-column property="contrat"  prop="c.l" sortable label="CONTRAT"  width="200"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.c.l)}}<br>{{scope.row.l1 }} {{ scope.row.l2}}</div></template></el-table-column>
                 <el-table-column property="type" prop="c.c" sortable label="TYPE DE CONTRAT"  width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transType(scope.row.c.c)}}</div></template></el-table-column>
-                <el-table-column property="categorie" prop="c.a" sortable label="CATEGORIE" v-if="!deleteCol"  width="130"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCat(scope.row.c.a)}}</div></template></el-table-column>
                 <el-table-column property="college" prop="c.o" sortable label="COLLEGE" v-if="!deleteCol"  width="190"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCol(scope.row.c.o)}}</div></template></el-table-column>
+                <el-table-column property="categorie" prop="c.a" sortable label="CATEGORIE" v-if="!deleteCol"  width="130"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCat(scope.row.c.a)}}</div></template></el-table-column>
                 <el-table-column property="name" prop="l" sortable label="NOM PRENOM" min-width="180"><template slot-scope="scope" ><div class="data-wrapper md-txt aHover pointer gras" @click="openAssures(scope.row)">{{scope.row.l}} {{scope.row.f}}</div></template></el-table-column>
                 <el-table-column property="numSecu" prop="s" sortable label="N° SECURITE SOCIALE"  width="160"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.s}}</div></template></el-table-column>
                 <!-- <el-table-column property="numadh" label="N° ADHERENT CPMS" sortable width="150"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.np}}</div></template></el-table-column> -->
@@ -40,6 +47,7 @@ export default {
     props:['assure', 'search', 'deleteCol'],
     data () {
         return {
+
             closeDet: false,
             contratInfo: [],
             assInfo:[],
@@ -115,8 +123,14 @@ export default {
         },
     },
     methods: {
+        isRoutes () {
+            if (this.$router.currentRoute.name !== 'Recherche assuré'){
+                return true
+            } else return false
+        },
         LOG () {
-            console.log(this.assure, 'assure')
+            console.log(this.assure, 'this.assure')
+            //this.$router.currentRoute.name
         },
         handleCurrentChange(val) {
             this.currentPage = val;
@@ -149,7 +163,7 @@ export default {
                     break;
 
                 case "O":
-                    return "Option"
+                    return "Option/Surcomplémentaire"
                     break;
 
                 default:
@@ -203,6 +217,9 @@ padding-bottom: 41px;
   box-sizing: border-box;
   max-height: 70%;
 //   min-height: 600px;
+}
+.icon-info:hover {
+    color: $assTable-color;
 }
 .ass-details {
   position: absolute;

@@ -14,7 +14,7 @@
                         <el-row>
                             <el-col :span="9" class="padding-item lgt-grey-text">Adresse</el-col>
                             <el-col :span="15" class="padding-item grey-text">
-                                <div>{{this.assInfo.adresse}} <br> {{this.assInfo.adresse_comp}} <span> </span> {{this.assInfo.ville }} {{ this.assInfo.cp}}</div>
+                                <div>{{this.assInfo.adresse}} <br> {{this.assInfo.adresse_comp}} <span> </span> {{this.assInfo.cp }} {{ this.assInfo.ville}}</div>
                             </el-col>
                         </el-row>
                         <el-row>
@@ -94,6 +94,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
     name: 'Assures',
     props: ['activeAss','assInfo', 'contratInfo'],
@@ -132,7 +134,10 @@ export default {
         return this.userData = add
     },
     formatDate (date) {
-        return date
+        if ( date) {
+            var date = moment(date).format('L')
+            return date
+        } else return ''
     },
     formatName (data) {
         if (data === 'A') { return 'Assuré' }

@@ -142,7 +142,8 @@ let router = new Router({
             name: 'Documents',
             component: Documents,
             meta: {
-                requiresAuth: true
+                requiresAuth: true,
+                requiresRoot: true
             }
         }, {
             path: '/actualites',
@@ -167,7 +168,14 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.name === 'Login') {store.state.authenticated = false}
+    if (to.name === 'Login') {
+        store.state.authenticated = false
+    }
+    // if (to.matched.some(record => record.meta.requiresRoot)) {
+    //     if ( this.$store.state.cabinet.user_type === 'root' ) {
+    //         next()
+    //     } else next(from.name)
+    // }
     if (to.name === 'createPassword') {
         store.state.authenticated = false
         axios.post('https://courtier.cpms.fr/logout')

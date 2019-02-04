@@ -5,7 +5,7 @@
             <el-col :span="12">
                 <el-table show-summary size="small" :data="filteredTableTy" style="width: 100%;">
                     <el-table-column :label="cotFormating1">
-                        <el-table-column prop="cat" label="Catégorie de Personnel" ><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.cat}}</div></template></el-table-column>
+                        <el-table-column prop="cat" ><template scope="scope" ><div class="data-wrapper md-txt">{{formatRow(scope.row.cat)}}</div></template></el-table-column>
                         <el-table-column prop="a" label="Assurés" width="80"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.a}}</div></template></el-table-column>
                         <el-table-column prop="c" label="Conjoints" width="90"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.c}}</div></template></el-table-column>
                         <el-table-column prop="e" label="Enfants" width="80"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.e}}</div></template></el-table-column>
@@ -21,7 +21,7 @@
             <el-col :span="12">
                 <el-table show-summary size="small" :data="filteredTableLy" style="width: 100%">
                     <el-table-column :label="cotFormating2">
-                        <el-table-column prop="cat" label="Catégorie de Personnel" ><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.cat}}</div></template></el-table-column>
+                        <el-table-column prop="cat"><template scope="scope" ><div class="data-wrapper md-txt">{{formatRow(scope.row.cat)}}</div></template></el-table-column>
                         <el-table-column prop="a" label="Assurés" width="80"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.a}}</div></template></el-table-column>
                         <el-table-column prop="c" label="Conjoints" width="90"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.c}}</div></template></el-table-column>
                         <el-table-column prop="e" label="Enfants" width="80"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.e}}</div></template></el-table-column>
@@ -125,6 +125,11 @@ export default {
     //   }
     // },
     methods: {
+        formatRow (data) {
+            if ( data === '') {
+                return 'Actif'
+            } else return data
+        },
         filterAppel (f) {
             this.filteredAss = []
             f.forEach(e => {
@@ -195,6 +200,9 @@ export default {
         },
 
         createChart1() {
+            var n1 = new Date().getFullYear()
+            var year = n1.toString()
+
             var chart = am4core.create("chartdiv", am4charts.PieChart3D);
             // Add Data
              if (this.TChartTy.length === 0) {
@@ -242,12 +250,16 @@ export default {
                 pieSeries.angle = 30;
 
                 var title = chart.titles.create();
-                title.text = new Date().getFullYear();
+                title.text = year;
                 title.fontSize = 20;
                 title.marginBottom = 10;
             }
         },
         createChart2() {
+
+            var n2 = new Date().getFullYear()-1
+            var lastYear = n2.toString()
+
             var chart = am4core.create("chartdiv2", am4charts.PieChart3D);
             // Add data
             if (this.TChartLy.length === 0) {
@@ -293,7 +305,7 @@ export default {
                 pieSeries.angle = 30;
 
                 var title = chart.titles.create();
-                title.text = new Date().getFullYear()-1;
+                title.text = lastYear;
                 title.fontSize = 20;
                 title.marginBottom = 10;
             }

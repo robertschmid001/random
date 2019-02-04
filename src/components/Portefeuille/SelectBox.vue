@@ -2,7 +2,8 @@
     <div id="select-box" >
         <div class="middle-pop-wrapper" v-show="show" >
             <div class="middle-pop">
-                <h1>Elements selectionnés</h1>
+
+                <h1>Élements sélectionnés</h1>
                 <ul>
                     <li v-for="(item, index) in selection" :key="index" >
                         {{getName(item)}}
@@ -12,9 +13,9 @@
         </div>
         <div class="bottom-pop-wrap">
             <div class="bottom-pop">
-                <button class="button buttonDeco pointer" :class="{ selectionBox: show }" @click="showPop" >Voir la selection ({{this.selection.length}})</button>
-                <button class="button buttonDeco pointer" v-if="showComputed" @click="clickChart(selection)" >Créer Graphique</button>
-                <button class="button buttonDeco pointer"><download-excel :data = "selection" :fields = "getFields"> Exporter </download-excel></button>
+                <button class="button buttonDeco pointer" :class="{ selectionBox: show }" @click="showPop" >Voir la sélection ({{this.selection.length}})</button>
+                <button class="button buttonDeco pointer" v-if="showComputed" @click="clickChart(selection)" >Créer les graphiques</button>
+                <button class="button buttonDeco pointer"><download-excel class="exporter" :data = "selection" :fields = "getFields"> Exporter </download-excel></button>
             </div>
         </div>
     </div>
@@ -45,17 +46,31 @@ export default {
                     'Nombre de contrats': 'iCc',
                     'Nombre d\' assurés': 'iAa',
                     'Nombre de bénéficiaires': 'iBb',
-                    'Cotisations encaissées': {
+                    'Cotisations encaissées 2018': {
                         callback: (value) => {
-                            return `${this.year()}: ${value.iCoo[0]} <br> ${this.year2()}: ${value.iCoo[1]}`;
+                            return `${this.year2()}: ${value.iCoo[1]}`;
                         }
                     },
-                    'Prestations réglées': {
+                    'Cotisations encaissées 2019': {
                         callback: (value) => {
-                            return `${this.year()}: ${value.iPrr[0]} <br> ${this.year2()}: ${value.iPrr[1]}`;
+                            return `${this.year()}: ${value.iCoo[0]}`;
                         }
                     },
-                    'Taux de télétransmission': 'iTt'
+                    'Prestations réglées 2018': {
+                        callback: (value) => {
+                            return `${this.year2()}: ${value.iPrr[1]}`;
+                        }
+                    },
+                    'Prestations réglées 2019': {
+                        callback: (value) => {
+                            return `${this.year()}: ${value.iPrr[0]}`;
+                        }
+                    },
+                    'Taux de télétransmission': {
+                        callback: (value) => {
+                            return `${formatTaux(value.iTt)}`;
+                        }
+                    }
                 }
                 return json_fields
             }
@@ -68,17 +83,31 @@ export default {
                     'Nombre de contrats': 'iCc',
                     'Nombre d\' assurés': 'iAa',
                     'Nombre de bénéficiaires': 'iBb',
-                    'Cotisations encaissées': {
+                    'Cotisations encaissées 2018': {
                         callback: (value) => {
-                            return `${this.year()}: ${value.iCoo[0]} <br> ${this.year2()}: ${value.iCoo[1]}`;
+                            return `${this.year2()}: ${value.iCoo[1]}`;
                         }
                     },
-                    'Prestations réglées': {
+                    'Cotisations encaissées 2019': {
                         callback: (value) => {
-                            return `${this.year()}: ${value.iPrr[0]} <br> ${this.year2()}: ${value.iPrr[1]}`;
+                            return `${this.year()}: ${value.iCoo[0]}`;
                         }
                     },
-                    'Taux de télétransmission': 'iTt'
+                    'Prestations réglées 2018': {
+                        callback: (value) => {
+                            return `${this.year2()}: ${value.iPrr[1]}`;
+                        }
+                    },
+                    'Prestations réglées 2019': {
+                        callback: (value) => {
+                            return `${this.year()}: ${value.iPrr[0]}`;
+                        }
+                    },
+                    'Taux de télétransmission': {
+                        callback: (value) => {
+                            return `${formatTaux(value.iTt)}`;
+                        }
+                    }
                 }
                 return json_fields
             }
@@ -90,7 +119,7 @@ export default {
                     'Numéro entreprises':'nuC',
                     'Contrat':{
                         callback: (value) => {
-                            return `${this.transLibelle(value.l)}`;
+                            return `${this.transLibelle(value.l)} <br> ${value.l1 } ${ value.l2}`;
                         }
                     },
                     'Type de contrat': {
@@ -98,14 +127,14 @@ export default {
                             return `${this.transType(value.tc)}`;
                         }
                     },
-                    'Catégorie': {
-                        callback: (value) => {
-                            return `${this.transCat(value.a)}`;
-                        }
-                    },
                     'Collège': {
                         callback: (value) => {
                             return `${this.transCol(value.o)}`;
+                        }
+                    },
+                    'Catégorie': {
+                        callback: (value) => {
+                            return `${this.transCat(value.a)}`;
                         }
                     },
                     'Assureur': {
@@ -120,14 +149,26 @@ export default {
                     },
                     'Nombre d\' assurés': 'iA',
                     'Nombre de bénéficiaires': 'iB',
-                    'Cotisations encaissées': {
+                    'Cotisations encaissées 2018': {
                         callback: (value) => {
-                            return `${this.year()}: ${value.c[0]} <br> ${this.year2()}: ${value.c[1]}`;
+                            return `${value.c[1]}`;
                         }
                     },
-                    'Prestations réglées': {
+                    'Cotisations encaissées 2019': {
                         callback: (value) => {
-                            return `${this.year()}: ${value.p[0]} <br> ${this.year2()}: ${value.p[1]}`;
+                            return `${value.c[0]}`;
+                        }
+                        // ${this.year()}: 
+                        // ${this.year2()}:
+                    },
+                    'Prestations réglées 2018': {
+                        callback: (value) => {
+                            return `${value.p[1]}`;
+                        }
+                    },
+                    'Prestations réglées 2019': {
+                        callback: (value) => {
+                            return `${value.p[0]}`;
                         }
                     },
                 }
@@ -135,8 +176,16 @@ export default {
             }
             if (this.current === 'AssTable') {
                 var json_fields = {
-                    'Holding': 'noH',
-                    'Entreprises':'noC',
+                    'Holding':{
+                        callback: (value) => {
+                            return `${value.noH} <br> ${value.nuH}`;
+                        }
+                    },
+                    'Entreprises':{
+                        callback: (value) => {
+                            return `${value.noC} <br> ${value.nuC}`;
+                        }
+                    },
                     'Contrat':{
                         callback: (value) => {
                             return `${this.transLibelle(value.c.l)}`;
@@ -147,21 +196,22 @@ export default {
                             return `${this.transTypeAss(value.c.c)}`;
                         }
                     },
-                    'Catégorie': {
-                        callback: (value) => {
-                            return `${this.transCat(value.c.a)}`;
-                        }
-                    },
                     'Collège': {
                         callback: (value) => {
                             return `${this.transCol(value.c.o)}`;
                         }
                     },
+                    'Catégorie': {
+                        callback: (value) => {
+                            return `${this.transCat(value.c.a)}`;
+                        }
+                    },
                     'Nom': 'l',
                     'prénom': 'f',
                     'Numéro sécurité sociale': 's',
-                    'Date d\'affiliation': 'c.e',
-                    'Date de radiation': 'c.s',
+                    'Date d\'affiliation': 'de',
+                    'Date de radiation': 'ds',
+                    'Nombre de bénéficiaires': 'bc',
                     'Régime': {
                         callback: (value) => {
                             return `${this.transReg(value.r)}`;
@@ -172,7 +222,11 @@ export default {
                             return `${this.transTeletrans(value.t)}`;
                         }
                     },
-                    'Carte TP': 'tp'
+                    'Carte TP': {
+                        callback: (value) => {
+                            return `${this.tpFormat(value.tp)}`;
+                        }
+                    }
                 }
                 return json_fields
             }
@@ -182,15 +236,20 @@ export default {
                     'Numero holding': 'nuH',
                     'Entreprises':'noC',
                     'Numero entreprises': 'nuC',
-                    'Contrats': 'c',
+                    // 'Contrats': 'c',
+                     'Contrat':{
+                        callback: (value) => {
+                            return `${this.transLibelle(value.l)}`;
+                        }
+                    },
+                     'N° contrat':{
+                        callback: (value) => {
+                            return `${value.l1 } ${ value.l2}`;
+                        }
+                    },
                     'Type de contrat': {
                         callback: (value) => {
                             return `${this.transType(value.ts)}`;
-                        }
-                    },
-                    'Catégorie': {
-                        callback: (value) => {
-                            return `${this.transCat(value.cg)}`;
                         }
                     },
                     'Collège': {
@@ -198,9 +257,18 @@ export default {
                             return `${this.transCol(value.cl)}`;
                         }
                     },
+                    'Catégorie': {
+                        callback: (value) => {
+                            return `${this.transCat(value.cg)}`;
+                        }
+                    },
                     'Début de période': 'dp',
                     'Fin de période': 'fp',
-                    'Montant encaissé': 'me',
+                    'Montant encaissé': {
+                        callback: (value) => {
+                            return `${value.me } €`;
+                        }
+                    },
                     'Date de l\'encaissement': 'de',
                     'Status cotisation': {
                         callback: (value) => {
@@ -217,7 +285,11 @@ export default {
                             return `${this.transMode(value.td)}`;
                         }
                     },
-                    'Montant reversé à la compagnie': 'mr',
+                    'Montant reversé à la compagnie': {
+                        callback: (value) => {
+                            return `${value.mr } €`;
+                        }
+                    },
                     'Date de reversement': 'dr',
 
                 }
@@ -226,11 +298,19 @@ export default {
         }
     },
     methods: {
+        formatTaux (data) {
+            return data + ' ' + '%'
+        },
         year () {
             return new Date().getFullYear()
         },
         year2 (data) {
             return new Date().getFullYear()-1
+        },
+        tpFormat (data) {
+            if(data == 1) {
+                return 'Disponible'
+            } else return 'Non disponible'
         },
         transReg (data) {
             return this.$store.state.translation.regime[data]
@@ -343,12 +423,11 @@ export default {
             return console.log(this.selection, 'selection')
         },
         getName (data) {
-            if ( data.f ) {
-                return data.f + ' ' + data.l;
-            }
-            if ( data.nuH ) {
-                return data.noH + ' '+  data.nuH;
-            }
+            console.log(data,'data')
+            if ( data.n ) return data.noH + data.noC + ' ' + this.transLibelle(data.l);
+            if ( data.f ) return data.noH + ' ' + data.noC + ' ' + data.f + ' ' + data.l;
+            if ( data.nuC ) return data.noH + ' ' + data.noC;
+            if ( data.nuH ) return data.noH;
         },
         showPop () {
             this.show = !this.show
@@ -419,6 +498,11 @@ h1 {
         line-height: 20px;
     }
 
+}
+.exporter {
+    align-items: center;
+    display: flex;
+    height: 100%;
 }
 
 

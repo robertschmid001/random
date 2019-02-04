@@ -24,10 +24,15 @@
     <div class="wrapping-search" v-show="this.currentView != 'chart-hub'" >
       <button class="button inner-button btnER" v-bind:class="{ fisActive: eR == 'r' }" @click="erFilter('e')">En cours</button>
       <button class="button inner-button btnER" v-bind:class="{ fisActive: eR == 'e' }" @click="erFilter('r')">Résiliés</button>
-      <input type="text" class="base-input search" v-model.trim.lazy="searcher" placeholder="Rechercher">
+      <div class='input-search'>
+        <input type="text" class="base-input search" v-model.trim.lazy="preSearch" placeholder="Rechercher">
+        <div class="porte-icon pointer" @click="confirmSearch">
+          <i class="el-icon-search"></i>
+        </div>
+      </div>
     </div>
     <transition name="fade">
-      <router-view v-loading="loading" :search="searchComp" :actFilter="activeFilter" :cotisation="cotisations" :holdings="holdings" :contrats="holdEntContrats" :entreprises="entreprises" :assure="globalAssure" :holdEntreprise="holdEntreprise" @holdEntRow="holdEntFilter" @holdContRow="holdEntContFilter" @enterAssure="assureFilter" @enterCotisation="cotisationFilter" ></router-view>
+      <router-view v-loading="loading" :search="prepSearch" :actFilter="activeFilter" :cotisation="cotisations" :holdings="holdings" :contrats="holdEntContrats" :entreprises="entreprises" :assure="globalAssure" :holdEntreprise="holdEntreprise" @holdEntRow="holdEntFilter" @holdContRow="holdEntContFilter" @enterAssure="assureFilter" @enterCotisation="cotisationFilter" ></router-view>
     </transition>
   </div>
 </template>
@@ -48,6 +53,7 @@ export default {
   data () {
       return {
         searcher: '',
+        preSearch: '',
         holdingsAll: [],
         entreprisesAll: [],
         holdEnt: [],
@@ -58,7 +64,7 @@ export default {
         multSelect: this.$store.state.multSelectStore,
         currentView: 'holding-table',
         spa: 's',
-        eR: 'e',
+        eR: this.$store.state.eR,
         bottomPop: true,
         loading: false
       }
@@ -79,9 +85,13 @@ export default {
   },
   //holdEntRow
   methods: {
+    confirmSearch () {
+      this.searcher = this.preSearch
+      return this.searcher
+    },
     changeTable (param) {
       if (param === 'hol') {return this.$router.push({ name: 'Mon Portefeuille clients', params:{hol: this.$route.params.hol, nuH: this.$route.params.nuH} })}
-      if (param === 'ent') {return this.$router.push({ name: 'entreprises', params:{hol: this.holdEnt[0].noH.toLowerCase(), nuH: this.holdEnt[0].nuH.toLowerCase()} })}
+      if (param === 'ent') {return this.$router.push({ name: 'entreprise', params:{hol: this.holdEnt[0].noH.toLowerCase(), nuH: this.holdEnt[0].nuH.toLowerCase()} })}
       if (param === 'cont') {return this.$router.push({ name: 'contrats', params:{hol: this.$store.state.holdEntCont[0].noH.toLowerCase(), nuH: this.$store.state.holdEntCont[0].nuH, ent: this.$store.state.holdEntCont[0].noC.toLowerCase(), nuC: this.$store.state.holdEntCont[0].nuC}})}
     },
     LOG () {
@@ -169,6 +179,25 @@ export default {
           }
       }
     },
+    // formatAssure () {
+    //   var assFilter = this.$store.state.assure
+    //   this.$store.state.holdings.forEach(e => {
+    //     e.entreprises.forEach(f => {
+    //       if (f.contracts !== false) { 
+    //         f.contracts.forEach( g => {
+    //           _.find(assFilter, function(ass){
+    //             if (ass.nh === e.nuH && ass.ne === f.nuC && ass.nc === g.n) {
+    //               ass.l3 = g.l
+    //               ass.l1 = g.l1
+    //               ass.l2 = g.l2
+    //             }
+    //           })
+    //         })
+    //       }
+    //     })
+    //   })
+    //   this.$store.state.assure = assFilter
+    // },
     setData () {
       this.$store.state.fullscreenLoading = true;
       this.getInfoAccueil();
@@ -178,6 +207,7 @@ export default {
       this.getAssure();
       this.getAppel();
       this.getDocs();
+      // this.formatAssure();
       this.getCourtierDocs();
       setTimeout(() => {
         this.holdingsAll = this.$store.state.holdings
@@ -187,6 +217,10 @@ export default {
     }
   },
   computed: {
+    prepSearch () {
+      this.search = this.preSearch
+      return this.search
+    },
     searchComp () {
       var search = this.searcher
       return search
@@ -289,7 +323,26 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../styles/_global.scss";
-
+.porte-icon {
+    position: relative;
+    right: 35px;
+    top: 0px;
+    display: flex;
+    font-weight: 800;
+    align-items: center;
+    height: 35px;
+    width: 35px;
+    border-radius: 0 7px 7px 0;
+    justify-content: center;
+}
+.porte-icon:hover {
+  background-color: $button-color;
+  color: white;
+}
+.input-search {
+  position: relative;
+  display: flex;
+}
 
 .fade-enter-active {
   transition: opacity .8s;
@@ -371,6 +424,7 @@ ul {
 }
 .wrapping-search {
   padding: 10px 40px 10px 40px;
+  display: flex;
 }
 .inner-button {
   padding: 0 10px;

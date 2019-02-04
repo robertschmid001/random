@@ -2,13 +2,20 @@
     <div id="contrat-table" >
         <div class="table-wrapping">
             <el-table ref="multipleTable" border :max-height="700" size="medium" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="c-border">
+                <el-table-column width="33" >
+                    <template slot-scope="scope">
+                        <el-tooltip class="item" effect="light" content="En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats »" placement="top-start">
+                            <i class="el-icon-info icon-info pointer"></i>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
                 <el-table-column type="selection" width="42"></el-table-column>
-                <el-table-column property="noH" prop="noH" sortable label="HOLDING"  min-width="220"><template slot-scope="scope"><div class="data-wrapper md-txt" > {{scope.row.noH }} <br> {{scope.row.nuH}}  </div></template></el-table-column>
-                <el-table-column property="noC" prop="noC" sortable label="ENTREPRISES" min-width="200"><template slot-scope="scope" ><div class="data-wrapper md-txt entHover">{{scope.row.noC}} <br> {{scope.row.nuC}} </div></template></el-table-column>
-                <el-table-column property="contrat" prop="l" sortable label="CONTRAT"  min-width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.l)}} <br> {{scope.row.l1 }} {{ scope.row.l2}}  </div></template></el-table-column>
+                <el-table-column property="noH" prop="noH" sortable label="HOLDING"  min-width="180"  max-width="265"><template slot-scope="scope"><div class="data-wrapper md-txt" > {{scope.row.noH }} <br> {{scope.row.nuH}}  </div></template></el-table-column>
+                <el-table-column property="noC" prop="noC" sortable label="ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt entHover">{{scope.row.noC}} <br> {{scope.row.nuC}} </div></template></el-table-column>
+                <el-table-column property="contrat" prop="l" sortable label="CONTRAT"  min-width="150"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.l)}} <br> {{scope.row.l1 }} {{ scope.row.l2}}  </div></template></el-table-column>
                 <el-table-column property="type" prop="tc" sortable label="TYPE DE CONTRAT"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transType(scope.row.tc)}}</div></template></el-table-column>
-                <el-table-column property="categorie" prop="a" sortable label="CATEGORIE"  width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCat(scope.row.a)}}</div></template></el-table-column>
                 <el-table-column property="college" prop="o" sortable label="COLLEGE"  width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCol(scope.row.o)}}</div></template></el-table-column>
+                <el-table-column property="categorie" prop="a" sortable label="CATEGORIE"  width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCat(scope.row.a)}}</div></template></el-table-column>
                 <el-table-column property="assureur" prop="s" sortable label="ASSUREUR"  width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transAss(scope.row.s)}}</div></template></el-table-column>
                 <el-table-column property="reseauDeSoin" prop="r" sortable label="RESEAU DE SOIN"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transRes(scope.row.r)}}</div></template></el-table-column>
                 <el-table-column property="debut" prop="debut" sortable label="DATE DE DEBUT"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dep}}</div></template></el-table-column>
@@ -31,14 +38,14 @@
                         </el-popover>
                     </template>
                 </el-table-column>
-                 <el-table-column property="graphique" v-if="actFilter === 's'" label="GRAPHIQUE"  width="100">
+                 <!-- <el-table-column property="graphique" v-if="actFilter === 's'" label="GRAPHIQUE"  width="100">
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="top">
                             <span> Merci de sélectionner une ou plusieurs ligne dans le tableau <br> afin de créer un graphique </span>
                             <div slot="reference" class="name-wrappe popoverTable"><font-awesome-icon icon="chart-pie" class="chartIcon pointer"/></div>
                         </el-popover>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column type="selection" width="42"></el-table-column>
             </el-table>
         </div>
@@ -263,6 +270,9 @@ export default {
 }
 .popoverTable {
     text-align: center;
+}
+.icon-info:hover {
+    color: $contTable-color;
 }
 .chartIcon {
     font-size: 3em;

@@ -1,14 +1,14 @@
 <template>
   <div id="TypoChart">
         <el-row class="outer-wrapper">
-            <h1>Typologie des appels téléphonique</h1>
+            <h1>Typologie des appels téléphoniques</h1>
           <font-awesome-icon icon="times" class="close-icon pointer"  @click="close"/>
             <el-col :span="24">
               <div  v-show="this.filteredData.length > 0" class="tablewrapper">
-                <el-table size="small" :data="filteredData" style="max-width: 600px;">
+                <el-table size="small" :data="filteredData" style="max-width: 600px;" :default-sort= "{prop: 'y', order: 'descending'}">
                         <el-table-column prop="cat" label="" ><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.m}}</div></template></el-table-column>
-                        <el-table-column prop="Ass" label="2017" width="80"><template scope="scope" ><div class="data-wrapper md-txt "><div class="align-left left">{{scope.row.by}}</div></div></template></el-table-column>
-                        <el-table-column prop="Con" label="2018" width="90"><template scope="scope" ><div class="data-wrapper md-txt "><div class="align-left left">{{scope.row.y}}</div></div></template></el-table-column>
+                        <el-table-column prop="by" :label="cotFormating2" width="80"><template scope="scope" ><div class="data-wrapper md-txt "><div class="align-left left">{{scope.row.by}}</div></div></template></el-table-column>
+                        <el-table-column prop="y" :label="cotFormating1" width="90"><template scope="scope" ><div class="data-wrapper md-txt "><div class="align-left left">{{scope.row.y}}</div></div></template></el-table-column>
                 </el-table>
               </div>
             </el-col>
@@ -38,7 +38,33 @@ export default {
       filteredData: [],
     }
   },
+  computed: {
+    cotFormating1 () {
+      var n = new Date().getFullYear()
+      var str = n.toString()
+      console.log(str, 'str 2019')
+      return  str
+    },
+    cotFormating2 () {
+      var n = new Date().getFullYear()-1
+      var str = n.toString()
+      console.log(str, 'str 2018')
+      return  str
+    },
+  },
   methods: {
+    chartYear () {
+      var n = new Date().getFullYear()
+      var str = n.toString()
+      console.log(str, 'str 2019')
+      return  str = this.year
+    },
+    chartLastYear () {
+      var n = new Date().getFullYear()-1
+      var str = n.toString()
+      console.log(str, 'str 2018')
+      return  str = this.lastYear
+    },
     filterAppel () {
       this.appel.forEach(e => {
           if (e.nh === this.typoChartData && this.name === "HolTable") {
@@ -57,14 +83,20 @@ export default {
       var totalLy = 0
       var totalTy = 0
 
+      var n1 = new Date().getFullYear()
+      var str1 = n1.toString()
+
+      var n2 = new Date().getFullYear()-1
+      var str2 = n2.toString()
+
       _.each(this.$store.state.translation.appel, function (value, key) {
         var variable = { 'm': value, 'y': 0, 'by': 0 }
         _.find(data, function(item){
-          if ( key === item.m && item.y === '2017') {
+          if ( key === item.m && item.y === str2) {
             variable.by = variable.by +1
             totalLy = totalLy + 1
           }
-          if ( key === item.m && item.y === '2018') {
+          if ( key === item.m && item.y === str1) {
             variable.y = variable.y +1
             totalTy = totalTy + 1
           }
@@ -83,6 +115,14 @@ export default {
       this.$emit('close');
     },
     createChart () {
+
+      var n1 = new Date().getFullYear()
+      var year = n1.toString()
+
+      var n2 = new Date().getFullYear()-1
+      var lastYear = n2.toString()
+      
+
       am4core.useTheme(am4themes_animated);
 
       /* Create chart instance */
@@ -104,15 +144,15 @@ export default {
       /* Create axes */
       var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
         categoryAxis.dataFields.category = "m";
-        categoryAxis.renderer.minGridDistance = 10;
+        categoryAxis.renderer.minGridDistance = 20;
         categoryAxis.renderer.grid.template.disabled = true;
-        categoryAxis.renderer.cellStartLocation = 0.1;
+        // categoryAxis.renderer.cellStartLocation = 0.1;
 
       var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
-        valueAxis.renderer.minGridDistance = 50;
+        valueAxis.renderer.minGridDistance = 20;
         valueAxis.renderer.grid.template.disabled = true;
-        valueAxis.min = 0;
-        // valueAxis.max = 100;
+        valueAxis.min = 5;
+        valueAxis.max = 100;
         valueAxis.strictMinMax = true;
         valueAxis.renderer.labels.template.adapter.add("text", function(text) {
           return text + "%";
@@ -138,24 +178,34 @@ export default {
 
 
       /* Create series */
+
+      
       var series = chart.series.push(new am4charts.ColumnSeries());
-        series.dataFields.valueX = "totalLy";
-        series.name = "2017";
+        series.columns.template.stroke = am4core.color("#fff");
+        series.columns.template.strokeWidth = 2;
+
+        series.dataFields.valueX = "totalTy";
+        series.name = year;
         series.dataFields.categoryY = "m";
         series.columns.template.height = am4core.percent(100);
         series.tooltip.pointerOrientation = "vertical";
-        series.columns.template.tooltipText = "{name} {m}: {by}";
-        series.columns.template.fill = am4core.color("#049797");
+        series.columns.template.tooltipText = "{name} {m}: {y}";
 
       var series2 = chart.series.push(new am4charts.ColumnSeries());
-        series2.dataFields.valueX = "totalTy";
-        series2.name = "2018";
-        series2.dataFields.categoryY = "m";
-        series2.columns.template.height = am4core.percent(10);
-        series2.tooltip.pointerOrientation = "vertical";
-        series2.columns.template.tooltipText = "{name} {m}: {y}";
+        series2.columns.template.stroke = am4core.color("#fff");
+        series2.columns.template.strokeWidth = 2;
 
-      var valueLabel = series.bullets.push(new am4charts.LabelBullet());
+        series2.dataFields.valueX = "totalLy";
+        series2.name = lastYear;
+        series2.dataFields.categoryY = "m";
+        series2.columns.template.height = am4core.percent(100);
+        series2.tooltip.pointerOrientation = "vertical";
+        series2.columns.template.tooltipText = "{name} {m}: {by}";
+        series2.columns.template.fill = am4core.color("#049797");
+
+
+
+   var valueLabel = series.bullets.push(new am4charts.LabelBullet());
         valueLabel.label.text = " {valueX.value.formatNumber('#.00')}%";
         valueLabel.label.horizontalCenter = "left";
         valueLabel.label.dx = 10;
@@ -170,6 +220,8 @@ export default {
         valueLabel.label.fontSize = 9;
         valueLabel.label.hideOversized = false;
         valueLabel.label.truncate = false;
+
+   
     }
   },
   created () {
@@ -185,7 +237,9 @@ export default {
 <style lang="scss" scoped>
 #TypoChart {
   background:rgba(0,0,0,0.5);
-  padding: 30px;
+  padding-left: 70px;
+  padding-right: 6px;
+  padding-top: 10px;
   width: 100%;
   box-sizing: border-box;
   z-index: 1;

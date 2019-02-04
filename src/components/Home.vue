@@ -9,16 +9,17 @@
 
     <el-row>
         <el-col class="box" :xs="24" :sm="24" :md="24" :lg="16" :xl="16">
-
-          <div class="white height-square xtrapadding isCLickable pointer height300">
-            <router-link class="router-class" to="/portefeuille">
-              <h3 class="h3">Mon portefeuille client</h3>
+          <div class="white height-square xtrapadding  height300">
+              <h3 class="h3">Synthèse de mon Portefeuille Client</h3>
               <div class="content-text">
                 Consulter les données clefs de mon portefeuille clients (holdings, entreprises, contrats, cotisations, assurés)
                 et Créer un graphique sur-mesure en sélectionnant les données souhaitées de mon portefeuille.
               </div>
-              <div class="voir">Voir >></div>
-
+              <div class="voir-wrapper">
+                <router-link class="router-class " to="/portefeuille">
+                  <div class="voir isCLickable pointer">Voir >></div>
+                </router-link>
+              </div>
               <div v-if="this.currentTab ==='s'">
                 <el-row>
                   <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol blue box-colored width-small"><div><div class="number">{{info.holdingCountSante}}</div><div class="box-text">Holding</div></div></div></el-col>
@@ -49,63 +50,34 @@
                   <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol lgt-green box-colored width-small"><div><div class="number">{{info.cotiAutre}} €</div><div class="box-text">Cotisations</div></div></div></el-col>
                 </el-row>
               </div>
-
-              <!-- <component :is="this.currentTab" :info="info"></component> -->
-
-              <!-- <div> -->
-                <!-- <el-col :xs="8" :sm="6" :md="6" :lg="3" :xl="3" class="box-padding"><div class="radius borderhol blue box-colored width-small"><div><div class="number">{{info.holdingCount}}</div><div class="box-text">Holding</div></div></div></el-col>
-                <el-col :xs="8" :sm="6" :md="6" :lg="3" :xl="3" class="box-padding"><div class="radius borderent purple box-colored width-small"><div><div class="number">{{info.EntrepriseCount}}</div><div class="box-text">Entreprises</div></div></div></el-col>
-                <el-col :xs="8" :sm="6" :md="6" :lg="3" :xl="3" class="box-padding"><div class="radius borderhol orange box-colored width-small"><div><div class="number">{{info.ContratCount}}</div><div class="box-text">Contrats</div></div></div></el-col>
-                <el-col :xs="12" :sm="6" :md="6" :lg="3" :xl="3" class="box-padding"><div class="radius borderhol red box-colored width-small"><br><div><div class="number">{{info.ABCount}}</div><div class="box-text">Assurés<br>Bénéficiaires</div></div></div></el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol green box-colored width-small"><div><div class="number">{{info.prestaSante}} €</div><div class="box-text">Prestations santé</div></div></div></el-col>
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="box-padding">
-                  <div class="radius borderhol lgt-green box-colored">
-                    <el-row class="el-row-cot">
-                      <el-col :span="12">
-                        <div> -->
-                          <!-- <div class="number">{{info.cotiPrevoyance}} €</div>
-                          <div class="box-text">Cotisations prévoyance<br>et autres risque</div>
-                        </div>
-                      </el-col>
-                      <el-col :span="12">
-                        <div>
-                          <div class="number">{{info.cotiSante}} €</div>
-                          <div class="box-text">Cotisations santé</div>
-                        </div> -->
-                      <!-- </el-col>
-                    </el-row>
-                  </div>
-                </el-col>
-              </div> -->
-
-            </router-link>
           </div>
-
         </el-col>
         <el-col class="box" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <div class="white padding height300">
             <h3 class="activity-title">Mon activités des 6 derniers mois</h3>
             <el-row class="activity-wrapper">
               <el-col :span="24" class="line-height">
-                <div @click="newEnt"><el-row class="border-bot pointer isCLickable"><el-col :span="21" class="act-cont align-left">Affaires nouvelles</el-col><el-col :span="3" class="act-num align-right">{{info.affairesNouvelles}}</el-col></el-row></div>
-                <div @click="resEnt"><el-row class="border-bot pointer isCLickable"><el-col :span="21" class="act-cont align-left">Résiliations</el-col><el-col :span="3" class="act-num align-right">{{info.resilations}}</el-col></el-row></div>
-                <div @click="cotEn"><el-row class="border-bot pointer isCLickable"><el-col :span="21" class="act-cont align-left">Cotisations encaissées</el-col><el-col :span="3" class="act-num align-right">{{formatCoti(info.cotiEncaiss)}} €</el-col></el-row></div>
+                <div @click="newEnt"><el-row class="border-bot pointer isCLickable"><el-col :span="18" class="act-cont align-left">Affaires nouvelles</el-col><el-col :span="6" class="act-num align-right">{{info.affairesNouvelles}}</el-col></el-row></div>
+                <div @click="resEnt"><el-row class="border-bot pointer isCLickable"><el-col :span="18" class="act-cont align-left">Résiliations</el-col><el-col :span="6" class="act-num align-right">{{info.resilations}}</el-col></el-row></div>
+                <div @click="cotEn"><el-row class="border-bot pointer isCLickable"><el-col :span="14" class="act-cont align-left">Cotisations encaissées</el-col><el-col :span="10" class="act-num align-right">{{formatCoti(info.cotiEncaiss)}} €</el-col></el-row></div>
                 <div @click="impCot"><el-row v-bind:class="{ active: isImp }" class="border-bot isCLickable"><el-col :span="21" class="act-cont align-left">Cotisations impayées</el-col><el-col :span="3" class="act-num align-right">{{formatImp(info.cotiNoPay)}}</el-col></el-row></div>
               </el-col>
             </el-row>
           </div>
         </el-col>
       <el-col class="box" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-        <div class="white padding isCLickable pointer">
-          <router-link class="router-class" to="/documents">
+        <div class="white padding">
           <h3 class="activity-title h3">Bibliothèque de documents</h3>
             <div class="content-text">
               Accéder aux documents utiles à mon activité.
             </div>
             <div class="xtra-icon-pad"></div>
-            <div class="voir">Voir <i class="el-icon-d-arrow-right"></i></div>
+            <div class="voir-wrapper">
+              <router-link class="router-class" to="/documents">
+                <div class="voir isCLickable pointer">Voir <i class="el-icon-d-arrow-right"></i></div>
+              </router-link>
+            </div>
             <div><font-awesome-icon icon="file-alt" class="icon-size xtra-icon-pad"/></div>
-            </router-link>
         </div>
       </el-col>
       <el-col class="box" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
@@ -137,15 +109,17 @@
         </div>
       </el-col>
       <el-col class="box" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-        <div class="white padding isCLickable pointer">
-          <router-link class="router-class" to="/recherche">
+        <div class="white padding">
           <h3 class="activity-title h3">Recherche d'un assuré</h3>
             <div class="content-text">
               Consulter les données de l'assuré et télécharger sa carte Tiers-payant.
             </div>
-            <div class="voir">Voir <i class="el-icon-d-arrow-right"></i></div>
+            <div class="voir-wrapper">
+              <router-link class="router-class" to="/recherche">
+                <div class="voir isCLickable pointer">Voir <i class="el-icon-d-arrow-right"></i></div>
+              </router-link>
+            </div>
             <div><font-awesome-icon icon="user-friends" class="icon-size"/></div>
-            </router-link>
         </div>
       </el-col>
     </el-row>
@@ -189,9 +163,6 @@ export default {
     },
     fetchData (to, from) {
       console.log(to, from, '<= do that ')
-      // if (!this.$store.state.holdings) {
-      //   this.getCabinets();
-      // }
     },
     routeTo (param) {
       if (param === 'prest') { this.$store.state.extrType = 'prestations'; return this.$router.push({ name: 'Extraction', params:{type: 'prestations'} }) }
@@ -245,6 +216,7 @@ export default {
           }
         })
       })
+      this.$store.state.eR = 'r'
       this.$store.state.holdEnt = filteredEnt
       this.$router.push({ name: 'entreprise' })
     },
@@ -264,12 +236,10 @@ export default {
       var cotFilter = this.$store.state.cotisations
       this.$store.state.holdings.forEach(e => {
         e.entreprises.forEach(f => {
-          console.log(f, 'f')
           if (f.contracts !== false) { 
             f.contracts.forEach( g => {
               _.find(cotFilter, function(cot){
                 if (cot.h === e.nuH && cot.e === f.nuC && cot.c === g.n) {
-                  // console.log(cot,'cot')
                   cot.noH = e.noH
                   cot.nuH = e.nuH
                   cot.noC = f.noC
@@ -283,38 +253,6 @@ export default {
           }
         })
       })
-
-
-        //   _.find(cotFilter, function(cot){
-        //       if (cot.h === e.nuH) {
-        //         console.log(cot,'cot')
-        //         cot.noH = e.noH
-        //         cot.nuH = e.nuH
-        //       }
-        //   }
-        // )
-        // e.entreprises.forEach(f => {
-        //   _.find(cotFilter, function(cot){
-        //     if (cot.e === f.nuC) {
-        //       cot.noC = f.noC
-        //       cot.nuC = f.nuC
-        //     }
-        //   })
-        //   f.contracts.forEach( g => {
-        //     if (cot.c === g.n) {
-        //       cot.noC = g.noC
-        //       cot.nuC = g.nuC
-        //       cot.l = g.l
-        //       cot.l1 = g.l1
-        //       cot.l2 = g.l2
-        //     }
-        //   })
-        // })
-
-
-
-      // })
-      console.log(cotFilter, 'cotfilter')
       this.$store.state.cotisations = cotFilter
     },
     setData () {
@@ -482,7 +420,7 @@ h3 {
 }
 .number {
   width: 100%;
-  font-size: 18px;
+  font-size: 13px;
   padding-bottom: 3px;
   box-sizing: border-box;
 }
@@ -491,7 +429,9 @@ h3 {
   padding-top: 10px;
 }
 .voir {
-  padding: 30px 0;
+  width: 50px;
+  border-radius: 7px;
+  padding: 6px 10px;
   font-size: 13px;
   color: $button-color;
   font-weight: 600;
@@ -505,6 +445,11 @@ h3 {
 }
 .box {
   padding: 10px;
+  display: flex;
+}
+.voir-wrapper {
+  padding: 30px 0;
+  justify-content: center;
   display: flex;
 }
 // .width-small {

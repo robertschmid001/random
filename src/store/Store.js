@@ -86,6 +86,7 @@ export const store = new Vuex.Store({
         appel: [], //added
         tableDocs: [], //added
         coCourtiers: [],
+        eR:'e',
         mutations: {
         },
     },

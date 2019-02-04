@@ -128,6 +128,7 @@ export default {
               this.getAppel();
               this.getDocs();
               this.getCourtierDocs();
+              // this.formatAssure();
               this.waitLoad();
             }
             else {
@@ -153,7 +154,6 @@ export default {
     },
     submit() {
       this.isLoading = true
-      // console.log('submit!')
       this.$v.$touch()
       if (this.$v.$invalid) {
         this.isLoading = false
@@ -162,21 +162,45 @@ export default {
         this.login();
       }
     },
+    // formatAssure () {
+    //   var assFilter = this.$store.state.assure
+    //   this.$store.state.holdings.forEach(e => {
+    //     e.entreprises.forEach(f => {
+    //       if (f.contracts !== false) { 
+    //         f.contracts.forEach( g => {
+    //           _.find(assFilter, function(ass){
+    //             console.log('Not yet')
+    //             if (ass.nh === e.nuH && ass.ne === f.nuC && ass.nc === g.n) {
+    //               console.log('Accepted')
+    //               ass.l1 = g.l1
+    //               ass.l2 = g.l2
+    //             }
+    //           })
+    //         })
+    //       }
+    //     })
+    //   })
+    //   consolelog(assFilter, 'assFilter')
+    //   this.$store.state.assure = assFilter
+    // },
+
+
+
+
+
+
     getCabinets: function() {
       axios.post('https://courtier.cpms.fr/getCourtier')
       .then(response => {
         this.$store.state.holdings = response.data.holding
         this.$store.state.cabinet = response.data.cabinet
         this.$store.state.coCourtiers = response.data.coCourtiers
-        // console.log(response.data.coCourtiers, '=> coCou')
-        // console.log(response.data.cabinet, '=> cabinet')
       })
     },
     getCotisation: function() {
       axios.post('https://courtier.cpms.fr/getCotisation')
       .then(response => {
         this.$store.state.cotisations = response.data
-        // console.log(response.data,'response.data')
       })
     },
     getAssure: function() {
