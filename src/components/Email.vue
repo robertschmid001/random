@@ -25,8 +25,6 @@
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
                 :before-remove="beforeRemove"
-                :limit="4"
-                :on-exceed="handleExceed"
                 :file-list="fileAdded"
                 :on-success="fileAdd"
                 :on-change="changeUpload"
@@ -34,7 +32,7 @@
                 accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg,application/pdf"
                 >
                 <button class="joindre-style pointer" size="small" type="primary"><font-awesome-icon icon="paperclip" class="paperclip-icon"  @click="close"/>Joindre un fichier</button>
-                <div slot="tip" class="el-upload__tip">Veuillez vérifier que le volume des fichiers ne dépassent pas 10 Mo.</div>
+                <div slot="tip" class="el-upload__tip">Veuillez vérifier que le volume des fichiers ne dépassent pas 15 Mo.</div>
               </el-upload>
             </el-col>
             <el-col :span="12"><button class="button button-style pointer" @click="validateMail()" >Envoyer</button></el-col>
@@ -79,7 +77,7 @@ export default {
       file.forEach( e => {
         fileSize = fileSize + e.size/1000
       })
-      if (fileSize <= 10000) {
+      if (fileSize <= 15000) {
         let formData = new FormData();
         // let passed = false;
         var i = 1
@@ -113,7 +111,7 @@ export default {
             }
           }, 1000)
         }
-      } else return this.$message.warning(`Veuillez vérifier que le volume des fichiers ne dépassent pas 10 Mo.`);
+      } else return this.$message.warning(`Veuillez vérifier que le volume des fichiers ne dépassent pas 15 Mo.`);
     },
     validateMail () {
       this.sendMail();
@@ -142,7 +140,7 @@ export default {
       console.log(file, 'preview');
     },
     handleExceed (files, fileList) {
-      this.$message.warning(`The limit is 4, you selected ${files.length} files this time, add up to ${files.length + fileList.length} totally`);
+      // this.$message.warning(`The limit is 4, you selected ${files.length} files this time, add up to ${files.length + fileList.length} totally`);
     },
     beforeRemove (file, fileList) {
       return this.$confirm(`Voulez-vous supprimer ce fichier ? ${ file.name }`);

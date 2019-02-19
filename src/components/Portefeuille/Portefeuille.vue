@@ -32,8 +32,9 @@
       </div>
     </div>
     <transition name="fade">
-      <router-view v-loading="loading" :search="prepSearch" :actFilter="activeFilter" :cotisation="cotisations" :holdings="holdings" :contrats="holdEntContrats" :entreprises="entreprises" :assure="globalAssure" :holdEntreprise="holdEntreprise" @holdEntRow="holdEntFilter" @holdContRow="holdEntContFilter" @enterAssure="assureFilter" @enterCotisation="cotisationFilter" ></router-view>
+      <router-view v-loading="loading" :search="prepSearch" :actResilie="isResilie" :actFilter="activeFilter" :cotisation="cotisations" :holdings="holdings" :contrats="holdEntContrats" :entreprises="entreprises" :assure="globalAssure" :holdEntreprise="holdEntreprise" @holdEntRow="holdEntFilter" @holdContRow="holdEntContFilter" @enterAssure="assureFilter" @enterCotisation="cotisationFilter" ></router-view>
     </transition>
+    <!-- <button class="buttonlog" @click="log" >.</button> -->
   </div>
 </template>
 <script>
@@ -46,6 +47,7 @@ import HolTable from "./tables/HolTable.vue"
 import PresTable from "./tables/PresTable.vue"
 import GlobEntTable from "./tables/GlobEntTable.vue"
 import ChartHub from "./_subs/charts/ChartHub.vue"
+
 // import { mapGetters } from 'vuex'
 
 export default {
@@ -85,6 +87,12 @@ export default {
   },
   //holdEntRow
   methods: {
+    log () {
+      // console.log(this.$router, 'router')
+      // console.log(this.$route, "here")
+      // console.log(this.holdEnt, 'this.holdEnt')
+      // console.log(this.$store.state.holdEnt, 'STORE holdEnt')
+    },
     confirmSearch () {
       this.searcher = this.preSearch
       return this.searcher
@@ -95,18 +103,18 @@ export default {
       if (param === 'cont') {return this.$router.push({ name: 'contrats', params:{hol: this.$store.state.holdEntCont[0].noH.toLowerCase(), nuH: this.$store.state.holdEntCont[0].nuH, ent: this.$store.state.holdEntCont[0].noC.toLowerCase(), nuC: this.$store.state.holdEntCont[0].nuC}})}
     },
     LOG () {
-      console.log(this.$route, "here")
+
     },
-    fetchData (to, from) {
-      // console.log(to, from, 'do this =>')
-    },
+    // fetchData (to, from) {
+    //   // console.log(to, from, 'do this =>')
+    // },
     getSelection () {
-      console.log(this.multSelect,'multiselect')
+      // console.log(this.multSelect,'multiselect')
     },
     chart (param) {
       this.currentView = param
     },
-    tableSwitch (route, index) {
+    tableSwitch (route) {
       if(route === this.currentView) {
         return
       }
@@ -152,51 +160,48 @@ export default {
       return this.spa = param
     },
     initEntreprise () {
-      this.holdingsAll.filter(d => {
-        return d.entreprises.filter(e => {
-          e.noH = d.noH
-          e.nuH = d.nuH
-          this.entreprisesAll.push(e)
+      if (this.holdingsAll) {
+        this.holdingsAll.filter(d => {
+          return d.entreprises.filter(e => {
+            e.noH = d.noH
+            e.nuH = d.nuH
+            this.entreprisesAll.push(e)
+          })
         })
-      })
+      } else return
     },
     formatCurrency (param) {
       if( param[0] != null && param[1] != null ) {
-        if(param[0].match(/\u20AC/g)){
-          return
-        } else
-        for (var i = 0; i < param.length; i++) {
-          param[i] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[i])
-        }
+        if(param[0].match(/\u20AC/g)) return
+          param[0] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[0])
+          param[1] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[1])
       } else {
           for (var y = 0; y < param.length; y++) {
-            if (param[y] != null) {
-              param[y] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[y])
-            } else {
-              param[y] = 0
+            if (!param[y]) { param[y] = 0 } 
               param[y] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[y])
             }
-          }
       }
     },
-    // formatAssure () {
-    //   var assFilter = this.$store.state.assure
-    //   this.$store.state.holdings.forEach(e => {
-    //     e.entreprises.forEach(f => {
-    //       if (f.contracts !== false) { 
-    //         f.contracts.forEach( g => {
-    //           _.find(assFilter, function(ass){
-    //             if (ass.nh === e.nuH && ass.ne === f.nuC && ass.nc === g.n) {
-    //               ass.l3 = g.l
-    //               ass.l1 = g.l1
-    //               ass.l2 = g.l2
-    //             }
-    //           })
-    //         })
+    // formatCurrency (param) {
+    //   console.log(param, 'cotisation param')
+    //   if( param[0] != null && param[1] != null ) {
+    //     if(param[0].match(/\u20AC/g)){
+    //       return }
+    //       else {
+    //         for (var i = 0; i < param.length; i++) {
+    //           param[i] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[i])
+    //         }
     //       }
-    //     })
-    //   })
-    //   this.$store.state.assure = assFilter
+    //   } else {
+    //       for (var y = 0; y < param.length; y++) {
+    //         if (param[y] != null) {
+    //           param[y] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[y])
+    //         } else {
+    //           param[y] = 0
+    //           param[y] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[y])
+    //         }
+    //       }
+    //   }
     // },
     setData () {
       this.$store.state.fullscreenLoading = true;
@@ -207,7 +212,6 @@ export default {
       this.getAssure();
       this.getAppel();
       this.getDocs();
-      // this.formatAssure();
       this.getCourtierDocs();
       setTimeout(() => {
         this.holdingsAll = this.$store.state.holdings
@@ -218,8 +222,8 @@ export default {
   },
   computed: {
     prepSearch () {
-      this.search = this.preSearch
-      return this.search
+      var search = this.preSearch
+      return search
     },
     searchComp () {
       var search = this.searcher
@@ -228,6 +232,10 @@ export default {
     activeFilter(){
       let activeFilt = this.spa
       return activeFilt
+    },
+    isResilie(){
+      let resilie = this.eR
+      return resilie
     },
     matchingRoute () {
       if(this.$route.name === "Mon Portefeuille clients" || this.$route.name === "Toutes les entreprises" ){
@@ -246,10 +254,18 @@ export default {
     globalAssure () {
       let spaEr = this.spa + this.eR;
       var filteredAssure = this.$store.state.filteredAssures
+      // console.log(filteredAssure, 'Ass global')
+      // console.log(this.eR, 'this.eR global')
         return filteredAssure.filter(e => {
-        if (e.c.t === spaEr) {
-          return e
-        } else return
+        // if (e.c.t === spaEr) {
+          if (this.eR === 'e' && e.v == 1 && e.c.t === spaEr) {
+            // console.log(e, 'inside E e.v=1 spaer')
+            return e
+          }
+          if (this.eR === 'r' && e.v == 0 && e.c.t === spaEr) {
+            // console.log(e, 'inside R e.v=1 spaer')
+            return e
+          }
       })
     },
     holdEntContrats () {
@@ -294,21 +310,23 @@ export default {
       })
     },
     holdings () {
-      let spaEr = this.spa + this.eR;
-      return this.holdingsAll.filter( h => {
-        h.iEe = h.iE[spaEr]
-        h.iCc = h.iC[spaEr]
-        h.iAa = h.iA[spaEr]
-        h.iBb = h.iB[spaEr]
-        h.iPrr = h.iPr[spaEr]
-        h.iCoo = h.iCo[spaEr]
-        h.iTt = h.iT[spaEr]
-        if(h.iEe > 0){
-          this.formatCurrency(h.iCoo);
-          this.formatCurrency(h.iPrr);
-          return h
-        }
-      })
+      if (this.holdingsAll) {
+        let spaEr = this.spa + this.eR;
+        return this.holdingsAll.filter( h => {
+          h.iEe = h.iE[spaEr]
+          h.iCc = h.iC[spaEr]
+          h.iAa = h.iA[spaEr]
+          h.iBb = h.iB[spaEr]
+          h.iPrr = h.iPr[spaEr]
+          h.iCoo = h.iCo[spaEr]
+          h.iTt = h.iT[spaEr]
+          if(h.iEe > 0){
+            this.formatCurrency(h.iCoo);
+            this.formatCurrency(h.iPrr);
+            return h
+          }
+        })
+      }
     },
   },
   mounted () {
@@ -349,6 +367,13 @@ export default {
 }
 .fade-enter /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+.buttonlog {
+  position: absolute;
+  bottom: 30px;
+  background-color: lightgrey;
+  outline: none;
+  border: none;
 }
 
 

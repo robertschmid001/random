@@ -77,14 +77,14 @@
                         <div v-for="(item, index) in sendData.listName" :key="index" >{{item}}</div>
                     </div>
                     <br>
-                    <div><div class="subtitle">Catégorie:</div> {{formatCat(sendData.category)}}</div><br>
+                    <div><div class="subtitle">Risque:</div> {{formatCat(sendData.category)}}</div><br>
                     <div v-if="sendData.status > 0"><div class="subtitle">Assureur:</div>{{sendData.status}} <div v-for="(item, index) in sendData.type" :key="index" >{{item}}</div></div>
                     <div v-if="sendData.type.length > 0"> <div class="subtitle">Type:</div><div v-for="(item, index) in sendData.type" :key="index" >{{formatType(item)}}</div><br></div><br>
                     <div v-if="sendData.stDate[0]"> <div class="subtitle">Date d'entrée:</div> {{sendData.stDate}}<br></div>
                     <div v-if="sendData.fnDate[1]"> <div class="subtitle">Date de sortie:</div> {{sendData.fnDate}}<br></div>
                     <!-- <div v-if="sendData.isLoading"><i class="el-icon-loading"></i></div> -->
                 </div>
-                <button class="button" @click="LOG">LOG</button>
+                <!-- <button class="button" @click="LOG">LOG</button> -->
                 <el-button  class="button validate pointer" @click="getExtraction()" >Préparer les extractions</el-button>
               </div>
               

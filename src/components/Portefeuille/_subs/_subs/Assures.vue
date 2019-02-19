@@ -66,8 +66,8 @@
                             <div>
                                 <div class="box-user">
                                     <el-collapse :accordion="true">
-                                        <div v-for="(item, index) in this.contratInfo" :key="index">
-                                            <el-collapse-item :name="nameOfFile(index)">
+                                        <div v-for="(item, index) in contractsFormat" :key="index">
+                                            <el-collapse-item :name="index">
                                                 <template slot="title" class="titlehead">
                                                     <div class="col-head dark-grey">
                                                         {{formatType(item.ci.c)}}
@@ -110,6 +110,22 @@ export default {
       }
   },
   computed: {
+    contractsFormat () {
+        console.log(this.activeAss, 'activeAss')
+        var contracts = this.contratInfo
+        console.log(contracts, 'contracts')
+        var today = moment().format('YYYY-MM-DD')
+        var filtered = []
+        contracts.forEach(e => {
+            e.pi.forEach(f => {
+            // var date = moment(f.date_sortie_atach, 'YYYY-MM-DD').format('YYYY-MM-DD')
+                if (today < f.date_sortie_atach || !f.date_sortie_atach) {
+                    filtered.push(e)
+                }
+            })
+        }) 
+        return filtered;
+    },
     tel2Comp () {
         if (this.assInfo.tel2 === '0000000000'){
             return '- '
@@ -134,9 +150,9 @@ export default {
         return this.userData = add
     },
     formatDate (date) {
-        if ( date) {
-            var date = moment(date).format('L')
-            return date
+        if (date) {
+            var dater = moment(moment(date, 'YYYY-MM-DD')).format('DD/MM/YYYY')
+            return dater
         } else return ''
     },
     formatName (data) {
@@ -152,14 +168,14 @@ export default {
     
         return data === 'B'? 'Régime de base' : 'Régime optionnel'
     },
-    nameOfFile (index) {
-        return index
-    },
+    // nameOfFile (index) {
+    //     return index
+    // },
     logging () {
-        console.log(this.activeAss, 'activeAss')
-        console.log(this.assInfo, 'assInfo')    
-        console.log(this.assInfo.adresse, 'asureInfo.adresse')
-        console.log(this.contratInfo, 'contratInfo')
+        // console.log(this.activeAss, 'activeAss')
+        // console.log(this.assInfo, 'assInfo')    
+        // console.log(this.assInfo.adresse, 'asureInfo.adresse')
+        // console.log(this.contratInfo, 'contratInfo')
     },
     close () {
         this.$emit('close');

@@ -3,7 +3,7 @@
         <el-row class="outer-wrapper">
             <h1>Typologie des appels téléphoniques</h1>
           <font-awesome-icon icon="times" class="close-icon pointer"  @click="close"/>
-            <el-col :span="24">
+            <el-col :span="8">
               <div  v-show="this.filteredData.length > 0" class="tablewrapper">
                 <el-table size="small" :data="filteredData" style="max-width: 600px;" :default-sort= "{prop: 'y', order: 'descending'}">
                         <el-table-column prop="cat" label="" ><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.m}}</div></template></el-table-column>
@@ -12,7 +12,7 @@
                 </el-table>
               </div>
             </el-col>
-            <el-col :span="24" class="chart" >
+            <el-col :span="16" class="chart" >
                 <div v-show="this.filteredData.length > 0" class="hello" id="chartdiv"></div>
                 <div v-show="this.filteredData.length <= 0" class="noData"> Aucune donnée</div>
             </el-col>
@@ -24,6 +24,7 @@
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import _ from 'lodash';
 
 am4core.useTheme(am4themes_animated);
 
@@ -150,10 +151,10 @@ export default {
 
       var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
         valueAxis.renderer.minGridDistance = 20;
-        valueAxis.renderer.grid.template.disabled = true;
+        valueAxis.renderer.grid.template.disabled = false;
         valueAxis.min = 5;
         valueAxis.max = 100;
-        valueAxis.strictMinMax = true;
+        valueAxis.strictMax = true;
         valueAxis.renderer.labels.template.adapter.add("text", function(text) {
           return text + "%";
         });
@@ -213,13 +214,13 @@ export default {
         valueLabel.label.hideOversized = false;
         valueLabel.label.truncate = false;
 
-      var valueLabel = series2.bullets.push(new am4charts.LabelBullet());
-        valueLabel.label.text = " {valueX.value.formatNumber('#.00')}%";
-        valueLabel.label.horizontalCenter = "left";
-        valueLabel.label.dx = 10;
-        valueLabel.label.fontSize = 9;
-        valueLabel.label.hideOversized = false;
-        valueLabel.label.truncate = false;
+    var valueLabel2 = series2.bullets.push(new am4charts.LabelBullet());
+      valueLabel2.label.text = " {valueX.value.formatNumber('#.00')}%";
+      valueLabel2.label.horizontalCenter = "left";
+      valueLabel2.label.dx = 10;
+      valueLabel2.label.fontSize = 9;
+      valueLabel2.label.hideOversized = false;
+      valueLabel2.label.truncate = false;
 
    
     }
@@ -274,9 +275,9 @@ h1 {
   margin-bottom: 50px;
 }
 .chart {
-  width: 100%;
   height: auto;
-  padding: 0 20px;
+  // width: 100%;
+  // padding: 0 20px;
 }
 .hello {
   font-size: 12px;

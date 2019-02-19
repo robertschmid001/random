@@ -17,7 +17,7 @@
           <el-table-column property="cotisations" label="COTISATIONS ENCAISSEES" width="115">
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="top">
-                <span>{{new Date().getFullYear()}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{new Date().getFullYear()-1}}: <font-awesome-icon icon="square" class="cRed"/></span>
+                <span>{{thisYearFormat}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{lastYearFormat}}: <font-awesome-icon icon="square" class="cRed"/></span>
                 <div slot="reference" class="name-wrappe"><div class="data-wrapper pointer md-txt align-right"  @click="cotRowData(scope.row)"><div class="cGreen fontWeight">{{scope.row.iCoo[0]}}</div><div class="cRed fontWeight">{{scope.row.iCoo[1]}}</div></div></div>
               </el-popover>
             </template>
@@ -26,7 +26,7 @@
           <el-table-column property="prestations" label="PRESTATIONS REGLEES" width="120">
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="top">
-                <span>{{new Date().getFullYear()}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{new Date().getFullYear()-1}}: <font-awesome-icon icon="square" class="cRed"/></span>
+                <span>{{thisYearFormat}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{lastYearFormat}}: <font-awesome-icon icon="square" class="cRed"/></span>
                 <div slot="reference" class="name-wrappe"><div class="data-wrapper md-txt align-right"><div class="cGreen fontWeight">{{scope.row.iPrr[0]}}</div><div class="cRed fontWeight">{{scope.row.iPrr[1]}}</div></div></div>
               </el-popover>
             </template>
@@ -52,7 +52,7 @@
       </el-pagination>
       <typo-chart v-if="typoChart" class="typoChart" @close="closeTypo" :name="this.name" :typoChartData="this.typoData" />
       <DetailsEntreprise v-if="closeDet" :aEntDet='aEntDet' class="details" @close="closeDetails"/>
-      <select-box  v-if="multipleSelect.length > 0" :selection="this.multipleSelect" :current="this.name" />
+      <select-box  v-if="multipleSelect.length > 0" :selection="this.multipleSelect" :current="this.name" @clear="clearSelection" />
     </div>
   </div>
 </template>
@@ -61,7 +61,7 @@ import DetailsEnt from './../_subs/_subs/DetailsEntreprise.vue'
 import SelectBox from './../SelectBox.vue'
 import axios from "axios"
 import TypoChart from './../_subs/charts/_subs_charts/TypoChart.vue'
-import Lodash from 'lodash'
+import _ from 'lodash';
 
 export default {
   name: 'globEnt-table',
@@ -92,6 +92,8 @@ export default {
       n: 0,
       p: 99,
       amount: 0,
+      year: '',
+      lastYear: ''
     }
   },
   components: {
@@ -100,20 +102,44 @@ export default {
    'typo-chart': TypoChart
   },
   computed: {
+    thisYearFormat () {
+        var year = this.year
+        return year
+    },
+    lastYearFormat () {
+        var year = this.lastYear
+        return year
+    },
     itemsCount () {
       var count = this.amount
       return count
     },
     dataPagination () {
-      var self = this;
-      if (!this.entreprises || this.entreprises.length === 0) return [];
+      if (!this.entreprises || this.entreprises.length === 0){
+          this.pagination = false
+          return [];
+      } 
+
       var data = this.entreprises;
 
+      data.sort(function(a, b) {
+          var nameA = a.noC
+          var nameB = b.noC
+          if (nameA < nameB) {
+              return -1;
+          }
+          if (nameA > nameB) {
+              return 1;
+          }
+          return 0;
+      })
+
       if(this.search.length >= 3){
+        var that = this;
         this.pagination = false
         const filtered = data.filter(function (entreprise) {
-        return entreprise.noC.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
-        || entreprise.nuC.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
+        return entreprise.noC.toLowerCase().indexOf(that.search.toLowerCase()) >= 0
+        || entreprise.nuC.toLowerCase().indexOf(that.search.toLowerCase()) >= 0;
       });
       if (filtered) {
           this.amount = filtered.length
@@ -146,6 +172,13 @@ export default {
     }
   },
   methods: {
+    clearSelection () {
+        this.$refs.multipleTable.clearSelection();
+    },
+    defineYear () {
+      this.year = new Date().getFullYear()
+      this.lastYear = new Date().getFullYear()-1
+    },
     filterDocsEnt(data) {
       var allDocs = this.docs
       var filteredDocs = [];
@@ -282,6 +315,7 @@ export default {
   mounted() {
     this.docs = this.$store.state.tableDocs
     this.search = ''
+    this.defineYear();
   },
 }
 </script>

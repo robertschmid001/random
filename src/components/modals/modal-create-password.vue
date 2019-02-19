@@ -19,7 +19,7 @@
                 </el-col>
               </el-row>
               <el-row>
-                <button type="button" class="size text-size-small button" @click="submit">Validé</button>
+                <button type="button" class="size text-size-small button" @click="submit">Valider</button>
                 <el-col :span="24">
                   <el-col :span="24">
                       <button type="button" class="size text-size-small button" @click="close">Retour</button>
@@ -178,7 +178,7 @@ export default {
     this.checkHash();
   },
   mounted () {
-    this.store.state.authenticated = false
+    this.$store.state.authenticated = false
   },
 }
 </script>

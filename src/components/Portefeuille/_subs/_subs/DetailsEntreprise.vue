@@ -54,14 +54,17 @@ export default {
   },
   computed: {
     dateFormatEntree() {
-        var date = moment(this.aEntDet.date_entre).format('L')
-            console.log(moment(this.aEntDet.date_entre).format('L'), 'date1')
+        if (this.aEntDet.date_entre) {
+        var date = moment(moment(this.aEntDet.date_entre, 'YYYY-MM-DD')).format('DD/MM/YYYY')
         return date
+        } else return ''
+
     },
     dateFormatSortie() {
-        var date = moment(this.aEntDet.sortie).format('L')
-            console.log(moment(this.aEntDet.sortie).format('L'), 'date2')
-        return date
+        if (this.aEntDet.sortie) {
+            var date = moment(moment(this.aEntDet.sortie, 'YYYY-MM-DD')).format('DD/MM/YYYY')
+            return date
+        } else return ''
     },
   },
   methods: {

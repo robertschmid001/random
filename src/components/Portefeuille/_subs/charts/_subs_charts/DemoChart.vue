@@ -41,6 +41,7 @@
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import _ from 'lodash';
 
 am4core.useTheme(am4themes_animated);
 
@@ -62,7 +63,7 @@ export default {
             var tables = this.tableTy
             var table = []
 
-            _.each(this.$store.state.translation.category, function (value, key) {
+            _.each(this.$store.state.translation.category, function (value) {
                 var variable = { 'cat': '', 'a': 0, 'c': 0, 'e': 0, 's': 0, }
                 tables.forEach( e => {
                     if ( e.cat === value ){
@@ -83,7 +84,7 @@ export default {
             var tables = this.tableLy
             var table = []
 
-            _.each(this.$store.state.translation.category, function (value, key) {
+            _.each(this.$store.state.translation.category, function (value) {
                 var variable = { 'cat': '', 'a': 0, 'c': 0, 'e': 0, 's': 0 }
                 tables.forEach( e => {
                     if ( e.cat === value ){

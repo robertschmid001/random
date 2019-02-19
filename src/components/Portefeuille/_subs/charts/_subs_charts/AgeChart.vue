@@ -39,6 +39,7 @@
 <script>
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
+import _ from 'lodash';
 
 
 export default {
@@ -229,21 +230,21 @@ export default {
       femaleLabel.label.horizontalCenter = "left";
       femaleLabel.label.dx = 10;
 
-      var maleLabel = valueAxis.axisRanges.create();
-      maleLabel.value = -40;
-      maleLabel.endValue = 0;
-      maleLabel.label.text = "Femme";
-      maleLabel.label.fill = chart.colors.list[0];
-      maleLabel.label.dy = 20;
-      maleLabel.label.fontWeight = 600;
+      var maleLabel2 = valueAxis.axisRanges.create();
+      maleLabel2.value = -40;
+      maleLabel2.endValue = 0;
+      maleLabel2.label.text = "Femme";
+      maleLabel2.label.fill = chart.colors.list[0];
+      maleLabel2.label.dy = 20;
+      maleLabel2.label.fontWeight = 600;
 
-      var femaleLabel = valueAxis.axisRanges.create();
-      femaleLabel.value = 40;
-      femaleLabel.endValue = 0;
-      femaleLabel.label.text = "Homme";
-      femaleLabel.label.fill = chart.colors.list[1];
-      femaleLabel.label.dy = 20;
-      femaleLabel.label.fontWeight = 600;
+      var femaleLabel2 = valueAxis.axisRanges.create();
+      femaleLabel2.value = 40;
+      femaleLabel2.endValue = 0;
+      femaleLabel2.label.text = "Homme";
+      femaleLabel2.label.fill = chart.colors.list[1];
+      femaleLabel2.label.dy = 20;
+      femaleLabel2.label.fontWeight = 600;
 
       var title = chart.titles.create();
       title.text = year;
@@ -363,21 +364,21 @@ export default {
       femaleLabel.label.horizontalCenter = "left";
       femaleLabel.label.dx = 20;
 
-      var maleLabel = valueAxis.axisRanges.create();
-      maleLabel.value = -40;
-      maleLabel.endValue = 0;
-      maleLabel.label.text = "Femme";
-      maleLabel.label.fill = chart.colors.list[0];
-      maleLabel.label.dy = 20;
-      maleLabel.label.fontWeight = 600;
+      var maleLabel2 = valueAxis.axisRanges.create();
+      maleLabel2.value = -40;
+      maleLabel2.endValue = 0;
+      maleLabel2.label.text = "Femme";
+      maleLabel2.label.fill = chart.colors.list[0];
+      maleLabel2.label.dy = 20;
+      maleLabel2.label.fontWeight = 600;
 
-      var femaleLabel = valueAxis.axisRanges.create();
-      femaleLabel.value = 40;
-      femaleLabel.endValue = 0;
-      femaleLabel.label.text = "Homme";
-      femaleLabel.label.fill = chart.colors.list[1];
-      femaleLabel.label.dy = 20;
-      femaleLabel.label.fontWeight = 600;
+      var femaleLabel2 = valueAxis.axisRanges.create();
+      femaleLabel2.value = 40;
+      femaleLabel2.endValue = 0;
+      femaleLabel2.label.text = "Homme";
+      femaleLabel2.label.fill = chart.colors.list[1];
+      femaleLabel2.label.dy = 20;
+      femaleLabel2.label.fontWeight = 600;
 
       var title = chart.titles.create();
       title.text = lastYear;

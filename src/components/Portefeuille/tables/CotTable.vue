@@ -32,7 +32,7 @@
         <el-pagination v-if="pagination"  @current-change="handleCurrentChange" :current-page.sync="currentPage"
             :page-size="100" layout="total, prev, pager, next" :total="itemsCount">
         </el-pagination>
-        <select-box v-if="multipleSelect.length > 0" :selection="this.multipleSelect" :current="this.name" />
+        <select-box v-if="multipleSelect.length > 0" :selection="this.multipleSelect" :current="this.name" @clear="clearSelection"/>
     </div>
 </template>
 <script>
@@ -62,15 +62,31 @@ export default {
             return count
         },
         dataPagination () {
-            var self = this;
-            if (!this.cotisations || this.cotisations.length === 0) return [];
+            
+            if (!this.cotisations || this.cotisations.length === 0){
+                this.pagination = false
+                return [];
+            } 
             var data = this.cotisations;
 
+            data.sort(function(a, b) {
+                var nameA = a.noH
+                var nameB = b.noH
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            })
+
             if(this.search.length >= 3){
+                var that = this;
                 this.pagination = false
                 const filtered = data.filter(function (cotisation) {
-                return cotisation.noH.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
-                || cotisation.noC.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
+                return cotisation.noH.toLowerCase().indexOf(that.search.toLowerCase()) >= 0
+                || cotisation.noC.toLowerCase().indexOf(that.search.toLowerCase()) >= 0;
             });
             if (filtered) {
                 this.amount = filtered.length
@@ -106,20 +122,20 @@ export default {
         '$route': 'fetchCot',
     },
     methods: {
+        clearSelection () {
+            this.$refs.multipleTable.clearSelection();
+        },
         transLibelle (data) {
             return this.$store.state.translation.contratLibelle[data]
         },
         LOG () {
-            console.log(this.cotisations)
+            // console.log(this.cotisations)
         },
         fetchCot () {
             // console.log('hallo')
         },
         formatCurrency (param) {
             if (param != null) {
-                if(param.match(/\u20AC/g)){
-                    return
-                } else
                return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param)
             }
         },
@@ -200,7 +216,7 @@ export default {
         },
         handleSelectionChange (val) {
             this.multipleSelect = val;
-            console.log(this.multipleSelect,' multiple selection')
+            // console.log(this.multipleSelect,' multiple selection')
         },
     },
     mounted () {

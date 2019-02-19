@@ -2,8 +2,10 @@
     <div id="select-box" >
         <div class="middle-pop-wrapper" v-show="show" >
             <div class="middle-pop">
-
-                <h1>Élements sélectionnés</h1>
+                <div class="title-wrapper">
+                    <h1>Élements sélectionnés: {{selection.length}}</h1>
+                    <font-awesome-icon icon="times"  class="close pointer" title="retour" alt="retour"  @click="showPop"/>
+                </div>
                 <ul>
                     <li v-for="(item, index) in selection" :key="index" >
                         {{getName(item)}}
@@ -15,14 +17,14 @@
             <div class="bottom-pop">
                 <button class="button buttonDeco pointer" :class="{ selectionBox: show }" @click="showPop" >Voir la sélection ({{this.selection.length}})</button>
                 <button class="button buttonDeco pointer" v-if="showComputed" @click="clickChart(selection)" >Créer les graphiques</button>
-                <button class="button buttonDeco pointer"><download-excel class="exporter" :data = "selection" :fields = "getFields"> Exporter </download-excel></button>
+                <button class="button export-button pointer"><download-excel class="exporter" :data = "selection" :fields = "getFields"> Exporter </download-excel></button>
+                <button class="button export-button pointer annuler" @click="clearSelection" >Annuler</button>
             </div>
         </div>
     </div>
 </template>
 <script>
-import Vue from 'vue'
-import JsonExcel from 'vue-json-excel'
+// import JsonExcel from 'vue-json-excel'
 
 export default {
     name: 'SelectBox',
@@ -38,8 +40,9 @@ export default {
             return this.current === 'ContTable' && this.actFilter === 's'
         },
         getFields() {
+            var json_fields;
             if (this.current === 'HolTable') {
-                var json_fields = {
+                 json_fields = {
                     'Holding': 'noH',
                     'Numero holding': 'nuH',
                     'Entreprises':'iEe',
@@ -68,58 +71,63 @@ export default {
                     },
                     'Taux de télétransmission': {
                         callback: (value) => {
-                            return `${formatTaux(value.iTt)}`;
+                            return `${this.formatTaux(value.iTt)}`;
                         }
                     }
                 }
                 return json_fields
             }
             if (this.current === 'entTable' || this.current === 'globEnt-table') {
-                var json_fields = {
+                 json_fields = {
                     'Holding': 'noH',
-                    'Numéro holding': 'nuH',
+                    'N° holding': 'nuH',
                     'Entreprises':'noC',
-                    'Numéro entreprises':'nuC',
+                    'N° entreprise':'nuC',
                     'Nombre de contrats': 'iCc',
                     'Nombre d\' assurés': 'iAa',
                     'Nombre de bénéficiaires': 'iBb',
                     'Cotisations encaissées 2018': {
                         callback: (value) => {
-                            return `${this.year2()}: ${value.iCoo[1]}`;
+                            return `${value.iCoo[1]}`;
                         }
                     },
                     'Cotisations encaissées 2019': {
                         callback: (value) => {
-                            return `${this.year()}: ${value.iCoo[0]}`;
+                            return `${value.iCoo[0]}`;
                         }
                     },
                     'Prestations réglées 2018': {
                         callback: (value) => {
-                            return `${this.year2()}: ${value.iPrr[1]}`;
+                            return `${value.iPrr[1]}`;
                         }
                     },
                     'Prestations réglées 2019': {
                         callback: (value) => {
-                            return `${this.year()}: ${value.iPrr[0]}`;
+                            return `${value.iPrr[0]}`;
                         }
                     },
                     'Taux de télétransmission': {
                         callback: (value) => {
-                            return `${formatTaux(value.iTt)}`;
+                            return `${this.formatTaux(value.iTt)}`;
                         }
                     }
                 }
                 return json_fields
             }
             if (this.current === 'ContTable') {
-                var json_fields = {
+                 json_fields = {
                     'Holding': 'noH',
                     'Numero holding': 'nuH',
                     'Entreprises':'noC',
                     'Numéro entreprises':'nuC',
                     'Contrat':{
                         callback: (value) => {
-                            return `${this.transLibelle(value.l)} <br> ${value.l1 } ${ value.l2}`;
+                            return `${this.transLibelle(value.l)}`;
+                        }
+                    },
+                    'Numéro de contrat':{
+                        callback: (value) => {
+                            return `${value.l1 } ${ value.l2}`;
                         }
                     },
                     'Type de contrat': {
@@ -175,20 +183,19 @@ export default {
                 return json_fields
             }
             if (this.current === 'AssTable') {
-                var json_fields = {
-                    'Holding':{
-                        callback: (value) => {
-                            return `${value.noH} <br> ${value.nuH}`;
-                        }
-                    },
-                    'Entreprises':{
-                        callback: (value) => {
-                            return `${value.noC} <br> ${value.nuC}`;
-                        }
-                    },
+                 json_fields = {
+                    'Holding': 'noH',
+                    'Numero holding': 'nuH',
+                    'Entreprises':'noC',
+                    'Numéro entreprises':'nuC',
                     'Contrat':{
                         callback: (value) => {
                             return `${this.transLibelle(value.c.l)}`;
+                        }
+                    },
+                    'Numéro contrat':{
+                        callback: (value) => {
+                            return `${value.c.l1 } ${ value.c.l2}`;
                         }
                     },
                     'Type de contrat': {
@@ -231,7 +238,7 @@ export default {
                 return json_fields
             }
             if (this.current === 'CotTable') {
-                var json_fields = {
+                 json_fields = {
                     'Holding': 'noH',
                     'Numero holding': 'nuH',
                     'Entreprises':'noC',
@@ -242,7 +249,7 @@ export default {
                             return `${this.transLibelle(value.l)}`;
                         }
                     },
-                     'N° contrat':{
+                     'Numéro contrat':{
                         callback: (value) => {
                             return `${value.l1 } ${ value.l2}`;
                         }
@@ -298,13 +305,16 @@ export default {
         }
     },
     methods: {
+        clearSelection () {
+            this.$emit('clear')
+        },
         formatTaux (data) {
             return data + ' ' + '%'
         },
         year () {
             return new Date().getFullYear()
         },
-        year2 (data) {
+        year2 () {
             return new Date().getFullYear()-1
         },
         tpFormat (data) {
@@ -329,15 +339,12 @@ export default {
             {
                 case "1":
                     return "OUI"
-                    break;
 
                 case "0":
                     return "NON"
-                    break;
 
                 default:
                     return ""
-                    break;
             }
         },
         transMode (data) {
@@ -360,15 +367,12 @@ export default {
             {
                 case "B":
                     return "Base"
-                    break;
 
                 case "O":
                     return "Option"
-                    break;
 
                 default:
                     return ""
-                    break;
             }
         },
         transType (data) {
@@ -376,54 +380,42 @@ export default {
             {
                 case "01":
                     return "Base"
-                    break;
 
                 case "02":
                     return "Option/Surcomplémentaire"
-                    break;
 
                 case "P1":
                     return "Base"
-                    break;
 
                 case "P2":
                     return "Surcomplémentaire"
-                    break;
 
                 case "04":
                     return "ASSISTANCE"
-                    break;
 
                 case "05":
                     return "Frais d'Obsèque"
-                    break;
 
                 case "08":
                     return "Frais d'Obsèques Prévoyance"
-                    break;
 
                 case "15":
                     return "Frais d'Obsèques"
-                    break;
 
                 case "16":
                     return "Frais d'Obsèques surcomplémentaire"
-                    break;
 
                 case "18":
                     return "Frais Association"
-                    break;
 
                 default:
                     return ""
-                    break;
             }
         },
         log () {
             return console.log(this.selection, 'selection')
         },
         getName (data) {
-            console.log(data,'data')
             if ( data.n ) return data.noH + data.noC + ' ' + this.transLibelle(data.l);
             if ( data.f ) return data.noH + ' ' + data.noC + ' ' + data.f + ' ' + data.l;
             if ( data.nuC ) return data.noH + ' ' + data.noC;
@@ -442,6 +434,15 @@ export default {
 </script>
 <style lang="scss">
 @import "../../styles/_global.scss";
+.title-wrapper {
+    position: relative;
+}
+.close {
+    position: absolute;
+    font-size: 20px;
+    top: -30px;
+    right: -25px;
+}
 .selectionBox {
     background-color: white!important;
     color: $button-color!important;
@@ -499,10 +500,19 @@ h1 {
     }
 
 }
+.export-button {
+    height: 50px!important;
+    align-items: center;
+    margin-right: 20px;
+}
 .exporter {
     align-items: center;
     display: flex;
     height: 100%;
+    padding: 0 20px!important;
+}
+.annuler {
+    padding: 0 20px!important;
 }
 
 

@@ -32,12 +32,12 @@ import { store } from './store/Store'
 Vue.use(Router)
 
 let router = new Router({
-    mode: "history",
+    mode: 'history',
     routes: [
         {
             path: '/',
             redirect: {
-                name: "Login"
+                name: 'Login'
             }
         },
         
@@ -106,23 +106,23 @@ let router = new Router({
                 name: 'Toutes les entreprises',
                 component: globEntTable
             }, {
-                path: ':hol?:nuH?/entreprises',
+                path: ':hol?/:nuH?/entreprises',
                 name: 'entreprise',
                 component: entTable
             }, {
-                path: ':hol?:nuH?/:ent?:nuC?/contrats',
+                path: ':hol?/:nuH?/:ent?/:nuC?/contrats',
                 name: 'contrats',
                 component: contTable
             }, {
-                path: ':hol?:nuH?/:ent?:nuC?/:cont?:nC?/assures',
+                path: ':hol?/:nuH?/:ent?/:nuC?/:cont?/:nC?/assures',
                 name: 'assures',
                 component: assTable
             }, {
-                path: ':hol?:nuH?/:ent?:nuC?/:cont?:nC?/cotisations',
+                path: ':hol?/:nuH?/:ent?/:nuC?/:cont?/:nC?/cotisations',
                 name: 'cotisations',
                 component: cotTable
             }, {
-                path: ':hol?:nuH?/:ent?:nuC?/:cont?:nC?/Graphiques et Tableaux',
+                path: ':hol?/:nuH?/:ent?/:nuC?/:cont?/:nC?/Graphiques et Tableaux',
                 name: 'tableaux et graphiques',
                 component: chartHub
             }
@@ -204,3 +204,5 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
+
+// this.$http.get('/api/game/'+this.$route.params.name + '/' + this.$route.params.token)

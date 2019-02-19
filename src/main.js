@@ -45,6 +45,7 @@ import {
   faSquare
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+// import _ from 'lodash'
 
 
 Vue.use(VueI18n)
@@ -57,7 +58,9 @@ Vue.locale('fr', frLocale)
 
 library.add(faSquare, faFolderOpen, faPhoneSquare, faPaperclip, faBars, faInfoCircle, faUserCircle, faChartPie, faSearch, faCheck, faDownload, faTimes, faUserPlus, faUser, faPen, faHome, faEuroSign, faUserFriends, faNewspaper, faEnvelope, faFileAlt, faFileExport, faLandmark, faHistory)
 Vue.use(ElementUI);
-Vue.use(Lodash)
+//  Vue.use(_);
+Vue.use(Lodash);
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('downloadExcel', JsonExcel)
 Vue.use(Vuelidate)

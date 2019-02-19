@@ -1,19 +1,18 @@
 <template>
     <div id="assure-table">
         <div class="table-wrapping">
-            <el-button @click="LOG">LOG</el-button>
-            <el-table ref="multipleTable" :max-height="700" border size="medium" :data="filteredPerson" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="a-border">
-                <el-table-column width="33" >
+            <el-table ref="multipleTable" :row-key="rowKeyFunction" reserve-selection :max-height="700" border size="medium" :data="filteredPerson" style="width: 100%; font-size: 10px;" @select-all="selectAll" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="a-border">
+                <el-table-column width="33">
                     <template slot-scope="scope">
                         <el-tooltip class="item" effect="light" content="En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats »" placement="top-start">
                             <i class="el-icon-info icon-info pointer"></i>
                         </el-tooltip>
                     </template>
                 </el-table-column>
-                <el-table-column type="selection" width="42" v-if="this.$router.currentRoute.name !== 'Recherche assuré'"></el-table-column>
-                <el-table-column property="holding" prop="noH" sortable label="HOLDING" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH }}<br>{{ scope.row.nuH}}</div></template></el-table-column>
+                <el-table-column type="selection" :row-key="rowKeyFunction" reserve-selection width="42" tooltip-effect="" v-if="this.$router.currentRoute.name !== 'Recherche assuré'"></el-table-column>
+                <el-table-column property="holding" prop="noH" sortable :sort-method="nohSort" label="HOLDING" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH }}<br>{{ scope.row.nuH}}</div></template></el-table-column>
                 <el-table-column property="entreprise"  prop="noC" sortable label="ENTREPRISE" min-width="180" max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noC }}<br>{{ scope.row.nuC}}</div></template></el-table-column>
-                <el-table-column property="contrat"  prop="c.l" sortable label="CONTRAT"  width="200"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.c.l)}}<br>{{scope.row.l1 }} {{ scope.row.l2}}</div></template></el-table-column>
+                <el-table-column property="contrat"  prop="c.l" sortable label="CONTRAT"  width="200"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.c.l)}}<br>{{scope.row.c.l1 }} {{ scope.row.c.l2}}</div></template></el-table-column>
                 <el-table-column property="type" prop="c.c" sortable label="TYPE DE CONTRAT"  width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transType(scope.row.c.c)}}</div></template></el-table-column>
                 <el-table-column property="college" prop="c.o" sortable label="COLLEGE" v-if="!deleteCol"  width="190"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCol(scope.row.c.o)}}</div></template></el-table-column>
                 <el-table-column property="categorie" prop="c.a" sortable label="CATEGORIE" v-if="!deleteCol"  width="130"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCat(scope.row.c.a)}}</div></template></el-table-column>
@@ -27,14 +26,15 @@
                 <el-table-column property="teletransmission" prop="t" sortable label="ETAT DE LA TELETRANSMISSION"  width="210"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transTeletrans(scope.row.t)}}</div></template></el-table-column>
                 <!-- <el-table-column property="carteDate" label="DATE D'EMISSION CARTE TP" sortable  width="190"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.c.t}}</div></template></el-table-column> -->
                 <el-table-column property="carte" prop="tp" sortable label="CARTE TP" v-if="!deleteCol"  width="130"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{tpComp(scope.row.tp)}}</div></template></el-table-column>
-                <el-table-column type="selection" width="42"></el-table-column>
+                <el-table-column type="selection" width="42" v-if="this.$router.currentRoute.name !== 'Recherche assuré'"></el-table-column>
             </el-table>
             <el-pagination class="elPagi" v-if="pagination" @current-change="handleCurrentChange" :current-page.sync="currentPage"
                 :page-size="100" layout="total, prev, pager, next" :total="itemsCount">
             </el-pagination>
             <DetailsAssure v-if="closeDet" :activeAss='activeAss' :assInfo='assInfoComp' :contratInfo='contratInfoComp' class="ass-details" @close="closeDetails" />
         </div>
-        <select-box  v-if="multipleSelect.length > 0" :selection="this.multipleSelect" :current="this.name" />
+        <!-- <button @click="LOG">.</button> -->
+        <select-box  v-if="multipleSelect.length > 0" :selection="multipleSelecting" :current="this.name" @clear="clearSelection" />
     </div>
 </template>
 <script>
@@ -47,18 +47,19 @@ export default {
     props:['assure', 'search', 'deleteCol'],
     data () {
         return {
-
             closeDet: false,
             contratInfo: [],
             assInfo:[],
             activeAss: [],
             name: 'AssTable',
             multipleSelect: [],
+            savedSelection: [],
             pagination: false,
             currentPage: 1,
             n: 0,
             p: 99,
             amount: 0,
+            filtered: [],
         }
     },
     components: {
@@ -66,6 +67,10 @@ export default {
     'select-box': SelectBox
     },
     computed: {
+        multipleSelecting () {
+            var multiple = this.multipleSelect
+            return multiple
+        },
         itemsCount () {
             var count = this.amount
             return count
@@ -79,20 +84,37 @@ export default {
             return data
         },
         filteredPerson: function () {
-            var self = this;
+            
             if (!this.assure || this.assure.length === 0) {
                 this.pagination = false
                 return []
-            };
+            }
             var data = this.assure;
+            this.sortingData(data, 'l');
+            // if (!this.isSorting) {
+            // var data = this.assure;
+            //     data.sort(function(a, b) {
+            //     var nameA = a.l
+            //     var nameB = b.l
+            //     if (nameA > nameB) {
+            //         return -1;
+            //     }
+            //     if (nameA < nameB) {
+            //         return 1;
+            //     }
+            //     return 0;
+            // })
+            // }
+            // console.log(data, 'data sorting assure')
 
             if(this.search.length >= 3){
+                var self = this;
                 this.pagination = false
                 const filtered = data.filter(function (person) {
                 return person.l.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
                 || person.s.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
                 || person.f.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
-            });
+            })
             if (filtered) {
                 this.amount = filtered.length
                 this.pagination = true
@@ -123,13 +145,39 @@ export default {
         },
     },
     methods: {
+        clearSelection () {
+            this.$refs.multipleTable.clearSelection();
+        },
+        rowKeyFunction(row) {
+            // console.log(row.s, 'row.s')
+            return row.s
+        },
+        sortingData (d, info) {
+            if( info === 'l') {
+                d.sort(function(a, b) {
+                    var nameA = a.l
+                    var nameB = b.l
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                })
+            }
+        },
+        // lSort (a, b) {
+        //     console.log('sorting')
+        //     return a.l > b.l;
+        // },
         isRoutes () {
             if (this.$router.currentRoute.name !== 'Recherche assuré'){
                 return true
             } else return false
         },
         LOG () {
-            console.log(this.assure, 'this.assure')
+            // console.log(this.assure, 'this.assure')
             //this.$router.currentRoute.name
         },
         handleCurrentChange(val) {
@@ -160,15 +208,12 @@ export default {
             {
                 case "B":
                     return "Base"
-                    break;
 
                 case "O":
                     return "Option/Surcomplémentaire"
-                    break;
 
                 default:
                     return ""
-                    break;
             }
         },
         getAssDetails (param) {
@@ -193,12 +238,22 @@ export default {
                 rows.forEach(row => {
                 this.$refs.multipleTable.toggleRowSelection(row);
                 });
+                
             } else {
                 this.$refs.multipleTable.clearSelection();
             }
-            },
-            handleSelectionChange(val) {
-            this.multipleSelect = val;
+        },
+        selectAll (val) {
+            // console.log(val, 'sel change val')
+            if (val.length == 0) {
+                // console.log(val, 'inside length = 0')
+                return this.multipleSelect = []
+            }
+            return this.multipleSelect = this.assure
+        },
+        handleSelectionChange(val) {
+            // console.log( val, 'inside handle selection')
+            this.multipleSelect = val
         }
     },
     mounted () {

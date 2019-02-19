@@ -25,9 +25,9 @@
                   <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol blue box-colored width-small"><div><div class="number">{{info.holdingCountSante}}</div><div class="box-text">Holding</div></div></div></el-col>
                   <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderent purple box-colored width-small"><div><div class="number">{{info.EntrepriseCountSante}}</div><div class="box-text">Entreprises</div></div></div></el-col>
                   <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol orange box-colored width-small"><div><div class="number">{{info.ContratCountSante}}</div><div class="box-text">Contrats</div></div></div></el-col>
-                  <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol red box-colored width-small"><br><div><div class="number">{{info.ABCountSante}}</div><div class="box-text">Assurés<br>Bénéficiaires</div></div></div></el-col>
-                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol green box-colored width-small"><div><div class="number">{{info.prestaSante}} €</div><div class="box-text">Prestations</div></div></div></el-col>
-                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol lgt-green box-colored width-small"><div><div class="number">{{info.cotiSante}} €</div><div class="box-text">Cotisations</div></div></div></el-col>
+                  <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol red box-colored width-small"><br><div><div class="number">{{formatAB(info.ABCountSante)}}</div><div class="box-text">Assurés<br>Bénéficiaires</div></div></div></el-col>
+                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol green box-colored width-small"><div><div class="number">{{formatCurrency(info.prestaSante)}}</div><div class="box-text">Prestations</div></div></div></el-col>
+                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol lgt-green box-colored width-small"><div><div class="number">{{formatCurrency(info.cotiSante)}}</div><div class="box-text">Cotisations</div></div></div></el-col>
                 </el-row>
               </div>
               <div v-if="this.currentTab ==='p'">
@@ -35,9 +35,9 @@
                   <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol blue box-colored width-small"><div><div class="number">{{info.holdingCountPrev}}</div><div class="box-text">Holding</div></div></div></el-col>
                   <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderent purple box-colored width-small"><div><div class="number">{{info.EntrepriseCountPrev}}</div><div class="box-text">Entreprises</div></div></div></el-col>
                   <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol orange box-colored width-small"><div><div class="number">{{info.ContratCountPrev}}</div><div class="box-text">Contrats</div></div></div></el-col>
-                  <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol red box-colored width-small"><br><div><div class="number">{{info.ABCountPrev}}</div><div class="box-text">Assurés<br>Bénéficiaires</div></div></div></el-col>
-                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol green box-colored width-small"><div><div class="number">{{info.prestaPrevoyance}} €</div><div class="box-text">Prestations</div></div></div></el-col>
-                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol lgt-green box-colored width-small"><div><div class="number">{{info.cotiPrevoyance}} €</div><div class="box-text">Cotisations</div></div></div></el-col>
+                  <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol red box-colored width-small"><br><div><div class="number">{{formatAB(info.ABCountPrev)}}</div><div class="box-text">Assurés<br>Bénéficiaires</div></div></div></el-col>
+                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol green box-colored width-small"><div><div class="number">{{formatCurrency(info.prestaPrevoyance)}}</div><div class="box-text">Prestations</div></div></div></el-col>
+                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol lgt-green box-colored width-small"><div><div class="number">{{formatCurrency(info.cotiPrevoyance)}}</div><div class="box-text">Cotisations</div></div></div></el-col>
                 </el-row>
               </div>
               <div v-if="this.currentTab ==='a'">
@@ -45,9 +45,9 @@
                   <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol blue box-colored width-small"><div><div class="number">{{info.holdingCountAutre}}</div><div class="box-text">Holding</div></div></div></el-col>
                   <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderent purple box-colored width-small"><div><div class="number">{{info.EntrepriseCountAutre}}</div><div class="box-text">Entreprises</div></div></div></el-col>
                   <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol orange box-colored width-small"><div><div class="number">{{info.ContratCountAutre}}</div><div class="box-text">Contrats</div></div></div></el-col>
-                  <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol red box-colored width-small"><br><div><div class="number">{{info.ABCountAutre}}</div><div class="box-text">Assurés<br>Bénéficiaires</div></div></div></el-col>
-                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol green box-colored width-small"><div><div class="number">{{info.prestaAutre}} €</div><div class="box-text">Prestations</div></div></div></el-col>
-                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol lgt-green box-colored width-small"><div><div class="number">{{info.cotiAutre}} €</div><div class="box-text">Cotisations</div></div></div></el-col>
+                  <el-col :xs="8" :sm="6" :md="6" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol red box-colored width-small"><br><div><div class="number">{{formatAB(info.ABCountAutre)}}</div><div class="box-text">Assurés<br>Bénéficiaires</div></div></div></el-col>
+                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol green box-colored width-small"><div><div class="number">{{formatCurrency(info.prestaAutre)}}</div><div class="box-text">Prestations</div></div></div></el-col>
+                  <el-col :xs="8" :sm="12" :md="12" :lg="4" :xl="4" class="box-padding"><div class="radius borderhol lgt-green box-colored width-small"><div><div class="number">{{formatCurrency(info.cotiAutre)}}</div><div class="box-text">Cotisations</div></div></div></el-col>
                 </el-row>
               </div>
           </div>
@@ -59,7 +59,7 @@
               <el-col :span="24" class="line-height">
                 <div @click="newEnt"><el-row class="border-bot pointer isCLickable"><el-col :span="18" class="act-cont align-left">Affaires nouvelles</el-col><el-col :span="6" class="act-num align-right">{{info.affairesNouvelles}}</el-col></el-row></div>
                 <div @click="resEnt"><el-row class="border-bot pointer isCLickable"><el-col :span="18" class="act-cont align-left">Résiliations</el-col><el-col :span="6" class="act-num align-right">{{info.resilations}}</el-col></el-row></div>
-                <div @click="cotEn"><el-row class="border-bot pointer isCLickable"><el-col :span="14" class="act-cont align-left">Cotisations encaissées</el-col><el-col :span="10" class="act-num align-right">{{formatCoti(info.cotiEncaiss)}} €</el-col></el-row></div>
+                <div @click="cotEn"><el-row class="border-bot pointer isCLickable"><el-col :span="14" class="act-cont align-left">Cotisations encaissées</el-col><el-col :span="10" class="act-num align-right">{{formatCurrency(info.cotiEncaiss)}}</el-col></el-row></div>
                 <div @click="impCot"><el-row v-bind:class="{ active: isImp }" class="border-bot isCLickable"><el-col :span="21" class="act-cont align-left">Cotisations impayées</el-col><el-col :span="3" class="act-num align-right">{{formatImp(info.cotiNoPay)}}</el-col></el-row></div>
               </el-col>
             </el-row>
@@ -82,7 +82,7 @@
       </el-col>
       <el-col class="box" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
         <div class="white padding">
-          <h3 class="activity-title h3">Outil d'extraction</h3>
+          <h3 class="activity-title h3">Outil d'extraction - en cours de réalisation -</h3>
             <div class="content-text">
               Rechercher en dashboarding les données de mon portefeuille et les exporter au format Excel.
             </div>
@@ -91,21 +91,27 @@
               <el-col :span="6">
                 <font-awesome-icon icon="file-export" class="icon-size extrIcon"/>
               </el-col>
-              <el-col :span="18">
-                <el-col :span="24" class="ext-wrap isCLickable pointer">
-                  <div @click="routeTo('prest')" class="cont-pad">Extraire des prestations</div><div class="arrow"><i class="el-icon-arrow-right"></i></div>
+              <el-col :span="18" class="greyed">
+                <el-col :span="24" class="ext-wrap">
+                  <div class="cont-pad">Extraire des prestations</div><div class="arrow"><i class="el-icon-arrow-right"></i></div>
                 </el-col>
-                <el-col :span="24" class="ext-wrap isCLickable pointer">
-                  <div @click="routeTo('cot')" class="cont-pad">Extraire des cotisations</div><div class="arrow"><i class="el-icon-arrow-right"></i></div>
+                <el-col :span="24" class="ext-wrap">
+                  <div  class="cont-pad">Extraire des cotisations</div><div class="arrow"><i class="el-icon-arrow-right"></i></div>
                 </el-col>
-                <el-col :span="24" class="ext-wrap isCLickable pointer">
-                  <div @click="routeTo('ass')" class="cont-pad">Extraire des assurés</div><div class="arrow"><i class="el-icon-arrow-right"></i></div>
+                <el-col :span="24" class="ext-wrap">
+                  <div  class="cont-pad">Extraire des assurés</div><div class="arrow"><i class="el-icon-arrow-right"></i></div>
                 </el-col>
-                <el-col :span="24" class="ext-wrap isCLickable pointer">
-                  <div @click="routeTo('cont')" class="cont-pad">Extraire des contrats</div><div class="arrow"><i class="el-icon-arrow-right"></i></div>
+                <el-col :span="24" class="ext-wrap">
+                  <div  class="cont-pad">Extraire des contrats</div><div class="arrow"><i class="el-icon-arrow-right"></i></div>
                 </el-col>
               </el-col>
             </el-row>
+<!-- en cours de realisation
+@click="routeTo('prest')"
+@click="routeTo('cot')"
+@click="routeTo('ass')"
+@click="routeTo('cont')" -->
+
         </div>
       </el-col>
       <el-col class="box" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
@@ -128,6 +134,7 @@
 
 <script>
 import moment from 'moment'
+import _ from 'lodash';
 
 export default {
   name: 'Home',
@@ -146,13 +153,21 @@ export default {
   watch: {
     // call again the method if the route changes
     '$route': 'fetchData',
-    $route (to, from) {
-      if(to.name === 'Accueil') {
-        console.log('to accueil')
-      }
-    }
+    // $route (to, from) {
+    //   if(to.name === 'Accueil') {
+    //     console.log('to accueil')
+    //   }
+    // }
   },
   methods: {
+    formatCurrency (param) {
+        if (param != null) {
+            return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param)
+        } else return 0.00 + ' €'
+    },
+    formatAB (data) {
+      if (data) return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    },
     formatCoti (data) {
       if (data === null) {
         return 0
@@ -274,6 +289,8 @@ export default {
   },
   mounted () {
     // this.formatCot();
+    // console.log(this.info.ABCountSante.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),'regex to string')
+    // console.log(this.info.ABCountSante.toLocaleString(), '.toLocaleString()')
   },
   created () {
     if (this.$store.state.Main.length === 0 || this.$store.state.holdings.length === 0 ) return this.setData();

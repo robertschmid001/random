@@ -23,6 +23,7 @@
 <script>
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
+import _ from 'lodash';
 
 export default {
   name: 'NoemieChart',
@@ -167,14 +168,14 @@ export default {
         valueLabel.label.hideOversized = false;
         valueLabel.label.truncate = false;
 
-        var valueLabel = series2.bullets.push(new am4charts.LabelBullet());
-        valueLabel.label.text = " {valueY.value.formatNumber('#.00')}%";
-        valueLabel.label.horizontalCenter = "left";
-        valueLabel.label.dx = -15;
-        valueLabel.label.dy = -15 ;
-        valueLabel.label.fontSize = 12;
-        valueLabel.label.hideOversized = false;
-        valueLabel.label.truncate = false;
+        var valueLabel2 = series2.bullets.push(new am4charts.LabelBullet());
+        valueLabel2.label.text = " {valueY.value.formatNumber('#.00')}%";
+        valueLabel2.label.horizontalCenter = "left";
+        valueLabel2.label.dx = -15;
+        valueLabel2.label.dy = -15 ;
+        valueLabel2.label.fontSize = 12;
+        valueLabel2.label.hideOversized = false;
+        valueLabel2.label.truncate = false;
       }
     }
   },

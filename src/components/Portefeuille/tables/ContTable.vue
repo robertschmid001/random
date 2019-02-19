@@ -20,11 +20,11 @@
                 <el-table-column property="reseauDeSoin" prop="r" sortable label="RESEAU DE SOIN"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transRes(scope.row.r)}}</div></template></el-table-column>
                 <el-table-column property="debut" prop="debut" sortable label="DATE DE DEBUT"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dep}}</div></template></el-table-column>
                 <el-table-column property="fin" prop="fin" sortable label="DATE DE FIN"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dsp}}</div></template></el-table-column>
-                <el-table-column property="beneficiaire" prop="iA" sortable label="NOMBRE D'ASSURES ET DE BENEFICIAIRES" show-overflow-tooltip width="150"><template slot-scope="scope" ><div  class="data-wrapper pointer md-txt contHover" @click="assRowData(scope.row)">{{scope.row.iA}} / {{scope.row.iB}}</div></template></el-table-column>
+                <el-table-column property="beneficiaire" prop="iA" sortable label="NOMBRE D'ASSURES ET DE BENEFICIAIRES" show-overflow-tooltip width="150"><template slot-scope="scope" ><div  class="data-wrapper pointer md-txt contHover" @click="assRowData(scope.row)">{{countAResilie(scope.row)}} / {{countBResilie(scope.row)}}</div></template></el-table-column>
                 <el-table-column property="cotisations" label="COTISATIONS ENCAISSEES"  width="115">
                 <template slot-scope="scope">
                 <el-popover trigger="hover" placement="top" class="pop">
-                    <span>{{new Date().getFullYear()}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{new Date().getFullYear()-1}}: <font-awesome-icon icon="square" class="cRed"/></span>
+                    <span>{{thisYearFormat}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{lastYearFormat}}: <font-awesome-icon icon="square" class="cRed"/></span>
                     <div slot="reference" class="name-wrappe"><div class="data-wrapper pointer md-txt align-right"  @click="cotRowData(scope.row)"><div class="cGreen">{{scope.row.c[0]}}</div><div class="cRed">{{scope.row.c[1]}}</div></div></div>
                 </el-popover>
                 </template>
@@ -33,7 +33,7 @@
                  <el-table-column property="prestations" label="PRESTATIONS REGLEES"  width="120">
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="top">
-                            <span>{{new Date().getFullYear()}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{new Date().getFullYear()-1}}: <font-awesome-icon icon="square" class="cRed"/></span>
+                            <span>{{thisYearFormat}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{lastYearFormat}}: <font-awesome-icon icon="square" class="cRed"/></span>
                             <div slot="reference" class="name-wrappe"><div class="data-wrapper md-txt align-right"><div class="cGreen">{{scope.row.p[0]}}</div><div class="cRed">{{scope.row.p[1]}}</div></div></div>
                         </el-popover>
                     </template>
@@ -52,17 +52,22 @@
         <el-pagination v-if="pagination" @current-change="handleCurrentChange" :current-page.sync="currentPage"
           :page-size="100" layout="total, prev, pager, next" :total="itemsCount">
         </el-pagination>
-        <select-box :actFilter="acFilter"  v-if="multipleSelect.length > 0" :selection="this.multipleSelect" :current="this.name" @clickChart="openChart"/>
+        <!-- <button @click="log">...</button> -->
+        <select-box :actFilter="acFilter"  v-if="multipleSelect.length > 0" :selection="this.multipleSelect" :current="this.name" @clickChart="openChart" @clear="clearSelection"/>
     </div>
 </template>
 <script>
 import SelectBox from './../SelectBox.vue'
+import _ from 'lodash';
 
 export default {
     name: 'ContTable',
-    props: ['contrats', 'actFilter', 'search'],
+    props: ['contrats', 'actFilter', 'search', 'actResilie'],
     data () {
         return {
+            year: '',
+            lastYear: '',
+            newContracts: this.contrats,
             multipleSelect: [],
             name:'ContTable',
             pagination: false,
@@ -76,6 +81,14 @@ export default {
         'select-box': SelectBox
     },
     computed: {
+        thisYearFormat () {
+            var year = this.year
+            return year
+        },
+        lastYearFormat () {
+            var year = this.lastYear
+            return year
+        },
         itemsCount () {
             var count = this.amount
             return count
@@ -88,16 +101,32 @@ export default {
             return this.name
         },
         dataPagination () {
-            if (!this.contrats || this.contrats.length === 0) return [];
-            var data = this.contrats;
             
+            if (!this.contrats || this.contrats.length === 0){
+                this.pagination = false
+                return [];
+            } 
+            var data = this.contrats;
+            data.sort(function(a, b) {
+                var nameA = a.noH
+                var nameB = b.noH
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            })
+
             if (this.search.length >= 3) {
+                var that = this;
                 this.pagination = false
                 const filtered = data.filter(function (contrat) {
-                return contrat.noC.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
-                || contrat.nuC.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
-                || contrat.nuH.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
-                || contrat.noH.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
+                return contrat.noC.toLowerCase().indexOf(that.search.toLowerCase()) >= 0
+                || contrat.nuC.toLowerCase().indexOf(that.search.toLowerCase()) >= 0
+                || contrat.nuH.toLowerCase().indexOf(that.search.toLowerCase()) >= 0
+                || contrat.noH.toLowerCase().indexOf(that.search.toLowerCase()) >= 0;
             });
             if (filtered) {
                 this.amount = filtered.length
@@ -130,6 +159,32 @@ export default {
         }
     },
     methods: {
+        clearSelection () {
+            this.$refs.multipleTable.clearSelection();
+        },
+        defineYear () {
+            this.year = new Date().getFullYear()
+            this.lastYear = new Date().getFullYear()-1
+        },
+        log(){
+            // console.log(this.actResilie, 'this.actResilie')
+            // console.log(this.contrats, 'this.contrats')
+            // console.log(n.toLocaleString(), 'toLocaleString()')
+        },
+        countAResilie (param) {
+            if(this.actResilie === 'e') {
+                // console.log(this.actResilie, 'inside count A E')
+                return param.iA
+            } else return param.iAr
+        },
+        countBResilie (param) {
+            if(this.actResilie === 'e') {
+                return param.iB
+            } else {
+                // console.log(this.actResilie, 'inside count B R')
+                return param.iBr
+            }
+        },
         handleCurrentChange(val) {
             this.currentPage = val;
         },
@@ -237,9 +292,9 @@ export default {
             var year = new Date().getFullYear()-1
             return data +' '+':'+' '+ year
         },
-        log () {
-            console.log(this.multipleSelect,'ticktock')
-        },
+        // log () {
+        //     console.log(this.multipleSelect,'ticktock')
+        // },
         toggleSelection(rows) {
         if (rows) {
             rows.forEach(row => {
@@ -255,6 +310,7 @@ export default {
     },
     mounted() {
         this.search = ''
+        this.defineYear();
     },
     created () {
     },

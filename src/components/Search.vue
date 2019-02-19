@@ -8,6 +8,7 @@
 
 <script>
 import AssTable from './Portefeuille/tables/AssTable.vue'
+import _ from 'lodash';
 
 export default {
   name: 'Search',
@@ -23,19 +24,21 @@ export default {
    'DetailsAssure': AssTable
   },
   computed: {
+
     assTableFilter() {
       var assurefilter = this.$store.state.assure
       this.$store.state.holdings.forEach(e => {
-          _.find(assurefilter, function(assure){
-              if (assure.nh === e.nuH) {
-              assure.noH = e.noH
-              }
-          }
-        )
+          // _.find(assurefilter, function(assure){
+          //     if (assure.nh === e.nuH) {
+          //     assure.noH = e.noH
+          //     }
+          // }
+        // )
         e.entreprises.forEach(f => {
           _.find(assurefilter, function(assure){
             if (assure.ne === f.nuC) {
               assure.noC = f.noC
+              assure.noH = e.noH
             }
           })
         })

@@ -64,7 +64,7 @@ import axios from "axios"
     computed: {
       errorText () {
         var error = this.errorMessage
-        if(error === 'Courtier not found') {
+        if(error === 'Courtier not found' || error === 'Mail not found --') {
           return 'Vous avez saisi un identifiant ou un mot de passe incorrect.'
         } else {
           return this.errorMessage
