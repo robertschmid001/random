@@ -32,7 +32,7 @@
                 </el-col>
                 <el-col :span="24" class="block-wrapper">
                     <div class="details-wrapper">
-                        <div class="content" v-if="this.aEntDet.sortie !== '0000-00-00'">{{dateFormatSortie}}</div>
+                        <div class="content" v-if="this.aEntDet.date_sortie !== '0000-00-00'">{{dateFormatSortie}}</div>
                         <div class="descrip">Date de résiliation</div>
                     </div>
                 </el-col>
@@ -61,8 +61,8 @@ export default {
 
     },
     dateFormatSortie() {
-        if (this.aEntDet.sortie) {
-            var date = moment(moment(this.aEntDet.sortie, 'YYYY-MM-DD')).format('DD/MM/YYYY')
+        if (this.aEntDet.date_sortie && this.aEntDet.date_sortie !== '0000-00-00') {
+            var date = moment(moment(this.aEntDet.date_sortie, 'YYYY-MM-DD')).format('DD/MM/YYYY')
             return date
         } else return ''
     },
@@ -73,6 +73,7 @@ export default {
     },
   },
   mounted () {
+      console.log(this.aEntDet, 'aEntDet')
   },
   created () {
 

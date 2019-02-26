@@ -28,7 +28,7 @@
                             <el-col :span="9" class="padding-item lgt-grey-text">Adresse</el-col>
                             <el-col :span="15" class="padding-item grey-text">
                                 <div v-show="!isEditing">{{cabinet.adresse}} <br>{{this.emptyAdd}} <br> {{cabinet.cp}} <span> </span> {{cabinet.ville}}</div>
-                                <el-col :span="24" v-show="isEditing">
+                                <el-col :span="24" v-show="isEditing && cabinet.user_type === 'root'">
                                     <div class="input-icon-wrapper adresse-input"><input class="base-form-input" :placeholder="cabinet.adresse" v-model.trim.lazy="newAd1"/><i class="el-icon-warning" v-if="this.validate.adresse" ></i></div>
                                     <div class="input-icon-wrapper adresse-input"><input class="base-form-input" :placeholder="emptyAdd" v-model.trim.lazy="newAd2"/></div>
                                     <el-row>
@@ -214,17 +214,59 @@ export default {
         this.newTel = this.cabinet.tel
     },
     validateConfirm () {
-        this.validate.cp = '';
-        this.validate.tel = '';
-        this.validate.adresse = '';
-        var reg = new RegExp('^[0-9]+$');
-        var checkTel = reg.test(this.newTel);
-        var checkCp = reg.test(this.newAd4);
-        
-        if ( this.newAd1.length === 0) this.validate.adresse = 'Merci de saisir une adresse'
-        if ( this.newAd4 !== this.cabinet.cp && this.newAd4.length !== 5 || !checkCp ) this.validate.cp = 'Veuillez saisir un code postal à 5 chiffres'
-        if ( this.newTel.length !== 10 || this.newTel.length == 0 || !checkTel) this.validate.tel = 'Veuillez saisir un numéro de téléphone à 10 chiffres'
-        if ( this.validate.cp == '' && this.validate.tel  == '' && this.validate.adresse  == '' ) return this.confirm();
+        if (this.cabinet.user_type === 'root') {
+            this.validate.cp = '';
+            this.validate.tel = '';
+            this.validate.adresse = '';
+            var reg = new RegExp('^[0-9]+$');
+            var checkTel = reg.test(this.newTel);
+            var checkCp = reg.test(this.newAd4);
+            
+            if ( this.newAd1.length === 0) this.validate.adresse = 'Merci de saisir une adresse'
+            if ( this.newAd4 !== this.cabinet.cp && this.newAd4.length !== 5 || !checkCp ) this.validate.cp = 'Veuillez saisir un code postal à 5 chiffres'
+            if ( this.newTel.length !== 10 || this.newTel.length == 0 || !checkTel) this.validate.tel = 'Veuillez saisir un numéro de téléphone à 10 chiffres'
+            if ( this.validate.cp == '' && this.validate.tel  == '' && this.validate.adresse  == '' ) return this.confirm();
+        }
+        if (this.cabinet.user_type === 'user') {
+            this.validate.cp = '';
+            this.validate.tel = '';
+            this.validate.adresse = '';
+            var reg = new RegExp('^[0-9]+$');
+            var checkTel = reg.test(this.newTel);
+
+            if ( this.newTel.length !== 10 || this.newTel.length == 0 || !checkTel) this.validate.tel = 'Veuillez saisir un numéro de téléphone à 10 chiffres'
+            if ( this.validate.cp == '' && this.validate.tel == '' && this.validate.adresse  == '' ) return this.confirmCo();
+        }
+
+    },
+    confirmCo () {
+        axios.post('https://courtier.cpms.fr/modifCourtier',{
+            tel: this.newTel,
+        })
+        .then(response => {
+            if (response.data.status) {
+            this.$message({
+                type: 'success',
+                message: 'Vos modifications ont été prises en compte et seront traitées dans les plus brefs délais.',
+            })
+            } else {
+            this.$message({
+                type: 'error',
+                message: 'Vos modifications n\'ont pas été prise en compte.',
+            })
+            }
+            this.isEditing = false
+            }).catch( error => {
+                this.newAd1= '',
+                this.newAd2= '',
+                this.newAd3= '',
+                this.newAd4= '',
+                this.isEditing = false
+                this.$message({
+                    type: 'error',
+                    message: 'Vos modifications n\'ont pas été prise en compte.',
+                })
+            })
     },
     confirm () {
         axios.post('https://courtier.cpms.fr/modifCourtier',{

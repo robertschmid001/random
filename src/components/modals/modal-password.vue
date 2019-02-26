@@ -56,7 +56,7 @@ import axios from "axios"
       }
     },
     mounted () {
-      this.store.state.authenticated = false
+      this.$store.state.authenticated = false
     },
     computed: {
       errorText () {

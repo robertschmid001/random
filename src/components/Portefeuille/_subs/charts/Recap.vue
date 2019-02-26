@@ -110,7 +110,6 @@ export default {
     },
   created () {
       this.selection = this.$store.state.selectedItems
-      console.log(this.selection, 'this.selection')
   }
 }
 </script>

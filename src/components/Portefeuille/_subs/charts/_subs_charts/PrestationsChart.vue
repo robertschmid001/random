@@ -5,13 +5,13 @@
                 <div class="asia">
                     <el-table size="small" :data="tableData6" style="max-width: 800px;">
                         <el-table-column>
-                            <el-table-column prop="cat" ><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.a}}</div></template></el-table-column>
-                            <el-table-column prop="Ass" label="Art Dentaire" width="100"><template scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.t1}}</div></template></el-table-column>
-                            <el-table-column prop="Con" label="Hospitalisation" width="110"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.t2}}</div></template></el-table-column>
-                            <el-table-column prop="Ass" label="Optique" width="80"><template scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.t3}}</div></template></el-table-column>
-                            <el-table-column prop="Con" label="Pharmacie" width="90"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.t4}}</div></template></el-table-column>
-                            <el-table-column prop="Ass" label="Consultations/Visites" width="150"><template scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.t5}}</div></template></el-table-column>
-                            <el-table-column prop="Con" label="Soins courants" width="120"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.t6}}</div></template></el-table-column>
+                            <el-table-column prop="cat" ><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.a}}</div></template></el-table-column>
+                            <el-table-column prop="Ass" label="Art Dentaire" width="100"><template slot-scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.t1}}</div></template></el-table-column>
+                            <el-table-column prop="Con" label="Hospitalisation" width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.t2}}</div></template></el-table-column>
+                            <el-table-column prop="Ass" label="Optique" width="80"><template slot-scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.t3}}</div></template></el-table-column>
+                            <el-table-column prop="Con" label="Pharmacie" width="90"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.t4}}</div></template></el-table-column>
+                            <el-table-column prop="Ass" label="Consultations/Visites" width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.t5}}</div></template></el-table-column>
+                            <el-table-column prop="Con" label="Soins courants" width="120"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.t6}}</div></template></el-table-column>
                         </el-table-column>
                     </el-table>
                 </div>

@@ -6,9 +6,9 @@
               <div class="tablewrapper">
                 <el-table size="small" show-summary :data="formatTable1" style="max-width: 600px;">
                     <el-table-column :label="cotFormating1">
-                        <el-table-column prop="age" label="Tranches d'âge" ><template scope="scope" ><div class="data-wrapper">{{scope.row.age}}</div></template></el-table-column>
-                        <el-table-column prop="femme" label="Femmes" ><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.femme}}</div></template></el-table-column>
-                        <el-table-column prop="homme" label="Hommes"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.homme}}</div></template></el-table-column>
+                        <el-table-column prop="age" label="Tranches d'âge" ><template slot-scope="scope" ><div class="data-wrapper">{{scope.row.age}}</div></template></el-table-column>
+                        <el-table-column prop="femme" label="Femmes" ><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.femme}}</div></template></el-table-column>
+                        <el-table-column prop="homme" label="Hommes"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.homme}}</div></template></el-table-column>
                     </el-table-column>
                 </el-table>
               </div>
@@ -22,9 +22,9 @@
               <div class="tablewrapper">
                 <el-table size="small" show-summary :data="formatTable2" style="max-width: 600px;">
                     <el-table-column :label="cotFormating2">
-                        <el-table-column prop="age" label="Tranches d'âge" ><template scope="scope" ><div class="data-wrapper">{{scope.row.age}}</div></template></el-table-column>
-                        <el-table-column prop="femme" label="Femmes" ><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.femme}}</div></template></el-table-column>
-                        <el-table-column prop="homme" label="Hommes"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.homme}}</div></template></el-table-column>
+                        <el-table-column prop="age" label="Tranches d'âge" ><template slot-scope="scope" ><div class="data-wrapper">{{scope.row.age}}</div></template></el-table-column>
+                        <el-table-column prop="femme" label="Femmes" ><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.femme}}</div></template></el-table-column>
+                        <el-table-column prop="homme" label="Hommes"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.homme}}</div></template></el-table-column>
                     </el-table-column>
                 </el-table>
                 </div>
@@ -155,7 +155,6 @@ export default {
       this.sortData(listAssure);
     },
     LOG () {
-      console.log(this.listAssure, 'hello')
     },
     createChart1 () {
             var n1 = new Date().getFullYear()

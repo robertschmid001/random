@@ -2,20 +2,15 @@
     <div id="holding-table" >
 <!-- :default-sort = "{prop: 'noH', order: 'ascending'}" -->
         <div class="table-wrapping">
-            <el-table ref="multipleTable" border :max-height="700" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true"  class="h-border" :default-sort = "{prop: 'noH', order: 'ascending'}">
-                <el-table-column width="33" >
-                    <template slot-scope="scope">
-                        <el-tooltip class="item" effect="light" content="En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats »" placement="top-start">
-                            <i class="el-icon-info icon-info pointer"></i>
-                        </el-tooltip>
-                    </template>
-                </el-table-column>
-                <el-table-column type="selection" render-header="Sélectionner" width="42" ></el-table-column>
-                <el-table-column property="noH" label="HOLDINGS" prop="noH" sortable min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH}} <br> {{scope.row.nuH}} </div></template></el-table-column>
-                <el-table-column property="Entreprises" prop="iEe" sortable label="NOMBRE D'ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt pointer holHover" @click="holdingRowData(scope.row.entreprises, 'e', scope.row)">{{scope.row.iEe}}</div></template></el-table-column>
-                <el-table-column property="NOMBRE DE CONTRATS" prop="iCc" sortable label="NOMBRE DE CONTRATS" width="170"><template slot-scope="scope"><div class="data-wrapper pointer md-txt holHover" @click="holdingRowData(scope.row.entreprises, 'c', scope.row)">{{scope.row.iCc}}</div></template></el-table-column>
-                <el-table-column property="beneficiaire" prop="iAa" sortable label="NOMBRE D'ASSURES ET NOMBRE DE BENEFICIAIRES" width="190"><template slot-scope="scope" ><div class="data-wrapper pointer md-txt holHover"  @click="holdingRowData(scope.row.entreprises, 'a', scope.row.noH)">{{scope.row.iAa}}/{{scope.row.iBb}}</div></template></el-table-column>
-                <el-table-column property="totalCotisations" label="COTISATIONS ENCAISSEES" width="200">
+            <el-table ref="multipleTable" @sort-change="getCon" border :max-height="700" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true"  class="h-border" :default-sort = "{prop: 'noH', order: 'ascending'}">
+                <el-table-column width="29" :render-header="renderHeader"></el-table-column>
+                <el-table-column type="selection" class='selection' width="42"></el-table-column>
+                <el-table-column property="noH" label="HOLDINGS" prop="noH" sortable="custom" min-width="180"  max-width="265">
+                    <template slot-scope="scope" ><div class="data-wrapper justify md-txt">{{scope.row.noH}}  <br> {{scope.row.nuH}} </div></template></el-table-column>
+                <el-table-column property="Entreprises" prop="iEe" sortable="custom" label="NOMBRE D'ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt pointer holHover" @click="holdingRowData(scope.row.entreprises, 'e', scope.row)">{{scope.row.iEe}}</div></template></el-table-column>
+                <el-table-column property="NOMBRE DE CONTRATS" prop="iCc" sortable="custom" label="NOMBRE DE CONTRATS" width="170"><template slot-scope="scope"><div class="data-wrapper pointer md-txt holHover" @click="holdingRowData(scope.row.entreprises, 'c', scope.row)">{{scope.row.iCc}}</div></template></el-table-column>
+                <el-table-column property="beneficiaire" prop="iAa" sortable="custom" label="ASSURÉS & BÉNÉFICIAIRES" width="190"><template slot-scope="scope" ><div class="data-wrapper pointer md-txt holHover"  @click="holdingRowData(scope.row.entreprises, 'a', scope.row.noH)">{{scope.row.iAa}}/{{scope.row.iBb}}</div></template></el-table-column>
+                <el-table-column property="totalCotisations" label="COTISATIONS ENCAISSÉES" width="200">
                 <template slot-scope="scope">
                     <el-popover trigger="hover" placement="top">
                         <span>{{thisYearFormat}}: <font-awesome-icon icon="square" class="cGreen fontWeight"/><br>{{lastYearFormat}}: <font-awesome-icon icon="square" class="cRed"/></span>
@@ -23,7 +18,7 @@
                     </el-popover>
                 </template>
                 </el-table-column>
-                <el-table-column property="totalPrestations" label="PRESTATIONS REGLEES" width="180">
+                <el-table-column property="totalPrestations" label="PRESTATIONS RÉGLÉES" width="180">
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="top">
                             <span>{{thisYearFormat}}: <font-awesome-icon icon="square" class="cGreen fontWeight"/><br>{{lastYearFormat}}: <font-awesome-icon icon="square" class="cRed"/></span>
@@ -31,7 +26,7 @@
                         </el-popover>
                     </template>
                 </el-table-column>
-                <el-table-column property="totalTauxTele" v-if="actFilter === 's'" prop="iTt" sortable label="TAUX DE TELETRANSMISSION" width="200"><template slot-scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="formatTaux(scope.row.iTt)" color="#26d3d3"></el-progress></template></el-table-column>
+                <el-table-column property="totalTauxTele" v-if="actFilter === 's'" prop="iTt" sortable="custom" label="TAUX DE TÉLÉTRANSMISSION" width="200"><template slot-scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="formatTaux(scope.row.iTt)" color="#26d3d3"></el-progress></template></el-table-column>
                 <el-table-column property="documents" label="DOCUMENTS" width="90" style="text-align: center;">
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="right">
@@ -85,6 +80,9 @@ export default {
             n: 0,
             p: 99,
             amount: 0,
+            abc: '',
+            first: 0,
+            holding: this.holdings
         }
     },
     components:{
@@ -105,24 +103,23 @@ export default {
             return count
         },
         dataPagination () {
-            if (!this.holdings || this.holdings.length === 0){
+            var x;
+            var y;
+
+            if (!this.holding || this.holding.length === 0){
                 this.pagination = false
                 return [];
-            } 
-            var data = this.holdings;
+            }
+            var data = this.holding;
 
-            data.sort(function(a, b) {
-                var nameA = a.noH
-                var nameB = b.noH
-                if (nameA < nameB) {
-                    return -1;
-                }
-                if (nameA > nameB) {
-                    return 1;
-                }
-                return 0;
-            })
-            // console.log(data, 'data sorting')
+            if (this.first === 0) {
+                this.first = 1
+                data.sort(function(a, b) {
+                    x = a.noh
+                    y = b.noh
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+            }
 
             if(this.search.length >= 3) {
                 var that = this;
@@ -168,6 +165,97 @@ export default {
         this.defineYear();
     },
     methods: {
+        getCon(column) {
+            var x;
+            var y;
+            if (column.prop === 'noH') {
+                if (column.order === 'ascending') {
+                this.holding.sort(function (a, b) {
+                    x = a.noH
+                    y = b.noH
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.holding.sort(function (a, b) {
+                    x = a.noH
+                    y = b.noH
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'iEe') {
+                if (column.order === 'ascending') {
+                this.holding.sort(function (a, b) {
+                    x = a.iEe
+                    y = b.iEe
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.holding.sort(function (a, b) {
+                    x = a.iEe
+                    y = b.iEe
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'iCc') {
+                if (column.order === 'ascending') {
+                this.holding.sort(function (a, b) {
+                    x = a.iCc
+                    y = b.iCc
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.holding.sort(function (a, b) {
+                    x = a.iCc
+                    y = b.iCc
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'iAa') {
+                if (column.order === 'ascending') {
+                this.holding.sort(function (a, b) {
+                    x = a.iAa
+                    y = b.iAa
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.holding.sort(function (a, b) {
+                    x = a.iAa
+                    y = b.iAa
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'iTt') {
+                if (column.order === 'ascending') {
+                this.holding.sort(function (a, b) {
+                    x = a.iTt
+                    y = b.iTt
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.holding.sort(function (a, b) {
+                    x = a.iTt
+                    y = b.iTt
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+        },
+        renderHeader(h){
+            return h('span', {}, [
+                h('span', {}),
+                h('el-popover', { props: { placement: 'top-start', width: '300', trigger: 'hover', content: 'En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats » ' }}, [
+                h('i', { slot: 'reference',
+                        class:'el-icon-question',
+                        style: 'font-size:15px;display:flex;justify-content: center;'
+                        },
+                        '')
+                ])
+            ])
+        },
         clearSelection () {
             this.$refs.multipleTable.clearSelection();
         },
@@ -175,10 +263,6 @@ export default {
             this.year = new Date().getFullYear()
             this.lastYear = new Date().getFullYear()-1
         },
-        // sort({ column, prop, order }) {
-        // // doBackEndSorting(this.sortPropMap[prop], order)
-        //     // console.log(prop, order, column, 'sort order');
-        // },
         filterDocsholding(data) {
             var allDocs = this.docs
             if (allDocs) {
@@ -316,6 +400,14 @@ export default {
     // position: relative;
     box-sizing: border-box;
     padding-bottom: 41px;
+}
+.selection /deep/ span.el-checkbox {
+    display: flex;
+    justify-content: center;
+}
+.justify {
+    text-align: justify;
+    text-justify: inter-word;
 }
 .icon-info:hover {
     color: $holTable-color;

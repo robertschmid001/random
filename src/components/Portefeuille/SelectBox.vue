@@ -3,7 +3,7 @@
         <div class="middle-pop-wrapper" v-show="show" >
             <div class="middle-pop">
                 <div class="title-wrapper">
-                    <h1>Élements sélectionnés: {{selection.length}}</h1>
+                    <h1>Éléments sélectionnés: {{selection.length}}</h1>
                     <font-awesome-icon icon="times"  class="close pointer" title="retour" alt="retour"  @click="showPop"/>
                 </div>
                 <ul>
@@ -51,22 +51,22 @@ export default {
                     'Nombre de bénéficiaires': 'iBb',
                     'Cotisations encaissées 2018': {
                         callback: (value) => {
-                            return `${this.year2()}: ${value.iCoo[1]}`;
+                            return `${value.iCoo[1]}`;
                         }
                     },
                     'Cotisations encaissées 2019': {
                         callback: (value) => {
-                            return `${this.year()}: ${value.iCoo[0]}`;
+                            return `${value.iCoo[0]}`;
                         }
                     },
                     'Prestations réglées 2018': {
                         callback: (value) => {
-                            return `${this.year2()}: ${value.iPrr[1]}`;
+                            return `${value.iPrr[1]}`;
                         }
                     },
                     'Prestations réglées 2019': {
                         callback: (value) => {
-                            return `${this.year()}: ${value.iPrr[0]}`;
+                            return `${value.iPrr[0]}`;
                         }
                     },
                     'Taux de télétransmission': {
@@ -413,7 +413,6 @@ export default {
             }
         },
         log () {
-            return console.log(this.selection, 'selection')
         },
         getName (data) {
             if ( data.n ) return data.noH + data.noC + ' ' + this.transLibelle(data.l);

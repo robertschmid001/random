@@ -5,19 +5,19 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-        holdingTable: true,
-        entrepriseTable: false,
-        contratsTable: false,
-        assuresTable: false,
-        gEntTable: false,
-        eTable: true,
-        eConTable: false,
-        eAssTable: false,
-        cotTable: false,
-        prestTable: false,
-        tableHeader: true,
-        activeAssures: false,
-        detailsEntreprise: false,
+        // holdingTable: true,
+        // entrepriseTable: false,
+        // contratsTable: false,
+        // assuresTable: false,
+        // gEntTable: false,
+        // eTable: true,
+        // eConTable: false,
+        // eAssTable: false,
+        // cotTable: false,
+        // prestTable: false,
+        // tableHeader: true,
+        // activeAssures: false,
+        // detailsEntreprise: false,
         authenticated: "",
         newsLetters: [
             {
@@ -87,6 +87,7 @@ export const store = new Vuex.Store({
         tableDocs: [], //added
         coCourtiers: [],
         eR:'e',
+        spa: 's',
         mutations: {
         },
     },

@@ -14,7 +14,7 @@
                     <div class="input-box grey-text">
                         <span v-if="!user.edit">{{user.user_fname}}</span> <input v-else class="base-input" :placeholder="user.user_fname" v-model.trim.lazy="modifUser.forename"/><br>
                         <span v-if="!user.edit">{{user.user_lname}}</span> <input v-else class="base-input" :placeholder="user.user_lname" v-model.trim.lazy="modifUser.surname"/><br>
-                        <span v-if="!user.edit">{{'06 01 02 03 04'}}</span> 
+                        <span v-if="!user.edit">{{telFormat(user.tel)}}</span> 
                         <br>
                         <span>{{user.user_mail}}</span>
                         <br>
@@ -36,7 +36,7 @@
         <div class="align-left inner-body-r md-txt">
             <input class="base-input" placeholder="Nom" v-model.trim.lazy="newUser.surname"/>
             <input class="base-input" placeholder="Prénom" v-model.trim.lazy="newUser.forename"/>
-            <!-- <input class="base-input" placeholder="Numéro de téléphone" v-model.trim.lazy="newUser.tel"/> -->
+            <input class="base-input" placeholder="Numéro de téléphone" v-model.trim.lazy="newUser.tel"/>
             <input class="base-input" placeholder="Email" v-model.trim.lazy="newUser.email"/>
             <el-row>
                 <el-col :span="12" class="align-left">
@@ -51,6 +51,7 @@
                     <div v-if="this.validate.nom" class="validate"> {{this.validate.nom}}</div>
                     <div v-if="this.validate.prenom" class="validate"> {{this.validate.prenom}}</div>
                     <div v-if="this.validate.email" class="validate"> {{this.validate.email}}</div>
+                    <div v-if="this.validate.tel" class="validate"> {{this.validate.tel}}</div>
                     <div v-if="this.validate.back" class="validate"> {{errorMesage}}</div>
                 </el-col>
             </el-row>
@@ -76,6 +77,7 @@ export default {
             prenom: '',
             email: '',
             back: '',
+            tel: ''
         },
         // showList: false,
         // isEditing: false,
@@ -111,6 +113,11 @@ export default {
     }
   },
   methods: {
+    telFormat (user) {
+        if (!user) {
+            return 'Merci de renseigner un numéro de téléphone.'
+        } return user
+    },
     filtercoCourtiers () {
         var coCourtier = this.$store.state.coCourtiers
         coCourtier.forEach( e => {
@@ -125,6 +132,7 @@ export default {
         this.validate.prenom = '';
         this.validate.email = '';
         this.validate.back = '';
+        this.validate.tel = '';
         this.$emit('showList')
     },
     validateAddUser () {
@@ -132,16 +140,23 @@ export default {
         this.validate.prenom = '';
         this.validate.email = '';
         this.validate.back = '';
+        this.validate.tel = '';
+    
+        var reg = new RegExp('^[0-9]+$');
+        var checkTel = reg.test(this.newUser.tel);
+
+        if ( !this.newUser.tel || this.newUser.tel.length != 10 || !checkTel ) return this.validate.tel = 'Veuillez saisir un numéro de téléphone.'
         if ( !this.newUser.email ) return this.validate.email = 'Veuillez saisir un email.'
         if ( !this.newUser.surname ) return this.validate.nom = 'Veuillez saisir un nom.'
         if ( !this.newUser.forename ) return this.validate.prenom = 'Veuillez saisir un prénom.'
-        this.addUser();
+        if ( this.validate.nom == '' && this.validate.prenom == '' && this.validate.email  == '' && this.validate.tel  == '' ) this.addUser();
     },
     addUser () {
             axios.post('https://courtier.cpms.fr/createCoUser',{
             mailCourtier: this.newUser.email,
             nomCourtier: this.newUser.surname,
-            prenomCourtier: this.newUser.forename
+            prenomCourtier: this.newUser.forename,
+            telCourtier: this.newUser.tel
         })
         .then(response => {
             if ( response.data.status.status === true) {
@@ -152,8 +167,6 @@ export default {
                 })
                 this.$emit('edit')
             } else {
-                console.log(response, 'reponse')
-                console.log(response.data.status.errorMesage, 'response.data.status.errorMesage')
                 this.validate.back = response.data.status.errorMesage;
                 this.$message({
                     type: 'error',

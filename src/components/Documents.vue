@@ -1,6 +1,6 @@
 <template>
   <div id="documents">
-    <div v-if="this.docs">
+    <div v-if="this.docs && this.$store.state.cabinet.user_type == 'root'">
       <el-collapse v-model="activeNames" @change="handleChange">
         <div v-for="(doc, index) in docs" :key="index" >
           <el-collapse-item :name="nameOfFile(index)">
@@ -41,9 +41,9 @@ export default {
     nameOfFile (index) {
       return index
     },
-    handleChange(val) {
-          console.log(val);
-        },
+    handleChange() {
+          // console.log(val);
+    },
     setData () {
       this.$store.state.fullscreenLoading = true;
       this.getInfoAccueil();

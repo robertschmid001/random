@@ -5,11 +5,11 @@
             <el-col :span="12">
                 <el-table show-summary size="small" :data="filteredTableTy" style="width: 100%;">
                     <el-table-column :label="cotFormating1">
-                        <el-table-column prop="cat" ><template scope="scope" ><div class="data-wrapper md-txt">{{formatRow(scope.row.cat)}}</div></template></el-table-column>
-                        <el-table-column prop="a" label="Assurés" width="80"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.a}}</div></template></el-table-column>
-                        <el-table-column prop="c" label="Conjoints" width="90"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.c}}</div></template></el-table-column>
-                        <el-table-column prop="e" label="Enfants" width="80"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.e}}</div></template></el-table-column>
-                        <el-table-column prop="s" label="Ascendants" width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.s}}</div></template></el-table-column>
+                        <el-table-column prop="cat" ><template slot-scope="scope" ><div class="data-wrapper md-txt">{{formatRow(scope.row.cat)}}</div></template></el-table-column>
+                        <el-table-column prop="a" label="Assurés" width="80"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.a}}</div></template></el-table-column>
+                        <el-table-column prop="c" label="Conjoints" width="90"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.c}}</div></template></el-table-column>
+                        <el-table-column prop="e" label="Enfants" width="80"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.e}}</div></template></el-table-column>
+                        <el-table-column prop="s" label="Ascendants" width="100"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.s}}</div></template></el-table-column>
                     </el-table-column>
                 </el-table>
             </el-col>
@@ -21,11 +21,11 @@
             <el-col :span="12">
                 <el-table show-summary size="small" :data="filteredTableLy" style="width: 100%">
                     <el-table-column :label="cotFormating2">
-                        <el-table-column prop="cat"><template scope="scope" ><div class="data-wrapper md-txt">{{formatRow(scope.row.cat)}}</div></template></el-table-column>
-                        <el-table-column prop="a" label="Assurés" width="80"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.a}}</div></template></el-table-column>
-                        <el-table-column prop="c" label="Conjoints" width="90"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.c}}</div></template></el-table-column>
-                        <el-table-column prop="e" label="Enfants" width="80"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.e}}</div></template></el-table-column>
-                        <el-table-column prop="s" label="Ascendants" width="100"><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.s}}</div></template></el-table-column>
+                        <el-table-column prop="cat"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{formatRow(scope.row.cat)}}</div></template></el-table-column>
+                        <el-table-column prop="a" label="Assurés" width="80"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.a}}</div></template></el-table-column>
+                        <el-table-column prop="c" label="Conjoints" width="90"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.c}}</div></template></el-table-column>
+                        <el-table-column prop="e" label="Enfants" width="80"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.e}}</div></template></el-table-column>
+                        <el-table-column prop="s" label="Ascendants" width="100"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.s}}</div></template></el-table-column>
                     </el-table-column>
                 </el-table>
             </el-col>

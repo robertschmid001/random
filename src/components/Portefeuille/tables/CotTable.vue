@@ -1,29 +1,22 @@
 <template>
     <div id="cotisation-table" >
         <div class="table-wrapping">
-            <!-- <el-button @click="LOG">LOG</el-button> -->
-            <el-table ref="multipleTable" border :max-height="700" size="medium" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="cot-border">
-                <el-table-column width="33" >
-                    <template slot-scope="scope">
-                        <el-tooltip class="item" effect="light" content="En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats »" placement="top-start">
-                            <i class="el-icon-info icon-info pointer"></i>
-                        </el-tooltip>
-                    </template>
-                </el-table-column>
+            <el-table ref="multipleTable" @sort-change="getCon" border :max-height="700" size="medium" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="cot-border">
+                <el-table-column width="29" :render-header="renderHeader"></el-table-column>
                 <el-table-column type="selection" width="42"></el-table-column>
                 <el-table-column property="holding" prop="noH" sortable label="HOLDING" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH }}<br>{{ scope.row.nuH}}</div></template></el-table-column>
                 <el-table-column property="entreprise" prop="noC" sortable label="ENTREPRISE" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noC}}<br>{{ scope.row.nuC}}</div></template></el-table-column>
                 <el-table-column property="contrat" prop="iCc" sortable label="CONTRAT"  min-width="150"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.l)}} <br> {{scope.row.l1 }} {{ scope.row.l2}}  </div></template></el-table-column>
                 <el-table-column property="type" prop="ts" sortable label="TYPE DE CONTRAT"  width="140"><template slot-scope="scope" ><div class="data-wrappe md-txtr">{{transType(scope.row.ts)}}</div></template></el-table-column>
-                <el-table-column property="col" prop="cl" sortable label="COLLEGE"  width="140"><template slot-scope="scope" ><div class="data-wrappe md-txtr">{{transCol(scope.row.cl)}}</div></template></el-table-column>
-                <el-table-column property="cat" prop="cg" sortable label="CATEGORIE"  width="140"><template slot-scope="scope" ><div class="data-wrappe md-txtr">{{transCat(scope.row.cg)}}</div></template></el-table-column>
-                <el-table-column property="debut" prop="dp" sortable label="DEBUT DE PERIODE"  width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dp}}</div></template></el-table-column>
-                <el-table-column property="fin" prop="fp" sortable label="FIN DE PERIODE"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.fp}}</div></template></el-table-column>
-                <el-table-column property="montant" prop="me" sortable label="MONTANT ENCAISSE"  width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt align-right">{{formatCurrency(scope.row.me)}}</div></template></el-table-column>
-                <el-table-column property="encaissement" prop="de" sortable label="DATE DE L'ENCAISSEMENT"  width="180"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.de}}</div></template></el-table-column>
+                <el-table-column property="col" prop="cl" sortable label="COLLÈGE"  width="140"><template slot-scope="scope" ><div class="data-wrappe md-txtr">{{transCol(scope.row.cl)}}</div></template></el-table-column>
+                <el-table-column property="cat" prop="cg" sortable label="CATÉGORIE"  width="140"><template slot-scope="scope" ><div class="data-wrappe md-txtr">{{transCat(scope.row.cg)}}</div></template></el-table-column>
+                <el-table-column property="debut" prop="dp" sortable="custom" label="DÉBUT DE PÉRIODE"  width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dp}}</div></template></el-table-column>
+                <el-table-column property="fin" prop="fp" sortable="custom" label="FIN DE PÉRIODE"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.fp}}</div></template></el-table-column>
+                <el-table-column property="montant" prop="me" sortable label="MONTANT ENCAISSÉ"  width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt align-right">{{formatCurrency(scope.row.me)}}</div></template></el-table-column>
+                <el-table-column property="encaissement" prop="de" sortable="custom" label="DATE DE L'ENCAISSEMENT" width="180"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.de}}</div></template></el-table-column>
                 <el-table-column property="status" prop="s" sortable label="STATUT COTISATION"  width="150"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transStatus(scope.row.s)}}</div></template></el-table-column>
                 <el-table-column property="dsn" prop="d" sortable label="DSN"  width="70"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transDsn(scope.row.d)}}</div></template></el-table-column>
-                <el-table-column property="reglement" prop="td" sortable label="MODE DE REGLEMENT"  width="160"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transMode(scope.row.td)}}</div></template></el-table-column>
+                <el-table-column property="reglement" prop="td" sortable label="MODE DE RÈGLEMENT"  width="160"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transMode(scope.row.td)}}</div></template></el-table-column>
                 <el-table-column property="relance" prop="mr" sortable label="MONTANT REVERSE A LA COMPAGNIE"  width="240"><template slot-scope="scope" ><div class="data-wrapper md-txt align-right">{{formatCurrency(scope.row.mr)}}</div></template></el-table-column>
                 <el-table-column property="relance" prop="dr" sortable label="DATE DE REVERSEMENT"  width="190"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dr}}</div></template></el-table-column>
                 <el-table-column type="selection" width="42"></el-table-column>
@@ -51,6 +44,7 @@ export default {
             p: 99,
             cotisations: this.cotisation,
             amount: 0,
+            first: 0
         }
     },
     components: {
@@ -62,24 +56,22 @@ export default {
             return count
         },
         dataPagination () {
-            
+            var x;
+            var y;
+
             if (!this.cotisations || this.cotisations.length === 0){
                 this.pagination = false
                 return [];
-            } 
-            var data = this.cotisations;
-
-            data.sort(function(a, b) {
-                var nameA = a.noH
-                var nameB = b.noH
-                if (nameA < nameB) {
-                    return -1;
-                }
-                if (nameA > nameB) {
-                    return 1;
-                }
-                return 0;
-            })
+            }
+            var data = this.cotisation;
+            if (this.first === 0) {
+                this.first = 1
+                data.sort(function(a, b) {
+                    x = a.noh
+                    y = b.noh
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+            }
 
             if(this.search.length >= 3){
                 var that = this;
@@ -122,14 +114,72 @@ export default {
         '$route': 'fetchCot',
     },
     methods: {
+        getCon(column) {
+            var x;
+            var y;
+            if (column.prop === 'dp') {
+                if (column.order === 'ascending') {
+                this.cotisations.sort(function (a, b) {
+                    x = a.dp.split("/").reverse().join("")
+                    y = b.dp.split("/").reverse().join("")
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.cotisations.sort(function (a, b) {
+                    x = a.dp.split("/").reverse().join("")
+                    y = b.dp.split("/").reverse().join("")
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+           if (column.prop === 'fp') {
+                if (column.order === 'ascending') {
+                    this.cotisations.sort(function (a, b) {
+                        x = a.fp.split("/").reverse().join("")
+                        y = b.fp.split("/").reverse().join("")
+                        return x < y ? 1 : x > y ? -1 : 0
+                    })
+                } else {
+                    this.cotisations.sort(function (a, b) {
+                        x = a.fp.split("/").reverse().join("")
+                        y = b.fp.split("/").reverse().join("")
+                        return x > y ? 1 : x < y ? -1 : 0
+                    })
+                }
+            }
+           if (column.prop === 'de') {
+                if (column.order === 'ascending') {
+                    this.cotisations.sort(function (a, b) {
+                        x = a.de.split("/").reverse().join("")
+                        y = b.de.split("/").reverse().join("")
+                        return x < y ? 1 : x > y ? -1 : 0
+                    })
+                } else {
+                    this.cotisations.sort(function (a, b) {
+                        x = a.de.split("/").reverse().join("")
+                        y = b.de.split("/").reverse().join("")
+                        return x > y ? 1 : x < y ? -1 : 0
+                    })
+                }
+            }
+        },
+        renderHeader(h){
+            return h('span', {}, [
+                h('span', {}),
+                h('el-popover', { props: { placement: 'top-start', width: '300', trigger: 'hover', content: 'En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats » ' }}, [
+                    h('i', { slot: 'reference',
+                            class:'el-icon-question',
+                            style: 'font-size:15px;display:flex;justify-content:center;'
+                            },
+                    '')
+                ])
+            ])
+        },
         clearSelection () {
             this.$refs.multipleTable.clearSelection();
         },
         transLibelle (data) {
             return this.$store.state.translation.contratLibelle[data]
-        },
-        LOG () {
-            // console.log(this.cotisations)
         },
         fetchCot () {
             // console.log('hallo')
@@ -141,7 +191,6 @@ export default {
         },
         handleCurrentChange(val) {
             this.currentPage = val;
-            // console.log(`current page: ${val}`);
         },
         transStatus (data) {
             return this.$store.state.translation.etatCotisation[data]
@@ -216,11 +265,11 @@ export default {
         },
         handleSelectionChange (val) {
             this.multipleSelect = val;
-            // console.log(this.multipleSelect,' multiple selection')
         },
     },
     mounted () {
         this.search = ''
+        this.cotisations = this.cotisation
     },
     created () {
     },

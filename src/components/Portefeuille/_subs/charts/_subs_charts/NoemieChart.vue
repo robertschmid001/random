@@ -5,10 +5,10 @@
             <el-col :span="8">
               <div class="tablewrapper">
                 <el-table size="small" :data="table" style="max-width: 600px;" :default-sort = "{prop: 'ty', order: 'descending'}" >
-                        <el-table-column prop="cat" ><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.cat}}</div></template></el-table-column>
-                        <el-table-column prop="ly" :label="cotFormating2" width="60"><template scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.ly}}</div></template></el-table-column>
+                        <el-table-column prop="cat" ><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.cat}}</div></template></el-table-column>
+                        <el-table-column prop="ly" :label="cotFormating2" width="60"><template slot-scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.ly}}</div></template></el-table-column>
                         <!-- <el-table-column prop="totalLy" :label="cotFormating2 + '(%)' " width="70"><template scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.totalLy}}%</div></template></el-table-column> -->
-                        <el-table-column prop="ty" :label="cotFormating1" width="60"><template scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.ty}}</div></template></el-table-column>
+                        <el-table-column prop="ty" :label="cotFormating1" width="60"><template slot-scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.ty}}</div></template></el-table-column>
                         <!-- <el-table-column prop="totalTy" :label="cotFormating1 + '(%)'" width="70"><template scope="scope" ><div class="data-wrapper md-txt ">{{scope.row.totalTy}}%</div></template></el-table-column> -->
                 </el-table>
               </div>

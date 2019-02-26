@@ -65,23 +65,21 @@
                         <div class="align-left inner-body-r md-txt">
                             <div>
                                 <div class="box-user">
-                                    <el-collapse :accordion="true">
-                                        <div v-for="(item, index) in contractsFormat" :key="index">
-                                            <el-collapse-item :name="index">
+                                    <el-collapse :accordion="true" >
+                                            <el-collapse-item :name="index"  v-for="(item, index) in this.contratInfo" :key="index">
                                                 <template slot="title" class="titlehead">
                                                     <div class="col-head dark-grey">
                                                         {{formatType(item.ci.c)}}
                                                     </div>
                                                 </template>
-                                                <el-table :data="item.pi" style="width: 100%">
+                                                <el-table :data="checkingRes(item.pi)" style="width: 100%">
                                                     <el-table-column :label="formatLibelle(item)">
-                                                        <el-table-column prop="nom" label=""><template scope="scope"><div class="data-wrapper md-txt">{{formatName(scope.row.type_personne)}}</div></template></el-table-column>
-                                                        <el-table-column prop="name" label="Date d'entrée"><template scope="scope"><div class="data-wrapper md-txt">{{formatDate(scope.row.date_entre_atach)}}</div></template></el-table-column>
-                                                        <el-table-column prop="address" label="Date de sortie"><template scope="scope"><div class="data-wrapper md-txt">{{formatDate(scope.row.date_sortie_atach)}}</div></template></el-table-column>
+                                                        <el-table-column prop="nom" label=""><template slot-scope="scope"><div class="data-wrapper md-txt">{{formatName(scope.row.type_personne)}}</div></template></el-table-column>
+                                                        <el-table-column prop="name" label="Date d'entrée"><template slot-scope="scope"><div class="data-wrapper md-txt">{{formatDate(scope.row.date_entre_atach)}}</div></template></el-table-column>
+                                                        <el-table-column prop="address" label="Date de sortie"><template slot-scope="scope"><div class="data-wrapper md-txt">{{formatDate(scope.row.date_sortie_atach)}}</div></template></el-table-column>
                                                     </el-table-column>
                                                 </el-table>
                                             </el-collapse-item>
-                                        </div>
                                     </el-collapse>
                                 </div>
                             </div>
@@ -105,26 +103,46 @@ export default {
         adresse:{ rue: '11 rue de la chevalerie', ville:'Paris', codePostale:'75015'},
         tel: '01 75 14 55 61',
         rib: 'FR76 xxxx xxxx xxxx xx56',
-
         newUser: {surname: '', forename: '', tel: '', email: '', edit: false},
+        // contractsTo: this.contractsFormat()
       }
   },
   computed: {
     contractsFormat () {
-        console.log(this.activeAss, 'activeAss')
+        console.log(this.activeAss, 'THIS NEW activeAss')
         var contracts = this.contratInfo
         console.log(contracts, 'contracts')
-        var today = moment().format('YYYY-MM-DD')
+        // var today = moment().format('YYYY-MM-DD')
         var filtered = []
-        contracts.forEach(e => {
-            e.pi.forEach(f => {
-            // var date = moment(f.date_sortie_atach, 'YYYY-MM-DD').format('YYYY-MM-DD')
-                if (today < f.date_sortie_atach || !f.date_sortie_atach) {
-                    filtered.push(e)
-                }
-            })
-        }) 
-        return filtered;
+
+        // for (var i = 0; i < contracts.length; i++) {
+        //     for (var y = 0; y < contracts[i].pi.length; y++) {
+        //          if (contracts[i].pi[y].date_sortie_atach && today > contracts[i].pi[y].date_sortie_atach) {
+        //              console.log(contracts[i].pi[y], 'contracts[i].pi[y]')
+        //              var index = contracts[i].pi[y]
+        //             console.log(contracts.splice(index, 1), 'contracts.splice')
+        //             contracts.splice(index,1)
+        //         }
+        //     }
+        //     filtered.push(contracts[i])
+        // }
+        // contracts.forEach(e => {
+        //     e.pi.forEach(f => {
+        //         console.log(today, 'today', f.date_sortie_atach, 'f.date_sortie_atach' )
+        //     // var date = moment(f.date_sortie_atach, 'YYYY-MM-DD').format('YYYY-MM-DD')
+        //         if (f.date_sortie_atach && today > f.date_sortie_atach) {
+        //             console.log(e.pi.splice(f,1), 'e.pi.splice(f,1)')
+        //             return e.pi.splice(f,1)
+        //         }
+        //     //    if (today > f.date_sortie_atach && f.date_sortie_atach) {
+        //     //         // filtered.push(e)
+        //     //     }
+                
+        //     })
+        //     filtered.push(e)
+        // })
+        console.log(filtered, 'filtered')
+        return contracts;
     },
     tel2Comp () {
         if (this.assInfo.tel2 === '0000000000'){
@@ -142,6 +160,19 @@ export default {
     }
   },
   methods: {
+    checkingRes (data) {
+        var filtered = []
+        var today = moment().format('YYYY-MM-DD')
+        for (var i = 0; i < data.length; i++) {
+                 if (data[i].date_sortie_atach && today > data[i].date_sortie_atach) {
+                     console.log(data[i], 'pi[i].pi[y]')
+                     var index = data[i]
+                    data.splice(index,1)
+                }
+            filtered.push(data[i])
+        }
+        return filtered
+    },
     transTeletrans (data) {
         return this.$store.state.translation.connecte[data]
     },
@@ -165,7 +196,6 @@ export default {
         return this.$store.state.translation.contratLibelle[data.ci.l] + ': N° ' + data.ci.l1 + data.ci.l2
     },
     formatType (data) {
-    
         return data === 'B'? 'Régime de base' : 'Régime optionnel'
     },
     // nameOfFile (index) {
@@ -173,9 +203,9 @@ export default {
     // },
     logging () {
         // console.log(this.activeAss, 'activeAss')
-        // console.log(this.assInfo, 'assInfo')    
+        // console.log(this.assInfo, 'assInfo')
         // console.log(this.assInfo.adresse, 'asureInfo.adresse')
-        // console.log(this.contratInfo, 'contratInfo')
+        console.log(this.contratInfo, 'contratInfo')
     },
     close () {
         this.$emit('close');

@@ -6,9 +6,9 @@
             <el-col :span="8">
               <div  v-show="this.filteredData.length > 0" class="tablewrapper">
                 <el-table size="small" :data="filteredData" style="max-width: 600px;" :default-sort= "{prop: 'y', order: 'descending'}">
-                        <el-table-column prop="cat" label="" ><template scope="scope" ><div class="data-wrapper md-txt">{{scope.row.m}}</div></template></el-table-column>
-                        <el-table-column prop="by" :label="cotFormating2" width="80"><template scope="scope" ><div class="data-wrapper md-txt "><div class="align-left left">{{scope.row.by}}</div></div></template></el-table-column>
-                        <el-table-column prop="y" :label="cotFormating1" width="90"><template scope="scope" ><div class="data-wrapper md-txt "><div class="align-left left">{{scope.row.y}}</div></div></template></el-table-column>
+                        <el-table-column prop="cat" label="" ><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.m}}</div></template></el-table-column>
+                        <el-table-column prop="by" :label="cotFormating2" width="80"><template slot-scope="scope" ><div class="data-wrapper md-txt "><div class="align-left left">{{scope.row.by}}</div></div></template></el-table-column>
+                        <el-table-column prop="y" :label="cotFormating1" width="90"><template slot-scope="scope" ><div class="data-wrapper md-txt "><div class="align-left left">{{scope.row.y}}</div></div></template></el-table-column>
                 </el-table>
               </div>
             </el-col>
@@ -43,13 +43,11 @@ export default {
     cotFormating1 () {
       var n = new Date().getFullYear()
       var str = n.toString()
-      console.log(str, 'str 2019')
       return  str
     },
     cotFormating2 () {
       var n = new Date().getFullYear()-1
       var str = n.toString()
-      console.log(str, 'str 2018')
       return  str
     },
   },
@@ -57,13 +55,11 @@ export default {
     chartYear () {
       var n = new Date().getFullYear()
       var str = n.toString()
-      console.log(str, 'str 2019')
       return  str = this.year
     },
     chartLastYear () {
       var n = new Date().getFullYear()-1
       var str = n.toString()
-      console.log(str, 'str 2018')
       return  str = this.lastYear
     },
     filterAppel () {

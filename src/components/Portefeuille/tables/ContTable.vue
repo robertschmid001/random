@@ -1,27 +1,21 @@
 <template>
     <div id="contrat-table" >
         <div class="table-wrapping">
-            <el-table ref="multipleTable" border :max-height="700" size="medium" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="c-border">
-                <el-table-column width="33" >
-                    <template slot-scope="scope">
-                        <el-tooltip class="item" effect="light" content="En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats »" placement="top-start">
-                            <i class="el-icon-info icon-info pointer"></i>
-                        </el-tooltip>
-                    </template>
-                </el-table-column>
+            <el-table ref="multipleTable" @sort-change="getCon" border :max-height="700" size="medium" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="c-border">
+                <el-table-column width="29" :render-header="renderHeader"></el-table-column>
                 <el-table-column type="selection" width="42"></el-table-column>
-                <el-table-column property="noH" prop="noH" sortable label="HOLDING"  min-width="180"  max-width="265"><template slot-scope="scope"><div class="data-wrapper md-txt" > {{scope.row.noH }} <br> {{scope.row.nuH}}  </div></template></el-table-column>
-                <el-table-column property="noC" prop="noC" sortable label="ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt entHover">{{scope.row.noC}} <br> {{scope.row.nuC}} </div></template></el-table-column>
-                <el-table-column property="contrat" prop="l" sortable label="CONTRAT"  min-width="150"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.l)}} <br> {{scope.row.l1 }} {{ scope.row.l2}}  </div></template></el-table-column>
-                <el-table-column property="type" prop="tc" sortable label="TYPE DE CONTRAT"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transType(scope.row.tc)}}</div></template></el-table-column>
-                <el-table-column property="college" prop="o" sortable label="COLLEGE"  width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCol(scope.row.o)}}</div></template></el-table-column>
-                <el-table-column property="categorie" prop="a" sortable label="CATEGORIE"  width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCat(scope.row.a)}}</div></template></el-table-column>
-                <el-table-column property="assureur" prop="s" sortable label="ASSUREUR"  width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transAss(scope.row.s)}}</div></template></el-table-column>
-                <el-table-column property="reseauDeSoin" prop="r" sortable label="RESEAU DE SOIN"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transRes(scope.row.r)}}</div></template></el-table-column>
-                <el-table-column property="debut" prop="debut" sortable label="DATE DE DEBUT"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dep}}</div></template></el-table-column>
-                <el-table-column property="fin" prop="fin" sortable label="DATE DE FIN"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dsp}}</div></template></el-table-column>
-                <el-table-column property="beneficiaire" prop="iA" sortable label="NOMBRE D'ASSURES ET DE BENEFICIAIRES" show-overflow-tooltip width="150"><template slot-scope="scope" ><div  class="data-wrapper pointer md-txt contHover" @click="assRowData(scope.row)">{{countAResilie(scope.row)}} / {{countBResilie(scope.row)}}</div></template></el-table-column>
-                <el-table-column property="cotisations" label="COTISATIONS ENCAISSEES"  width="115">
+                <el-table-column property="noH" prop="noH" sortable="custom" label="HOLDING"  min-width="180"  max-width="265"><template slot-scope="scope"><div class="data-wrapper md-txt" > {{scope.row.noH }} <br> {{scope.row.nuH}}  </div></template></el-table-column>
+                <el-table-column property="noC" prop="noC" sortable="custom" label="ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt entHover">{{scope.row.noC}} <br> {{scope.row.nuC}} </div></template></el-table-column>
+                <el-table-column property="contrat" prop="l" sortable="custom" label="CONTRAT"  min-width="150"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transLibelle(scope.row.l)}} <br> {{scope.row.l1 }} {{ scope.row.l2}}  </div></template></el-table-column>
+                <el-table-column property="type" prop="tc" sortable="custom" label="TYPE DE CONTRAT"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transType(scope.row.tc)}}</div></template></el-table-column>
+                <el-table-column property="college" prop="o" sortable="custom" label="COLLÈGE"  width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCol(scope.row.o)}}</div></template></el-table-column>
+                <el-table-column property="categorie" prop="a" sortable="custom" label="CATÉGORIE"  width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transCat(scope.row.a)}}</div></template></el-table-column>
+                <el-table-column property="assureur" prop="s" sortable="custom" label="ASSUREUR"  width="110"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transAss(scope.row.s)}}</div></template></el-table-column>
+                <el-table-column property="reseauDeSoin" prop="r" sortable="custom" label="RÉSEAU DE SOIN"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{transRes(scope.row.r)}}</div></template></el-table-column>
+                <el-table-column property="debut" prop="debut" sortable="custom" label="DATE DE DÉBUT"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dep}}</div></template></el-table-column>
+                <el-table-column property="fin" prop="fin" sortable="custom" label="DATE DE FIN"  width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.dsp}}</div></template></el-table-column>
+                <el-table-column property="beneficiaire" prop="iA" sortable="custom" label="ASSURÉS & BÉNÉFICIAIRES" show-overflow-tooltip width="150"><template slot-scope="scope" ><div  class="data-wrapper pointer md-txt contHover" @click="assRowData(scope.row)">{{countAResilie(scope.row)}} / {{countBResilie(scope.row)}}</div></template></el-table-column>
+                <el-table-column property="cotisations" label="COTISATIONS ENCAISSÉES"  width="115">
                 <template slot-scope="scope">
                 <el-popover trigger="hover" placement="top" class="pop">
                     <span>{{thisYearFormat}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{lastYearFormat}}: <font-awesome-icon icon="square" class="cRed"/></span>
@@ -29,8 +23,7 @@
                 </el-popover>
                 </template>
                  </el-table-column>
-
-                 <el-table-column property="prestations" label="PRESTATIONS REGLEES"  width="120">
+                 <el-table-column property="prestations" label="PRESTATIONS RÉGLÉES"  width="120">
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="top">
                             <span>{{thisYearFormat}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{lastYearFormat}}: <font-awesome-icon icon="square" class="cRed"/></span>
@@ -38,21 +31,12 @@
                         </el-popover>
                     </template>
                 </el-table-column>
-                 <!-- <el-table-column property="graphique" v-if="actFilter === 's'" label="GRAPHIQUE"  width="100">
-                    <template slot-scope="scope">
-                        <el-popover trigger="hover" placement="top">
-                            <span> Merci de sélectionner une ou plusieurs ligne dans le tableau <br> afin de créer un graphique </span>
-                            <div slot="reference" class="name-wrappe popoverTable"><font-awesome-icon icon="chart-pie" class="chartIcon pointer"/></div>
-                        </el-popover>
-                    </template>
-                </el-table-column> -->
                 <el-table-column type="selection" width="42"></el-table-column>
             </el-table>
         </div>
         <el-pagination v-if="pagination" @current-change="handleCurrentChange" :current-page.sync="currentPage"
           :page-size="100" layout="total, prev, pager, next" :total="itemsCount">
         </el-pagination>
-        <!-- <button @click="log">...</button> -->
         <select-box :actFilter="acFilter"  v-if="multipleSelect.length > 0" :selection="this.multipleSelect" :current="this.name" @clickChart="openChart" @clear="clearSelection"/>
     </div>
 </template>
@@ -75,6 +59,8 @@ export default {
             n: 0,
             p: 99,
             amount: 0,
+            first: 0,
+            contrat: this.contrats
         }
     },
     components: {
@@ -101,23 +87,21 @@ export default {
             return this.name
         },
         dataPagination () {
-            
-            if (!this.contrats || this.contrats.length === 0){
+            var x;
+            var y;
+            if (!this.contrat || this.contrat.length === 0){
                 this.pagination = false
                 return [];
-            } 
-            var data = this.contrats;
-            data.sort(function(a, b) {
-                var nameA = a.noH
-                var nameB = b.noH
-                if (nameA < nameB) {
-                    return -1;
-                }
-                if (nameA > nameB) {
-                    return 1;
-                }
-                return 0;
-            })
+            }
+            var data = this.contrat;
+            if (this.first === 0) {
+                this.first = 1
+                data.sort(function(a, b) {
+                    x = a.noh
+                    y = b.noh
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+            }
 
             if (this.search.length >= 3) {
                 var that = this;
@@ -159,6 +143,187 @@ export default {
         }
     },
     methods: {
+       getCon(column) {
+            var x;
+            var y;
+            if (column.prop === 'noH') {
+                if (column.order === 'ascending') {
+                this.contrat.sort(function (a, b) {
+                    x = a.noH
+                    y = b.noH
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.contrat.sort(function (a, b) {
+                    x = a.noH
+                    y = b.noH
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'noC') {
+                if (column.order === 'ascending') {
+                this.contrat.sort(function (a, b) {
+                    x = a.noC
+                    y = b.noC
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.contrat.sort(function (a, b) {
+                    x = a.noC
+                    y = b.noC
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'l') {
+                if (column.order === 'ascending') {
+                this.contrat.sort(function (a, b) {
+                    x = a.l
+                    y = b.l
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.contrat.sort(function (a, b) {
+                    x = a.l
+                    y = b.l
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'tc') {
+                if (column.order === 'ascending') {
+                this.contrat.sort(function (a, b) {
+                    x = a.tc
+                    y = b.tc
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.contrat.sort(function (a, b) {
+                    x = a.tc
+                    y = b.tc
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'o') {
+                if (column.order === 'ascending') {
+                this.contrat.sort(function (a, b) {
+                    x = a.o
+                    y = b.o
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.contrat.sort(function (a, b) {
+                    x = a.o
+                    y = b.o
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'a') {
+                if (column.order === 'ascending') {
+                this.contrat.sort(function (a, b) {
+                    x = a.a
+                    y = b.a
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.contrat.sort(function (a, b) {
+                    x = a.a
+                    y = b.a
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 's') {
+                if (column.order === 'ascending') {
+                this.contrat.sort(function (a, b) {
+                    x = a.s
+                    y = b.s
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.contrat.sort(function (a, b) {
+                    x = a.s
+                    y = b.s
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'r') {
+                if (column.order === 'ascending') {
+                this.contrat.sort(function (a, b) {
+                    x = a.r
+                    y = b.r
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.contrat.sort(function (a, b) {
+                    x = a.r
+                    y = b.r
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'debut') {
+                if (column.order === 'ascending') {
+                this.contrat.sort(function (a, b) {
+                    x = a.dep.split("/").reverse().join("")
+                    y = b.dep.split("/").reverse().join("")
+                    return x < y ? 1 : x > y ? -1 : 0
+                })
+                } else {
+                this.contrat.sort(function (a, b) {
+                    x = a.dep.split("/").reverse().join("")
+                    y = b.dep.split("/").reverse().join("")
+                    return x > y ? 1 : x < y ? -1 : 0
+                })
+                }
+            }
+            if (column.prop === 'fin') {
+                if (column.order === 'ascending') {
+                    this.contrat.sort(function (a, b) {
+                        x = a.dsp.split("/").reverse().join("")
+                        y = b.dsp.split("/").reverse().join("")
+                        return x < y ? 1 : x > y ? -1 : 0
+                    })
+                } else {
+                    this.contrat.sort(function (a, b) {
+                        x = a.dsp.split("/").reverse().join("")
+                        y = b.dsp.split("/").reverse().join("")
+                        return x > y ? 1 : x < y ? -1 : 0
+                    })
+                }
+            }
+            if (column.prop === 'iA') {
+                if (column.order === 'ascending') {
+                    this.contrat.sort(function (a, b) {
+                        x = a.iA
+                        y = b.iA
+                        return x < y ? 1 : x > y ? -1 : 0
+                    })
+                } else {
+                    this.contrat.sort(function (a, b) {
+                        x = a.iA
+                        y = b.iA
+                        return x > y ? 1 : x < y ? -1 : 0
+                    })
+                }
+            }
+        },
+        renderHeader(h){
+            return h('span', {}, [
+                h('span', {}),
+                h('el-popover', { props: { placement: 'top-start', width: '300', trigger: 'hover', content: 'En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats » ' }}, [
+                h('i', { slot: 'reference',
+                        class:'el-icon-question',
+                        style: 'font-size:15px;display:flex;justify-content:center;'
+                        },
+                        '')
+                ])
+            ])
+        },
         clearSelection () {
             this.$refs.multipleTable.clearSelection();
         },

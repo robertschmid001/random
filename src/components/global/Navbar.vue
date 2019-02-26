@@ -76,7 +76,6 @@ export default {
                     return this.$store.state.extrType = data;
 
                 default:
-                console.log('DEFAULT')
                     return ""
             }
     },

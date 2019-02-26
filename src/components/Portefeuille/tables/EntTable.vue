@@ -1,21 +1,15 @@
 <template>
     <div id="entreprise-table" >
       <div class="table-wrapping">
-        <el-table ref="multipleTable" border :max-height="700" size="medium" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="e-border" :default-sort = "{prop: 'noC', order: 'ascending'}">
-          <el-table-column width="33" >
-            <template slot-scope="scope">
-                <el-tooltip class="item" effect="light" content="En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats »" placement="top-start">
-                    <i class="el-icon-info icon-info pointer"></i>
-                </el-tooltip>
-            </template>
-          </el-table-column>
+        <el-table ref="multipleTable" @sort-change="getCon" border :max-height="700" size="medium" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="e-border" :default-sort = "{prop: 'noC', order: 'ascending'}">
+          <el-table-column width="29" :render-header="renderHeader"></el-table-column>
           <el-table-column type="selection" width="42"></el-table-column>
-          <el-table-column property="noH" prop="noH" sortable label="HOLDING" min-width="180"  max-width="265"><template slot-scope="scope"><div class="data-wrapper md-txt" > {{scope.row.noH }} <br> {{scope.row.nuH }}  </div></template></el-table-column>
-          <el-table-column property="noC" prop="noC" sortable label="ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt entHover pointer" @click="openDetailsEnt(scope.row)" >{{scope.row.noC}} <br> {{scope.row.nuC}} </div></template></el-table-column>
-          <el-table-column property="contrats" prop="iCc" sortable label="NOMBRE DE CONTRATS"  width="170"><template slot-scope="scope" ><div class="data-wrapper pointer md-txt entHover" @click="contratsRowData(scope.row)">{{scope.row.iCc}}</div></template></el-table-column>
-          <el-table-column property="beneficiaire" prop="iAa" sortable label="NOMBRE D'ASSURES ET NOMBRE DE BENEFICIAIRES" width="190"><template slot-scope="scope" ><div class="data-wrapper pointer md-txt entHover" @click="assRowData(scope.row)" >{{scope.row.iAa}} / {{scope.row.iBb}} </div></template></el-table-column>
+          <el-table-column property="noH" prop="noH" sortable="custom" label="HOLDING" min-width="180"  max-width="265"><template slot-scope="scope"><div class="data-wrapper md-txt" > {{scope.row.noH }} <br> {{scope.row.nuH }}  </div></template></el-table-column>
+          <el-table-column property="noC" prop="noC" sortable="custom" label="ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt entHover pointer" @click="openDetailsEnt(scope.row)" >{{scope.row.noC}} <br> {{scope.row.nuC}} </div></template></el-table-column>
+          <el-table-column property="contrats" prop="iCc" sortable="custom" label="NOMBRE DE CONTRATS"  width="170"><template slot-scope="scope" ><div class="data-wrapper pointer md-txt entHover" @click="contratsRowData(scope.row)">{{scope.row.iCc}}</div></template></el-table-column>
+          <el-table-column property="beneficiaire" prop="iAa" sortable="custom" label="ASSURÉS & BÉNÉFICIAIRES" width="190"><template slot-scope="scope" ><div class="data-wrapper pointer md-txt entHover" @click="assRowData(scope.row)" >{{scope.row.iAa}} / {{scope.row.iBb}} </div></template></el-table-column>
 
-          <el-table-column property="cotisations" label="COTISATIONS ENCAISSEES"  width="115">
+          <el-table-column property="cotisations" label="COTISATIONS ENCAISSÉES"  width="115">
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="top">
                 <span>{{thisYearFormat}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{lastYearFormat}}: <font-awesome-icon icon="square" class="cRed"/></span>
@@ -24,7 +18,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column property="prestations" label="PRESTATIONS REGLEES"  width="120">
+          <el-table-column property="prestations" label="PRESTATIONS RÉGLÉES"  width="120">
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="top">
                 <span>{{thisYearFormat}}: <font-awesome-icon icon="square" class="cGreen"/><br>{{lastYearFormat}}: <font-awesome-icon icon="square" class="cRed"/></span>
@@ -33,7 +27,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column property="tauxTeletransmissions" v-if="actFilter === 's'" prop="iTt" sortable label="TAUX DE TELETRANSMISSION"  width="200"><template slot-scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="formatTaux(scope.row.iTt)" color="#894cfa" ></el-progress></template></el-table-column>
+          <el-table-column property="tauxTeletransmissions" v-if="actFilter === 's'" prop="iTt" sortable="custom" label="TAUX DE TÉLÉTRANSMISSION"  width="200"><template slot-scope="scope"><el-progress :text-inside="true" :stroke-width="18" :percentage="formatTaux(scope.row.iTt)" color="#894cfa" ></el-progress></template></el-table-column>
           <el-table-column property="documents" label="DOCUMENTS" width="90" style="text-align: center;">
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="right" class="align-center">
@@ -46,7 +40,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column property="typologie" v-if="actFilter === 's'" label="TYPOLOGIE DES APPELS TELEPHONIQUES" width="230" style="text-align: center;"><template slot-scope="scope"><div class="align-center" title="Typologie des appels" @click="getTypo(scope.row.nuC)"><font-awesome-icon icon="phone-square" class="size-export pointer entHover" /></div></template></el-table-column>
+          <el-table-column property="typologie" v-if="actFilter === 's'" label="TYPOLOGIE DES APPELS TÉLÉPHONIQUES" width="230" style="text-align: center;"><template slot-scope="scope"><div class="align-center" title="Typologie des appels" @click="getTypo(scope.row.nuC)"><font-awesome-icon icon="phone-square" class="size-export pointer entHover" /></div></template></el-table-column>
           <el-table-column type="selection" width="42"></el-table-column>
         </el-table>
         <el-pagination v-if="pagination" @current-change="handleCurrentChange" :current-page.sync="currentPage"
@@ -83,7 +77,9 @@ export default {
       p: 99,
       amount:0,
       year: '',
-      lastYear: ''
+      lastYear: '',
+      entreprise: this.holdEntreprise,
+      first: 0
     }
   },
   components: {
@@ -106,25 +102,24 @@ export default {
     },
     dataPagination () {
       var data = []
+      var x;
+      var y;
 
-      if (!this.holdEntreprise || this.holdEntreprise.length === 0){
+      if (!this.entreprise || this.entreprise.length === 0){
         data = this.$store.state.holdEnt
         this.pagination = false
       } else {
-        data = this.holdEntreprise
+        data = this.entreprise
       }
 
-      data.sort(function(a, b) {
-        var nameA = a.noC
-        var nameB = b.noC
-        if (nameA < nameB) {
-            return -1;
-        }
-        if (nameA > nameB) {
-            return 1;
-        }
-        return 0;
-      })
+      if (this.first === 0) {
+          this.first = 1
+          data.sort(function(a, b) {
+              x = a.noh
+              y = b.noh
+              return x > y ? 1 : x < y ? -1 : 0
+          })
+      }
 
       if(this.search.length >= 3){
           var that = this;
@@ -148,7 +143,6 @@ export default {
           }
       }
       } else
-      // console.log('inside else')
       this.amount = data.length
       this.pagination = true
       if (this.currentPage === 1 ){
@@ -164,6 +158,97 @@ export default {
     }
   },
   methods: {
+    getCon(column) {
+        var x;
+        var y;
+        if (column.prop === 'noH') {
+            if (column.order === 'ascending') {
+            this.entreprise.sort(function (a, b) {
+                x = a.noH
+                y = b.noH
+                return x < y ? 1 : x > y ? -1 : 0
+            })
+            } else {
+            this.entreprise.sort(function (a, b) {
+                x = a.noH
+                y = b.noH
+                return x > y ? 1 : x < y ? -1 : 0
+            })
+            }
+        }
+        if (column.prop === 'noC') {
+            if (column.order === 'ascending') {
+            this.entreprise.sort(function (a, b) {
+                x = a.noC
+                y = b.noC
+                return x < y ? 1 : x > y ? -1 : 0
+            })
+            } else {
+            this.entreprise.sort(function (a, b) {
+                x = a.noC
+                y = b.noC
+                return x > y ? 1 : x < y ? -1 : 0
+            })
+            }
+        }
+        if (column.prop === 'iCc') {
+            if (column.order === 'ascending') {
+            this.entreprise.sort(function (a, b) {
+                x = a.iCc
+                y = b.iCc
+                return x < y ? 1 : x > y ? -1 : 0
+            })
+            } else {
+            this.entreprise.sort(function (a, b) {
+                x = a.iCc
+                y = b.iCc
+                return x > y ? 1 : x < y ? -1 : 0
+            })
+            }
+        }
+        if (column.prop === 'iAa') {
+            if (column.order === 'ascending') {
+            this.entreprise.sort(function (a, b) {
+                x = a.iAa
+                y = b.iAa
+                return x < y ? 1 : x > y ? -1 : 0
+            })
+            } else {
+            this.entreprise.sort(function (a, b) {
+                x = a.iAa
+                y = b.iAa
+                return x > y ? 1 : x < y ? -1 : 0
+            })
+            }
+        }
+        if (column.prop === 'iTt') {
+            if (column.order === 'ascending') {
+            this.entreprise.sort(function (a, b) {
+                x = a.iTt
+                y = b.iTt
+                return x < y ? 1 : x > y ? -1 : 0
+            })
+            } else {
+            this.entreprise.sort(function (a, b) {
+                x = a.iTt
+                y = b.iTt
+                return x > y ? 1 : x < y ? -1 : 0
+            })
+            }
+        }
+    },
+    renderHeader(h){
+      return h('span', {}, [
+          h('span', {}),
+          h('el-popover', { props: { placement: 'top-start', width: '300', trigger: 'hover', content: 'En sélectionnant une ou plusieurs lignes, vous pourrez exporter les lignes du tableau. Les graphiques sont générés seulement au niveau des « contrats » ' }}, [
+          h('i', { slot: 'reference',
+                  class:'el-icon-question',
+                  style: 'font-size:15px;display:flex;justify-content:center;'
+                  },
+                  '')
+          ])
+      ])
+    },
     clearSelection () {
         this.$refs.multipleTable.clearSelection();
     },

@@ -65,7 +65,7 @@ export default {
         breadAlt:'',
         multSelect: this.$store.state.multSelectStore,
         currentView: 'holding-table',
-        spa: 's',
+        spa: this.$store.state.spa,
         eR: this.$store.state.eR,
         bottomPop: true,
         loading: false
@@ -81,10 +81,10 @@ export default {
     'prestation-table' : PresTable,
     'chart-hub' : ChartHub,
   },
-  watch: {
-    // call again the method if the route changes
-    '$route': 'fetchData',
-  },
+  // watch: {
+  //   // call again the method if the route changes
+  //   '$route': 'fetchData',
+  // },
   //holdEntRow
   methods: {
     log () {
@@ -102,9 +102,9 @@ export default {
       if (param === 'ent') {return this.$router.push({ name: 'entreprise', params:{hol: this.holdEnt[0].noH.toLowerCase(), nuH: this.holdEnt[0].nuH.toLowerCase()} })}
       if (param === 'cont') {return this.$router.push({ name: 'contrats', params:{hol: this.$store.state.holdEntCont[0].noH.toLowerCase(), nuH: this.$store.state.holdEntCont[0].nuH, ent: this.$store.state.holdEntCont[0].noC.toLowerCase(), nuC: this.$store.state.holdEntCont[0].nuC}})}
     },
-    LOG () {
+    // LOG () {
 
-    },
+    // },
     // fetchData (to, from) {
     //   // console.log(to, from, 'do this =>')
     // },
@@ -157,6 +157,7 @@ export default {
       return this.eR = param
     },
     spaFilter (param) {
+      this.$store.state.spa = param
       return this.spa = param
     },
     initEntreprise () {
@@ -177,32 +178,16 @@ export default {
           param[1] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[1])
       } else {
           for (var y = 0; y < param.length; y++) {
-            if (!param[y]) { param[y] = 0 } 
+            if (!param[y]) { param[y] = 0 }
               param[y] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[y])
             }
       }
+          // if (param[0].match(/\u20AC/g)){return}
+          // for (var y = 0; y < param.length; y++) {
+          //   if (!param[y]) { param[y] = 0 }
+          //     param[y] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[y])
+          // }
     },
-    // formatCurrency (param) {
-    //   console.log(param, 'cotisation param')
-    //   if( param[0] != null && param[1] != null ) {
-    //     if(param[0].match(/\u20AC/g)){
-    //       return }
-    //       else {
-    //         for (var i = 0; i < param.length; i++) {
-    //           param[i] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[i])
-    //         }
-    //       }
-    //   } else {
-    //       for (var y = 0; y < param.length; y++) {
-    //         if (param[y] != null) {
-    //           param[y] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[y])
-    //         } else {
-    //           param[y] = 0
-    //           param[y] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[y])
-    //         }
-    //       }
-    //   }
-    // },
     setData () {
       this.$store.state.fullscreenLoading = true;
       this.getInfoAccueil();
@@ -243,32 +228,33 @@ export default {
         } else {return false}
     },
     cotisations () {
+      console.log('cotisations port:comp')
       let spaEr = this.spa + this.eR;
       var filteredCotisations = this.$store.state.filteredCotisations;
         return filteredCotisations.filter(e => {
           if (e.ct === spaEr) {
+            console.log(spaEr, 'spaEr.cotisations')
+            console.log(e, 'e.cotisations')
             return e
           } else return
         })
     },
     globalAssure () {
+      console.log('globalAssure port:comp')
       let spaEr = this.spa + this.eR;
       var filteredAssure = this.$store.state.filteredAssures
-      // console.log(filteredAssure, 'Ass global')
-      // console.log(this.eR, 'this.eR global')
         return filteredAssure.filter(e => {
         // if (e.c.t === spaEr) {
           if (this.eR === 'e' && e.v == 1 && e.c.t === spaEr) {
-            // console.log(e, 'inside E e.v=1 spaer')
             return e
           }
           if (this.eR === 'r' && e.v == 0 && e.c.t === spaEr) {
-            // console.log(e, 'inside R e.v=1 spaer')
             return e
           }
       })
     },
     holdEntContrats () {
+      console.log('holdEntContrats port:comp')
       let spaEr = this.spa + this.eR;
         return this.holdEntCon.filter(e => {
         if (e.t === spaEr) {
@@ -280,6 +266,7 @@ export default {
     }
     ,
     holdEntreprise () {
+      console.log('holdEntreprise port:comp')
       let spaEr = this.spa + this.eR;
       return this.holdEnt.filter(e => {
         e.iCc = e.iC[spaEr]
@@ -294,6 +281,7 @@ export default {
       })
     },
     entreprises () {
+      console.log('entreprises port:comp')
       let spaEr = this.spa + this.eR;
       return this.entreprisesAll.filter(e => {
         e.iCc = e.iC[spaEr]
@@ -310,6 +298,7 @@ export default {
       })
     },
     holdings () {
+      console.log('holdings port:comp')
       if (this.holdingsAll) {
         let spaEr = this.spa + this.eR;
         return this.holdingsAll.filter( h => {

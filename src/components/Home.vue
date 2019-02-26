@@ -17,7 +17,7 @@
               </div>
               <div class="voir-wrapper">
                 <router-link class="router-class " to="/portefeuille">
-                  <div class="voir isCLickable pointer">Voir >></div>
+                  <div class="voir isCLickable pointer">Voir <i class="el-icon-d-arrow-right"></i></div>
                 </router-link>
               </div>
               <div v-if="this.currentTab ==='s'">
@@ -54,7 +54,7 @@
         </el-col>
         <el-col class="box" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <div class="white padding height300">
-            <h3 class="activity-title">Mon activités des 6 derniers mois</h3>
+            <h3 class="activity-title">Mon activité des 6 derniers mois</h3>
             <el-row class="activity-wrapper">
               <el-col :span="24" class="line-height">
                 <div @click="newEnt"><el-row class="border-bot pointer isCLickable"><el-col :span="18" class="act-cont align-left">Affaires nouvelles</el-col><el-col :span="6" class="act-num align-right">{{info.affairesNouvelles}}</el-col></el-row></div>
@@ -82,7 +82,7 @@
       </el-col>
       <el-col class="box" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
         <div class="white padding">
-          <h3 class="activity-title h3">Outil d'extraction - en cours de réalisation -</h3>
+          <h3 class="activity-title h3">Outil d'extraction en « cours de réalisation »</h3>
             <div class="content-text">
               Rechercher en dashboarding les données de mon portefeuille et les exporter au format Excel.
             </div>
@@ -145,14 +145,18 @@ export default {
     return {
       info : this.$store.state.Main,
       isImp : false,
-      currentTab : 's'
+      currentTab : this.$store.state.spa
     }
   },
   computed: {
+    getSpa () {
+      var filtre = this.$store.state.spa;
+      return filtre
+    }
   },
   watch: {
     // call again the method if the route changes
-    '$route': 'fetchData',
+    // '$route': 'fetchData',
     // $route (to, from) {
     //   if(to.name === 'Accueil') {
     //     console.log('to accueil')
@@ -174,11 +178,12 @@ export default {
       } else return data
     },
     switchTab (data) {
+      this.$store.state.spa = data
       this.currentTab = data
     },
-    fetchData (to, from) {
-      console.log(to, from, '<= do that ')
-    },
+    // fetchData (to, from) {
+    //   console.log(to, from, '<= do that ')
+    // },
     routeTo (param) {
       if (param === 'prest') { this.$store.state.extrType = 'prestations'; return this.$router.push({ name: 'Extraction', params:{type: 'prestations'} }) }
       if (param === 'cot') { this.$store.state.extrType = 'cotisations'; return this.$router.push({ name: 'Extraction', params:{type: 'cotisations'} }) }
@@ -210,6 +215,10 @@ export default {
         e.entreprises.forEach(f => {
           if ( f.de !== '00/00/0000') {
             var date = moment(f.de, 'DD/MM/YYYY')
+            console.log(date, 'date')
+            console.log(f.de, 'f.de')
+            console.log(moment(), 'moment()')
+            console.log(moment().subtract(6, 'months'))
           if (moment(date) >= moment().subtract(6, 'months')) {
             filteredEnt.push(f)
           }
@@ -291,6 +300,7 @@ export default {
     // this.formatCot();
     // console.log(this.info.ABCountSante.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),'regex to string')
     // console.log(this.info.ABCountSante.toLocaleString(), '.toLocaleString()')
+    this.currentTab = this.$store.state.spa;
   },
   created () {
     if (this.$store.state.Main.length === 0 || this.$store.state.holdings.length === 0 ) return this.setData();

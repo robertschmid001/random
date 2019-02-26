@@ -99,8 +99,8 @@ export default {
           })
           setTimeout(() => {
             if(res) {
-              console.log(this.ruleForm.objet ,'this.ruleForm.objet')
-              console.log(this.ruleForm.message ,'this.ruleForm.message')
+              // console.log(this.ruleForm.objet ,'this.ruleForm.objet')
+              // console.log(this.ruleForm.message ,'this.ruleForm.message')
               this.ruleForm.objet = ""
               this.ruleForm.message = ""
               this.fileAdded = []
@@ -117,7 +117,7 @@ export default {
       this.sendMail();
     },
     LOG () {
-      console.log(this.fileAdded,'filelist')
+      // console.log(this.fileAdded,'filelist')
     },
     fileAdd (file, fileList) {
         this.fileAdded.push(fileList)
@@ -133,25 +133,38 @@ export default {
         }
       }
     },
-    handleBeforeUpload (file, fileList) {
-      console.log(file.size, 'size')
+    handleBeforeUpload () {
     },
-    handlePreview (file) {
-      console.log(file, 'preview');
+    handlePreview () {
     },
-    handleExceed (files, fileList) {
+    handleExceed () {
       // this.$message.warning(`The limit is 4, you selected ${files.length} files this time, add up to ${files.length + fileList.length} totally`);
     },
-    beforeRemove (file, fileList) {
+    beforeRemove (file,) {
       return this.$confirm(`Voulez-vous supprimer ce fichier ? ${ file.name }`);
     },
-    changeUpload (file, fileList) {
+    changeUpload () {
     },
     close () {
-      console.log('closed')
+      // console.log('closed')
     }
   }
 }
+
+    // handleBeforeUpload (file, fileList) {
+    //   console.log(file.size, 'size')
+    // },
+    // handlePreview (file) {
+    //   console.log(file, 'preview');
+    // },
+    // handleExceed (files, fileList) {
+    //   // this.$message.warning(`The limit is 4, you selected ${files.length} files this time, add up to ${files.length + fileList.length} totally`);
+    // },
+    // beforeRemove (file, fileList) {
+    //   return this.$confirm(`Voulez-vous supprimer ce fichier ? ${ file.name }`);
+    // },
+    // changeUpload (file, fileList) {
+    // },
 
 </script>
 

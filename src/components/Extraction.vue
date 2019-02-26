@@ -8,8 +8,10 @@
                 <el-option v-for="item in ctList" :key="item.tc" :label="item.tc" :value="item.tc"><div @click="addData(item, 'ct')"></div></el-option>
             </el-select> -->
   <div id="extraction">
-        <el-row>
-
+        <el-row v-if="noCreated">
+            <el-col :span="24" class="column-wrap"> <h2>Outil d'extraction en « cours de réalisation »</h2> </el-col>
+        </el-row>
+        <el-row v-else>
           <el-col :span="12" class="column-wrap">
             <div class="title-wrapper">Je souhaite extraire {{setTitle}}.</div>
 
@@ -121,6 +123,7 @@ export default {
             holding: this.$store.state.holdings,
             allContrats:[],
             linkList: [],
+            noCreated: true,
 
             optsStat: [{
                 value: 'e',
@@ -305,8 +308,8 @@ export default {
             } this.aCFilter = newList;
         },
         LOG () {
-            console.log(this.selection,'sendData')
-            console.log(this.linkList, 'linkList')
+            // console.log(this.selection,'sendData')
+            // console.log(this.linkList, 'linkList')
             // console.log(this.aCFilter,'acfilter')
             // console.log(this.optsAss,'optsAss')
             // console.log(this.valueAss,'valueAss')
@@ -322,7 +325,7 @@ export default {
             // console.log(moment(this.valueDateRange[1]).diff(this.valueDateRange[0], 'days'), 'valueDateRange2')
             // console.log(this.valueDateRange[0], '.moment()')
             // console.log(this.valueDateRange[1], '.moment()2')
-            console.log(this.selection, 'boxSelection')
+            // console.log(this.selection, 'boxSelection')
             // console.log(moment(this.valueDateRange[1]).unix() - moment(this.valueDateRange[0]).unix(), '2222')
             // console.log(moment(this.valueDateRange[0]).format('L'),moment(this.valueDateRange[1]).format('L'), 'range');
         },
@@ -334,8 +337,6 @@ export default {
                 })
                 .then(response => {
                     var that = this
-                    console.log(response, 'response')
-                    console.log(e, 'e')
                     if(response.data.status) {
                         if(that.linkList.length == 0){
                             that.linkList.push(response.data.link)
@@ -346,7 +347,6 @@ export default {
                                 }
                             })
                         }
-                        console.log(this.linkList, 'linklist inside response')
                     }
                 })
             })
@@ -418,27 +418,22 @@ export default {
 
             if (this.$store.state.extrType === 'cotisations') {
                 allCoti = this.$store.state.cotisations
-                console.log(this.valueSt, 'this.valueSt')
-                console.log(baseData, 'baseData')
+                // console.log(this.valueSt, 'this.valueSt')
+                // console.log(baseData, 'baseData')
                 baseData.forEach( e => {
                     // console.log(this.valueSt, '======> this.valueSt')
                     listName.push(e.noC)
                     if ( e.contracts !== null && e.contracts ) {
                         var cat = this.valueCat
                         e.contracts.forEach( f => {
-                            console.log('Cot 1')
                             f.noC = e.noC
                             f.nuC = e.nuC
                             _.find(allCoti, function(cotisation){
                                 // console.log(f.nuC, 'f.nuC cot 2')
                                 //  console.log(cotisation.e, 'cotisation.e')
                                 if (cotisation.c === f.n) {
-                                    console.log('Cot 3')
-                                    console.log(cotisation, 'cotisation inside cot3')
-                                    console.log(cat + "e")
                                     // if (this.valueSt.length === 0 || this.valueSt.length === 2 || !this.valueSt) {
                                         if (cotisation.ct === cat + "e" || cotisation.ct === cat + "r") {
-                                            console.log('inside cot3')
                                             filteredData.push(cotisation)
                                         }
                                     // } else {
@@ -453,11 +448,9 @@ export default {
                                     //     }
                                     // }
                                 } else {
-                                    console.log('no')
                                 }
                             })
                         })
-                        console.log(filteredData, 'filteredData COTI')
                     } else {
                         return
                     }
@@ -534,14 +527,14 @@ export default {
                     }
                 })
             }
-            console.log(filteredData, 'filteredData')
+            // console.log(filteredData, 'filteredData')
                 filteredData.forEach( a => {
                     stringCon.push(a.lID)
                 })
-            console.log(stringCon, 'stringCon')
+            // console.log(stringCon, 'stringCon')
 
             // Stored Data
-            console.log(this.valueDateRange, 'this.valueDateRange')
+            // console.log(this.valueDateRange, 'this.valueDateRange')
                 if (this.valueDateRange) {
                     stDate = moment(this.valueDateRange[0]).format('DD/MM/YYYY')
                     endDate = moment(this.valueDateRange[1]).format('DD/MM/YYYY')
@@ -569,7 +562,7 @@ export default {
                 },0)
 
                 //this.getExtraction(stringCon);
-                console.log(sendData, 'sendData')
+                // console.log(sendData, 'sendData')
                 
                 this.valueDateRange = []
                 this.emptyFilters();
@@ -579,7 +572,6 @@ export default {
             }
         },
         addData (data, id) {
-            console.log('switch')
             switch(id)
             {
                 case "h":
@@ -648,7 +640,7 @@ export default {
             setTimeout(() => {
                 var list = []
                 this.entList.filter( e => {
-                    if ( e.contracts === false ) { return console.log('Im false') }
+                    if ( e.contracts === false ) { return }
                     else {
                         e.contracts.forEach( f => {
                             f.aS = this.$store.state.translation.assureurLibelle[f.a]
@@ -657,8 +649,6 @@ export default {
                     }
                 })
                 let noDup = [...new Set(list)];
-                console.log(noDup, 'noDup')
-                console.log(list, 'list')
                 this.optsAss = noDup
             }, 200);
             } else {
@@ -695,6 +685,10 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/_global.scss";
 #extraction {
+}
+h2 {
+    text-align: center;
+    margin: 0;
 }
 .fontawe {
     color: $button-color;
