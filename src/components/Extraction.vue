@@ -37,7 +37,7 @@
                 <el-option v-for="item in optsStat" :key="item.value" :label="item.label" :value="item.value"> </el-option>
             </el-select>
 
-            <el-select class="select" v-model="valueCat" placeholder="Catégorie">
+            <el-select class="select" v-model="valueCat" placeholder="Risque">
                 <el-option v-for="item in optsCat" :key="item.value" :label="item.label" :value="item.value"> </el-option>
             </el-select>
 
@@ -110,6 +110,7 @@
 <script>
 import moment from 'moment'
 import axios from "axios"
+import _ from 'lodash';
 
 export default {
   name: 'Extraction',
@@ -247,7 +248,6 @@ export default {
             return '/getExtraction/' + data
         },
         isDownloading (data) {
-            var data2 = data
             return data
         },
         formatType (data) {

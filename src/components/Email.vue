@@ -31,7 +31,7 @@
                 :before-upload="handleBeforeUpload"
                 accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg,application/pdf"
                 >
-                <button class="joindre-style pointer" size="small" type="primary"><font-awesome-icon icon="paperclip" class="paperclip-icon"  @click="close"/>Joindre un fichier</button>
+                <button class="joindre-style pointer"  size="small" type="primary"><font-awesome-icon icon="paperclip" class="paperclip-icon"  @click="close"/>Joindre un fichier</button>
                 <div slot="tip" class="el-upload__tip">Veuillez vérifier que le volume des fichiers ne dépassent pas 15 Mo.</div>
               </el-upload>
             </el-col>
@@ -45,7 +45,6 @@
 
 <script>
 import axios from "axios"
-import { Message } from 'element-ui';
 
 export default {
   name: 'Email',
@@ -68,12 +67,22 @@ export default {
       },
     }
   },
+  created () {
+    if (this.$store.state.cabinet.length === 0 ) return this.setData();
+  },
+  computed: {
+  },
     methods: {
-
+    setData () {
+      this.$store.state.fullscreenLoading = true;
+      this.getCabinets();
+      setTimeout(() => {
+        this.$store.state.fullscreenLoading = false;
+      }, 2000);
+    },
     sendMail: function() {
       let file = this.fileAdded;
       let fileSize = 0;
-
       file.forEach( e => {
         fileSize = fileSize + e.size/1000
       })
@@ -88,7 +97,7 @@ export default {
           formData.append('file_'+ i, e.raw);
           i++
         })
-        if (this.ruleForm.objet != undefined){
+        if (this.ruleForm.objet){
           var res = false
           axios.post('https://courtier.cpms.fr/sendMessage', formData)
           .then(function(response) {
@@ -99,8 +108,6 @@ export default {
           })
           setTimeout(() => {
             if(res) {
-              // console.log(this.ruleForm.objet ,'this.ruleForm.objet')
-              // console.log(this.ruleForm.message ,'this.ruleForm.message')
               this.ruleForm.objet = ""
               this.ruleForm.message = ""
               this.fileAdded = []
@@ -122,7 +129,7 @@ export default {
     fileAdd (file, fileList) {
         this.fileAdded.push(fileList)
     },
-    handleRemove (file, fileList) {
+    handleRemove (file) {
       var i = 0;
       while (i < this.fileAdded.length) {
         if (file.name === this.fileAdded[i].name) {
@@ -212,6 +219,12 @@ export default {
 }
 .button-style {
   width: 100%;
+
+}
+.notActive {
+  pointer-events: none!important;
+  cursor: not-allowed!important;
+  background-color: grey!important;
 }
 #email {
   padding: 20px 30px;

@@ -2,7 +2,7 @@
   <div id="TypoChart">
         <el-row class="outer-wrapper">
             <h1>Typologie des appels téléphoniques</h1>
-          <font-awesome-icon icon="times" class="close-icon pointer"  @click="close"/>
+          <!-- <font-awesome-icon icon="times" class="close-icon pointer"  /> -->
             <el-col :span="8">
               <div  v-show="this.filteredData.length > 0" class="tablewrapper">
                 <el-table size="small" :data="filteredData" style="max-width: 600px;" :default-sort= "{prop: 'y', order: 'descending'}">
@@ -16,7 +16,11 @@
                 <div v-show="this.filteredData.length > 0" class="hello" id="chartdiv"></div>
                 <div v-show="this.filteredData.length <= 0" class="noData"> Aucune donnée</div>
             </el-col>
+        <div class="button-wrapper">
+          <el-button class="pointer button-close" @click="close">Fermer</el-button>
+        </div>
         </el-row>
+
   </div>
 </template>
 
@@ -52,16 +56,6 @@ export default {
     },
   },
   methods: {
-    chartYear () {
-      var n = new Date().getFullYear()
-      var str = n.toString()
-      return  str = this.year
-    },
-    chartLastYear () {
-      var n = new Date().getFullYear()-1
-      var str = n.toString()
-      return  str = this.lastYear
-    },
     filterAppel () {
       this.appel.forEach(e => {
           if (e.nh === this.typoChartData && this.name === "HolTable") {
@@ -106,6 +100,11 @@ export default {
         e.totalLy = (totalLy !== 0) ? +((e.by/totalLy)*100).toFixed(2) : 0
         e.totalTy = (totalTy !== 0) ? +((e.y/totalTy)*100).toFixed(2) : 0
       })
+      filteredData.sort(function (a, b) {
+        var x = a.y
+        var y = b.y
+        return x > y ? 1 : x < y ? -1 : 0
+      })
       this.filteredData = filteredData
     },
     close () {
@@ -141,19 +140,22 @@ export default {
       /* Create axes */
       var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
         categoryAxis.dataFields.category = "m";
-        categoryAxis.renderer.minGridDistance = 20;
+        categoryAxis.renderer.minGridDistance = 10;
         categoryAxis.renderer.grid.template.disabled = true;
         // categoryAxis.renderer.cellStartLocation = 0.1;
+        // categoryAxis.renderer.cellStartLocation = 1
+        // categoryAxis.renderer.cellEndLocation = -0.15
 
       var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
         valueAxis.renderer.minGridDistance = 20;
-        valueAxis.renderer.grid.template.disabled = false;
-        valueAxis.min = 5;
-        valueAxis.max = 100;
-        valueAxis.strictMax = true;
-        valueAxis.renderer.labels.template.adapter.add("text", function(text) {
-          return text + "%";
-        });
+        valueAxis.renderer.grid.template.disabled = true;
+        // valueAxis.min = 5;
+        // valueAxis.max = 110;
+        // valueAxis.strictMax = true;
+        valueAxis.renderer.labels.template.disabled = true;
+        // valueAxis.renderer.labels.template.adapter.add("text", function(text) {
+        //   return "";
+        // });
 
       /* Create ranges */
       // var cellSize = 30;
@@ -176,36 +178,33 @@ export default {
 
       /* Create series */
 
-      
       var series = chart.series.push(new am4charts.ColumnSeries());
         series.columns.template.stroke = am4core.color("#fff");
         series.columns.template.strokeWidth = 2;
 
-        series.dataFields.valueX = "totalTy";
-        series.name = year;
+        series.dataFields.valueX = "totalLy";
+        series.name = lastYear;
         series.dataFields.categoryY = "m";
         series.columns.template.height = am4core.percent(100);
         series.tooltip.pointerOrientation = "vertical";
-        series.columns.template.tooltipText = "{name} {m}: {y}";
+        series.columns.template.tooltipText = "{name} {m}: {by}";
+        series.columns.template.fill = am4core.color("#049797");
 
       var series2 = chart.series.push(new am4charts.ColumnSeries());
         series2.columns.template.stroke = am4core.color("#fff");
         series2.columns.template.strokeWidth = 2;
 
-        series2.dataFields.valueX = "totalLy";
-        series2.name = lastYear;
+        series2.dataFields.valueX = "totalTy";
+        series2.name = year;
         series2.dataFields.categoryY = "m";
         series2.columns.template.height = am4core.percent(100);
         series2.tooltip.pointerOrientation = "vertical";
-        series2.columns.template.tooltipText = "{name} {m}: {by}";
-        series2.columns.template.fill = am4core.color("#049797");
-
-
+        series2.columns.template.tooltipText = "{name} {m}: {y}";
 
    var valueLabel = series.bullets.push(new am4charts.LabelBullet());
         valueLabel.label.text = " {valueX.value.formatNumber('#.00')}%";
         valueLabel.label.horizontalCenter = "left";
-        valueLabel.label.dx = 10;
+        valueLabel.label.dx = 0;
         valueLabel.label.fontSize = 9;
         valueLabel.label.hideOversized = false;
         valueLabel.label.truncate = false;
@@ -213,7 +212,7 @@ export default {
     var valueLabel2 = series2.bullets.push(new am4charts.LabelBullet());
       valueLabel2.label.text = " {valueX.value.formatNumber('#.00')}%";
       valueLabel2.label.horizontalCenter = "left";
-      valueLabel2.label.dx = 10;
+      valueLabel2.label.dx = 0;
       valueLabel2.label.fontSize = 9;
       valueLabel2.label.hideOversized = false;
       valueLabel2.label.truncate = false;
@@ -241,6 +240,11 @@ export default {
   box-sizing: border-box;
   z-index: 1;
   height: 100%;
+}
+.button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 h1 {
   justify-content: center;
@@ -297,5 +301,11 @@ h1 {
 }
 .data-wrapper {
   display: flex;
+}
+.button-close {
+    background-color: #049797;
+    border-style: none;
+    color: #fff;
+    height: 35px;
 }
 </style>

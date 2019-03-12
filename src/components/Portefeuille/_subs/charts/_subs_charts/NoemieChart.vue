@@ -86,6 +86,11 @@ export default {
         e.totalLy = (totalLy !== 0) ? +((e.ly/totalLy)*100).toFixed(2) : 0
         e.totalTy = (totalTy !== 0) ? +((e.ty/totalTy)*100).toFixed(2) : 0
       })
+      table.sort(function (a, b) {
+        var x = a.ty
+        var y = b.ty
+        return x > y ? 1 : x < y ? -1 : 0
+      })
       this.table = table
       this.createChart();
     },
@@ -101,7 +106,6 @@ export default {
       var chart = am4core.create("chartdiv", am4charts.XYChart);
       chart.paddingRight = 25;
       chart.legend = new am4charts.Legend();
-      chart.exporting.menu = new am4core.ExportMenu();
       /* Add data */
       if (this.table.length === 0) {
         var label = chart.createChild(am4core.Label);
@@ -122,48 +126,64 @@ export default {
         /* Create axes */
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
         categoryAxis.dataFields.category = "cat";
-        categoryAxis.renderer.minGridDistance = 0;
+        categoryAxis.renderer.minGridDistance = 30;
         categoryAxis.renderer.grid.template.disabled = false;
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.renderer.minGridDistance = 20;
-        valueAxis.renderer.grid.template.disabled = true;
-        valueAxis.min = 0;
-        valueAxis.max = 100;
-        valueAxis.strictMinMax = true;
+        // valueAxis.renderer.minGridDistance = 10;
+        valueAxis.renderer.grid.template.disabled = false;
+        // valueAxis.renderer.labels.template.disabled = true;
+        // valueAxis.min = 0;
+        // valueAxis.max = 100;
+        // valueAxis.strictMinMax = true;
         valueAxis.renderer.labels.template.adapter.add("text", function(text) {
-          return text + "%";
+          return "";
         });
 
-        /* Create ranges */
+        chart.exporting.menu = new am4core.ExportMenu();
+        chart.exporting.menu.align = "right";
+        chart.exporting.menu.verticalAlign = "top";
+
+        chart.exporting.menu.items = [
+            {
+                "label": "Télécharger",
+                "menu": [
+                { "type": "png", "label": "PNG" },
+                { "type": "jpg", "label": "JPG" },
+                { "label": "Print", "type": "print" }
+                ]
+            }
+        ];
 
         /* Create series */
-        var series = chart.series.push(new am4charts.ColumnSeries());
-        series.dataFields.valueY = "totalLy";
-        series.name = lastYear;
-        series.dataFields.categoryX = "cat";
-        series.columns.template.strokeWidth = 1;
-        series.columns.template.strokeOpacity = 0.5;
-        series.columns.template.width = am4core.percent(100);
-        series.tooltip.pointerOrientation = "vertical";
-        series.columns.template.tooltipText = "{name} {cat}: {ly}";
-
         var series2 = chart.series.push(new am4charts.ColumnSeries());
-        series2.dataFields.valueY = "totalTy";
-        series2.name = year;
-        series2.dataFields.categoryX = "cat";
-        series2.columns.template.strokeWidth = 1;
-        series2.columns.template.strokeOpacity = 0.5;
-        series2.columns.template.width = am4core.percent(100);
-        series2.tooltip.pointerOrientation = "vertical";
-        series2.columns.template.tooltipText = "{name} {cat}: {ty}";
+          series2.dataFields.valueY = "totalTy";
+          series2.name = year;
+          series2.dataFields.categoryX = "cat";
+          series2.columns.template.strokeWidth = 1;
+          series2.columns.template.strokeOpacity = 0.5;
+          series2.columns.template.width = am4core.percent(100);
+          series2.tooltip.pointerOrientation = "vertical";
+          series2.columns.template.tooltipText = "{name} {cat}: {ty}";
+
+        var series = chart.series.push(new am4charts.ColumnSeries());
+          series.dataFields.valueY = "totalLy";
+          series.name = lastYear;
+          series.dataFields.categoryX = "cat";
+          series.columns.template.strokeWidth = 1;
+          series.columns.template.strokeOpacity = 0.5;
+          series.columns.template.width = am4core.percent(100);
+          series.tooltip.pointerOrientation = "vertical";
+          series.columns.template.tooltipText = "{name} {cat}: {ly}";
+
+
 
         var valueLabel = series.bullets.push(new am4charts.LabelBullet());
         valueLabel.label.text = " {valueY.value.formatNumber('#.00')}%";
         valueLabel.label.horizontalCenter = "left";
         //left
         valueLabel.label.dx = -15 ;
-        valueLabel.label.dy = -15 ;
+        valueLabel.label.dy = -5 ;
         valueLabel.label.fontSize = 12;
         valueLabel.label.hideOversized = false;
         valueLabel.label.truncate = false;
@@ -172,7 +192,7 @@ export default {
         valueLabel2.label.text = " {valueY.value.formatNumber('#.00')}%";
         valueLabel2.label.horizontalCenter = "left";
         valueLabel2.label.dx = -15;
-        valueLabel2.label.dy = -15 ;
+        valueLabel2.label.dy = -5 ;
         valueLabel2.label.fontSize = 12;
         valueLabel2.label.hideOversized = false;
         valueLabel2.label.truncate = false;
@@ -194,7 +214,7 @@ h2 {
   font-size: 12px;
   width: 100%;
   position: relative;
-  padding-bottom: 20%;
+  padding-bottom: 200px;
   box-sizing: border-box;
 }
 .tablewrapper {

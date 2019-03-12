@@ -1,7 +1,7 @@
 <template>
     <div id="assure-table">
         <div class="table-wrapping">
-            <el-table ref="multipleTable" @sort-change="getCon" :row-key="rowKeyFunction" reserve-selection :max-height="700" border size="medium" :data="filteredPerson" style="width: 100%; font-size: 10px;" @select-all="selectAll" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="a-border">
+            <el-table ref="multipleTable" @sort-change="getCon" reserve-selection :max-height="700" border size="medium" :data="filteredPerson" style="width: 100%; font-size: 10px;" @select-all="selectAll" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true" class="a-border">
                 <el-table-column width="29" :render-header="renderHeader"></el-table-column>
                 <el-table-column type="selection" :row-key="rowKeyFunction" reserve-selection width="42" tooltip-effect="" v-if="this.$router.currentRoute.name !== 'Recherche assuré'"></el-table-column>
                 <el-table-column property="holding" prop="noH" sortable="custom" :sort-method="nohSort" label="HOLDING" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt">{{scope.row.noH }}<br>{{ scope.row.nuH}}</div></template></el-table-column>
@@ -57,6 +57,11 @@ export default {
             first: 0
         }
     },
+    watch: {
+        assure: function (val) {
+            this.assures = val
+        }
+    },
     components: {
     'DetailsAssure': DetailsAss,
     'select-box': SelectBox
@@ -79,13 +84,14 @@ export default {
             return data
         },
         filteredPerson: function () {
-            var x;
-            var y;
+            let x;
+            let y;
+            let search = this.search;
             if (!this.assures || this.assures.length === 0) {
                 this.pagination = false
                 return []
             }
-            var data = this.assures;
+            let data = this.assures;
 
             if (this.first === 0) {
                 this.first = 1
@@ -95,17 +101,25 @@ export default {
                     return x > y ? 1 : x < y ? -1 : 0
                 })
             }
-            if(this.search.length >= 3){
-                var self = this;
+            if(search.length >= 3){
+                console.log('inside search')
+                console.log(search, 'search')
                 this.pagination = false
                 const filtered = data.filter(function (person) {
-                return person.l.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
-                || person.s.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
-                || person.f.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
+                return person.l.toLowerCase().includes(search)
+                || person.s.toLowerCase().includes(search)
+                || person.f.toLowerCase().includes(search)
             })
+                console.log(filtered, 'filtered')
+            //     let filtered = data.filter(function (person) {
+            //     return person.l.toLowerCase().indexOf(search.toLowerCase()) >= 0
+            //     || person.s.toLowerCase().indexOf(search.toLowerCase()) >= 0
+            //     || person.f.toLowerCase().indexOf(search.toLowerCase()) >= 0;
+            // })
             if (filtered) {
                 this.amount = filtered.length
                 this.pagination = true
+                // return filtered.slice(0,50);
                 if (this.currentPage === 1 ){
                     this.n = 0;
                     this.p = 99;

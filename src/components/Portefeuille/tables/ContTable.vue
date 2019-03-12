@@ -63,6 +63,11 @@ export default {
             contrat: this.contrats
         }
     },
+    watch: {
+        contrats: function (val) {
+        this.contrat = val
+        }
+    },
     components: {
         'select-box': SelectBox
     },
@@ -82,9 +87,6 @@ export default {
         acFilter () {
             var data = this.actFilter
             return data
-        },
-        getName () {
-            return this.name
         },
         dataPagination () {
             var x;

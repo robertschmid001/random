@@ -40,15 +40,14 @@ let router = new Router({
                 name: 'Login'
             }
         },
-        
-        // {
-            // path: '*',
-            // name: 'Accueil',
-            // component: Home,
-            // meta: {
-            //     requiresAuth: true
-            // }
-        // }
+        {
+            path: '*',
+            name: 'Accueil',
+            component: Home,
+            meta: {
+                requiresAuth: true
+            }
+        },
         {
             path: '/login',
             name: 'Login',
@@ -106,10 +105,12 @@ let router = new Router({
                 name: 'Toutes les entreprises',
                 component: globEntTable
             }, {
+                // path: ':nuH?/entreprises',
                 path: ':hol?/:nuH?/entreprises',
                 name: 'entreprise',
                 component: entTable
             }, {
+                // path: ':nuH?/:ent?/:nuC?/contrats',
                 path: ':hol?/:nuH?/:ent?/:nuC?/contrats',
                 name: 'contrats',
                 component: contTable
@@ -122,7 +123,7 @@ let router = new Router({
                 name: 'cotisations',
                 component: cotTable
             }, {
-                path: ':hol?/:nuH?/:ent?/:nuC?/:cont?/:nC?/Graphiques et Tableaux',
+                path: ':hol?/:nuH?/:ent?/:nuC?/:cont?/:nC?/Graphiques-et-Tableaux',
                 name: 'tableaux et graphiques',
                 component: chartHub
             }

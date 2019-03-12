@@ -12,8 +12,8 @@
           </ul>
         </div> -->
       </el-col>
-      <el-col :sm="6" :xs="8" v-click-outside="closeEvent">
-        <div @mouseover="deconnexion = true" class="btn-wrapper-con btn-gen dark-grey" :class="{active: deconnexion == true}"><router-link to="/Profil" class="btn-inner"><font-awesome-icon icon="user-circle" class=" size-header-icon"/>{{addData}}</router-link></div>
+      <el-col :sm="6" :xs="8" v-on:mouseover.native="isOpening" v-on:mouseleave.native="isClosing">
+        <div class="btn-wrapper-con btn-gen dark-grey" :class="{active: deconnexion == true}"><router-link to="/Profil" class="btn-inner"><font-awesome-icon icon="user-circle" class=" size-header-icon"/>{{addData}}</router-link></div>
         <transition name="slide-out"><div v-show="deconnexion" class="btn-wrapper-dec btn-gen"><div class="prof-deco btn-inner pointer" @click="logOut">Déconnexion</div></div></transition>
       </el-col>
     </el-row>
@@ -49,6 +49,12 @@ export default {
     }
   },
   methods: {
+    isOpening () {
+      return this.deconnexion = true;
+    },
+    isClosing () {
+      return this.deconnexion = false;
+    },
     toProfile () {
       this.$store.state.authenticated = false
       this.$router.replace('/profile')

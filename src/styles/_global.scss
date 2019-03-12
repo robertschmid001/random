@@ -148,9 +148,19 @@ $contTable-color: rgba(253, 178, 38, 0.7); //#fdb226
 .amcharts-amexport-item {
   background-color: $button-color !important;
   color: white!important;
+  display: flex!important;
+  width: auto!important;
+  padding: 0px 5px !important;
+  align-items: center!important;
 }
-.amcharts-amexport-top .amcharts-amexport-item>.amcharts-amexport-menu {
-}
+// .amcharts-amexport-top .amcharts-amexport-item>.amcharts-amexport-menu {
+//     background-color: $button-color !important;
+//     color: white !important;
+//     display: flex !important;
+//     width: auto !important;
+//     padding: 0px 5px !important;
+//     align-items: center !important;
+// }
 
 //**Transition
 

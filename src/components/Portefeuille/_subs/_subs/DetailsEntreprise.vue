@@ -85,6 +85,8 @@ export default {
 @import "../../../../styles/_global.scss";
 
 #detailsEntreprise {
+    position: absolute;
+    left: 0px;
     background-color: rgba(0, 0, 0, 0.349);
     width: 100%;
     display: flex;

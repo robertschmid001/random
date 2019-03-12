@@ -47,6 +47,11 @@ export default {
             first: 0
         }
     },
+    watch: {
+        cotisation: function (val) {
+        this.cotisations = val
+        }
+    },
     components: {
         'select-box': SelectBox
     },
@@ -63,7 +68,7 @@ export default {
                 this.pagination = false
                 return [];
             }
-            var data = this.cotisation;
+            var data = this.cotisations;
             if (this.first === 0) {
                 this.first = 1
                 data.sort(function(a, b) {
@@ -193,7 +198,9 @@ export default {
             this.currentPage = val;
         },
         transStatus (data) {
-            return this.$store.state.translation.etatCotisation[data]
+            var etat = this.$store.state.translation.etatCotisation[data]
+            if(etat === 'M.E.D') return 'Mise en demeure '
+            return etat
         },
         transDsn (data) {
             switch(data)

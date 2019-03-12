@@ -21,7 +21,7 @@ export default {
 
 <style lang="scss" scoped>
 #my-footer {
-    background-color: rgb(73, 73, 73);
+    background-color: rgb(138, 138, 138);
     color: rgba(255, 255, 255, 0.897);
     padding-left: 80px;
     position: fixed;
@@ -40,7 +40,7 @@ export default {
     }
     a {
       text-decoration: none;
-      color: white;
+      color: rgba(255, 255, 255, 0.897);
       font-size: 12px;
     }
     a:hover {

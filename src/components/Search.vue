@@ -1,8 +1,14 @@
 <template>
   <div id="search">
     <input type="text" class="base-input" v-model="searcher" placeholder="Saisir un n° de sécurité social ou un nom">
-    <DetailsAssure v-if="searcher.length > 3" :deleteCol="isSearching" :assure="assTableFilter" :search="searcher" class="details"/>
-    <div v-else class="content" >Afin d’effectuer une recherche, merci de saisir le nom, prénom ou numéro de sécurité sociale d’un assuré dans la barre ci-dessus. </div>
+      <!-- <div class='input-search'>
+        <input type="text" class="base-input search" v-model.trim.lazy="searcher" placeholder="Saisir un n° de sécurité social ou un nom">
+        <div class="porte-icon pointer" @click="confirmSearch">
+          <i class="el-icon-search"></i>
+        </div>
+      </div> -->
+    <DetailsAssure v-show="searcher.length > 2" :deleteCol="isSearching" :assure="assTableFilter" :search="searcher" class="details"/>
+    <div v-show="searcher.length <= 2" class="content" >Afin d’effectuer une recherche, merci de saisir le nom, prénom ou numéro de sécurité sociale d’un assuré dans la barre ci-dessus. </div>
   </div>
 </template>
 
@@ -24,16 +30,10 @@ export default {
    'DetailsAssure': AssTable
   },
   computed: {
-
+    
     assTableFilter() {
       var assurefilter = this.$store.state.assure
       this.$store.state.holdings.forEach(e => {
-          // _.find(assurefilter, function(assure){
-          //     if (assure.nh === e.nuH) {
-          //     assure.noH = e.noH
-          //     }
-          // }
-        // )
         e.entreprises.forEach(f => {
           _.find(assurefilter, function(assure){
             if (assure.ne === f.nuC) {
@@ -47,6 +47,10 @@ export default {
     }
   },
   methods: {
+    // confirmSearch () {
+    //   console.log(this.searcher, 'this.searcher')
+    //   return this.searcher
+    // },
     setData () {
       this.$store.state.fullscreenLoading = true;
       this.getAssure();
@@ -84,4 +88,33 @@ export default {
   padding-top: 50px;
   font-size: 13px;
 }
+
+
+// .porte-icon {
+//     position: relative;
+//     right: 35px;
+//     top: 0px;
+//     display: flex;
+//     font-weight: 800;
+//     align-items: center;
+//     height: 35px;
+//     width: 35px;
+//     border-radius: 0 7px 7px 0;
+//     justify-content: center;
+// }
+// .porte-icon:hover {
+//   background-color: $button-color;
+//   color: white;
+// }
+// .input-search {
+//   position: relative;
+//   display: flex;
+// }
+// .search {
+//   width: 100%;
+// }
+// .wrapping-search {
+//   padding: 10px 40px 10px 40px;
+//   display: flex;
+// }
 </style>

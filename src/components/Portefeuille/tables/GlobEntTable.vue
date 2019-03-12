@@ -6,7 +6,7 @@
         <el-table-column type="selection" width="42"></el-table-column>
         <el-table-column property="noH" prop="noH" sortable="custom" label="HOLDING" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt" >{{scope.row.noH}} <br> {{scope.row.nuH}} </div></template></el-table-column>
         <el-table-column property="noC" prop="noC" sortable="custom" label="ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope"><div class="data-wrapper md-txt entHover pointer" @click="openDetailsEnt(scope.row)">{{scope.row.noC}} <br> {{scope.row.nuC}}</div></template></el-table-column>
-        <el-table-column property="contrats" prop="iCc" sortable="custom" label="NOMBRE DE CONTRATS" show-overflow-tooltip width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt pointer entHover" @click="contratsRowData(scope.row)">{{scope.row.iCc}}</div></template></el-table-column>
+        <el-table-column property="contrats" prop="iCc" sortable="custom" label="NOMBRE DE CONTRATS" width="140"><template slot-scope="scope" ><div class="data-wrapper md-txt pointer entHover" @click="contratsRowData(scope.row)">{{scope.row.iCc}}</div></template></el-table-column>
         <el-table-column property="beneficiaire" prop="iAa" sortable="custom" label="ASSURÉS & BÉNÉFICIAIRES"  width="190"> <template slot-scope="scope" ><div class="data-wrapper pointer md-txt entHover" @click="assRowData(scope.row)">{{scope.row.iAa}} / {{scope.row.iBb}}</div></template></el-table-column>
           <el-table-column property="cotisations" label="COTISATIONS ENCAISSÉES" width="115">
             <template slot-scope="scope">
@@ -90,6 +90,11 @@ export default {
       year: '',
       lastYear: '',
       first: 0
+    }
+  },
+  watch: {
+    entreprises: function (val) {
+      this.entreprise = val
     }
   },
   components: {

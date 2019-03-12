@@ -20,7 +20,6 @@
         </el-breadcrumb>
       </ul>
     </div>
-    <!-- <el-button @click="LOG">LOGGING</el-button> -->
     <div class="wrapping-search" v-show="this.currentView != 'chart-hub'" >
       <button class="button inner-button btnER" v-bind:class="{ fisActive: eR == 'r' }" @click="erFilter('e')">En cours</button>
       <button class="button inner-button btnER" v-bind:class="{ fisActive: eR == 'e' }" @click="erFilter('r')">Résiliés</button>
@@ -81,35 +80,20 @@ export default {
     'prestation-table' : PresTable,
     'chart-hub' : ChartHub,
   },
-  // watch: {
-  //   // call again the method if the route changes
-  //   '$route': 'fetchData',
-  // },
-  //holdEntRow
   methods: {
-    log () {
-      // console.log(this.$router, 'router')
-      // console.log(this.$route, "here")
-      // console.log(this.holdEnt, 'this.holdEnt')
-      // console.log(this.$store.state.holdEnt, 'STORE holdEnt')
-    },
+    // log () {
+    //   // console.log(this.$router, 'router')
+    //   console.log(this.holdingsAll, "here")
+    //   // console.log(this.holdEnt, 'this.holdEnt')
+    //   // console.log(this.$store.state.holdEnt, 'STORE holdEnt')
+    // },
     confirmSearch () {
-      this.searcher = this.preSearch
-      return this.searcher
+      return this.searcher = this.preSearch
     },
     changeTable (param) {
       if (param === 'hol') {return this.$router.push({ name: 'Mon Portefeuille clients', params:{hol: this.$route.params.hol, nuH: this.$route.params.nuH} })}
       if (param === 'ent') {return this.$router.push({ name: 'entreprise', params:{hol: this.holdEnt[0].noH.toLowerCase(), nuH: this.holdEnt[0].nuH.toLowerCase()} })}
       if (param === 'cont') {return this.$router.push({ name: 'contrats', params:{hol: this.$store.state.holdEntCont[0].noH.toLowerCase(), nuH: this.$store.state.holdEntCont[0].nuH, ent: this.$store.state.holdEntCont[0].noC.toLowerCase(), nuC: this.$store.state.holdEntCont[0].nuC}})}
-    },
-    // LOG () {
-
-    // },
-    // fetchData (to, from) {
-    //   // console.log(to, from, 'do this =>')
-    // },
-    getSelection () {
-      // console.log(this.multSelect,'multiselect')
     },
     chart (param) {
       this.currentView = param
@@ -154,6 +138,7 @@ export default {
       this.breadArray.splice(0)
     },
     erFilter (param) {
+      this.$store.state.eR = param
       return this.eR = param
     },
     spaFilter (param) {
@@ -177,16 +162,9 @@ export default {
           param[0] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[0])
           param[1] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[1])
       } else {
-          for (var y = 0; y < param.length; y++) {
-            if (!param[y]) { param[y] = 0 }
-              param[y] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[y])
-            }
+        param[0]= (param[0] != null) ? new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[0]) : '0,00 €'
+        param[1]= (param[0] != null) ? new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[1]) : '0,00 €'
       }
-          // if (param[0].match(/\u20AC/g)){return}
-          // for (var y = 0; y < param.length; y++) {
-          //   if (!param[y]) { param[y] = 0 }
-          //     param[y] = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param[y])
-          // }
     },
     setData () {
       this.$store.state.fullscreenLoading = true;
@@ -201,8 +179,125 @@ export default {
       setTimeout(() => {
         this.holdingsAll = this.$store.state.holdings
         this.initEntreprise();
+        this.getEnt();
+        this.getCont();
+        this.getAss();
         this.$store.state.fullscreenLoading = false;
       }, 2000);
+    },
+    getEnt () {
+      if (this.$route.name === 'entreprise') {
+        var filtered = []
+        this.$store.state.holdings.filter(d => {
+          d.entreprises.forEach(e => {
+            if (d.nuH === this.$route.params.nuH ) {
+              filtered.push(e)
+            }
+          })
+        })
+        return this.holdEnt = filtered
+      }
+    },
+    getCont () {
+      if (this.$route.name === 'contrats') {
+        var filtered = []
+        if (this.$route.params.nuH && !this.$route.params.nuC) {
+          this.$store.state.holdings.filter(d => {
+            d.entreprises.forEach(e => {
+              if (e.contracts) {
+                e.contracts.forEach(f => {
+                  if (d.nuH === this.$route.params.nuH ) {
+                    f.noH = d.noH
+                    f.nuH = d.nuH
+                    f.noC = e.noC
+                    f.nuC = e.nuC
+                    filtered.push(f)
+                  }
+                })
+              }
+            })
+          })
+          return this.holdEntCon = filtered
+        }
+        if (this.$route.params.nuH && this.$route.params.nuC) {
+          this.$store.state.holdings.filter(d => {
+            d.entreprises.forEach(e => {
+              if (e.contracts) {
+                e.contracts.forEach(f => {
+                  if (e.nuC === this.$route.params.nuC && d.nuH === this.$route.params.nuH) {
+                    f.noH = d.noH
+                    f.nuH = d.nuH
+                    f.noC = e.noC
+                    f.nuC = e.nuC
+                    filtered.push(f)
+                  }
+                })
+              }
+            })
+          })
+          return this.holdEntCon = filtered
+        }
+      }
+    },
+    getAss () {
+      if (this.$route.name === 'assures') {
+
+        var assurefilter = this.$store.state.assure
+        console.log(this.$store.state.assure,'this.$store.state.assure')
+        var filteredAssure = []
+        var filtered = []
+
+        if (this.$route.params.nuH && !this.$route.params.nuC) {
+          console.log('in If')
+          this.$store.state.holdings.filter(d => {
+            console.log('h')
+            d.entreprises.forEach(e => {
+              console.log('e')
+              if (e.contracts) {
+                e.contracts.forEach(f => {
+                  console.log('f')
+                  if (d.nuH === this.$route.params.nuH ) {
+                    console.log('e.nuH = route')
+                    f.noH = d.noH
+                    f.nuH = d.nuH
+                    f.noC = e.noC
+                    f.nuC = e.nuC
+                    _.find(assurefilter, function(assure){
+                        if (assure.c.n === f.n) {
+                          console.log('c.n = f.n')
+                        // if (assure.nh === e.nuH) {
+                          assure.noC = e.noC
+                          assure.nuC = e.nuC
+                          assure.noH = e.noH
+                          assure.nuH = e.nuH
+                          filteredAssure.push(assure)
+                        }
+                    })
+                  }
+                })
+              }
+            })
+          })
+          console.log(filteredAssure)
+          return this.$store.state.filteredAssures = filteredAssure
+        }
+        // if (this.$route.params.nuH && this.$route.params.nuC) {
+        //   this.$store.state.holdings.filter(d => {
+        //     d.entreprises.forEach(e => {
+        //       e.contracts.forEach(f => {
+        //         if (e.nuC === this.$route.params.nuC && d.nuH === this.$route.params.nuH) {
+        //           f.noH = d.noH
+        //           f.nuH = d.nuH
+        //           f.noC = e.noC
+        //           f.nuC = e.nuC
+        //           filtered.push(f)
+        //         }
+        //       })
+        //     })
+        //   })
+        //   return this.holdEntCon = filtered
+        // }
+      }
     }
   },
   computed: {
@@ -233,8 +328,7 @@ export default {
       var filteredCotisations = this.$store.state.filteredCotisations;
         return filteredCotisations.filter(e => {
           if (e.ct === spaEr) {
-            console.log(spaEr, 'spaEr.cotisations')
-            console.log(e, 'e.cotisations')
+            console.log('cot')
             return e
           } else return
         })
@@ -246,6 +340,7 @@ export default {
         return filteredAssure.filter(e => {
         // if (e.c.t === spaEr) {
           if (this.eR === 'e' && e.v == 1 && e.c.t === spaEr) {
+            console.log('ass e')
             return e
           }
           if (this.eR === 'r' && e.v == 0 && e.c.t === spaEr) {
@@ -258,6 +353,7 @@ export default {
       let spaEr = this.spa + this.eR;
         return this.holdEntCon.filter(e => {
         if (e.t === spaEr) {
+          console.log('hol')
           this.formatCurrency(e.c);
           this.formatCurrency(e.p);
           return e
@@ -276,6 +372,7 @@ export default {
         e.iCoo = e.iCo[spaEr]
         e.iTt = e.iT[spaEr]
         if (e.iC[spaEr] > 0) {
+          console.log('ent Hol')
           return e
         } else return
       })
@@ -291,6 +388,7 @@ export default {
         e.iCoo = e.iCo[spaEr]
         e.iTt = e.iT[spaEr]
         if(e.iCc > 0){
+          console.log('ent')
           this.formatCurrency(e.iCoo);
           this.formatCurrency(e.iPrr);
           return e
@@ -310,6 +408,7 @@ export default {
           h.iCoo = h.iCo[spaEr]
           h.iTt = h.iT[spaEr]
           if(h.iEe > 0){
+            console.log('hol')
             this.formatCurrency(h.iCoo);
             this.formatCurrency(h.iPrr);
             return h
@@ -324,7 +423,14 @@ export default {
   created () {
     this.holdingsAll = this.$store.state.holdings
     if (this.$store.state.Main.length === 0 || this.$store.state.holdings.length === 0 ) return this.setData();
-  }
+  },
+  watch: {
+      '$route' (to, from) {
+      // react to route changes...
+          console.log(to, 'to')
+          console.log(from, 'from')
+      }
+  },
 }
 </script>
 

@@ -1,11 +1,10 @@
 <template>
     <div id="holding-table" >
-<!-- :default-sort = "{prop: 'noH', order: 'ascending'}" -->
         <div class="table-wrapping">
             <el-table ref="multipleTable" @sort-change="getCon" border :max-height="700" :data="dataPagination" style="width: 100%; font-size: 10px;" @selection-change="handleSelectionChange" :stripe="true" :highlight-current-row="true"  class="h-border" :default-sort = "{prop: 'noH', order: 'ascending'}">
                 <el-table-column width="29" :render-header="renderHeader"></el-table-column>
                 <el-table-column type="selection" class='selection' width="42"></el-table-column>
-                <el-table-column property="noH" label="HOLDINGS" prop="noH" sortable="custom" min-width="180"  max-width="265">
+                <el-table-column property="noH" tooltip-effect="Trier" label="HOLDINGS" prop="noH" sortable="custom" min-width="180"  max-width="265">
                     <template slot-scope="scope" ><div class="data-wrapper justify md-txt">{{scope.row.noH}}  <br> {{scope.row.nuH}} </div></template></el-table-column>
                 <el-table-column property="Entreprises" prop="iEe" sortable="custom" label="NOMBRE D'ENTREPRISES" min-width="180"  max-width="265"><template slot-scope="scope" ><div class="data-wrapper md-txt pointer holHover" @click="holdingRowData(scope.row.entreprises, 'e', scope.row)">{{scope.row.iEe}}</div></template></el-table-column>
                 <el-table-column property="NOMBRE DE CONTRATS" prop="iCc" sortable="custom" label="NOMBRE DE CONTRATS" width="170"><template slot-scope="scope"><div class="data-wrapper pointer md-txt holHover" @click="holdingRowData(scope.row.entreprises, 'c', scope.row)">{{scope.row.iCc}}</div></template></el-table-column>
@@ -80,9 +79,18 @@ export default {
             n: 0,
             p: 99,
             amount: 0,
-            abc: '',
             first: 0,
-            holding: this.holdings
+            holding: this.holdings,
+        }
+    },
+    watch: {
+        holdings: function (val) {
+            this.holding = val
+        },
+        '$route' (to, from) {
+        // react to route changes...
+            console.log(to, 'to')
+            console.log(from, 'from')
         }
     },
     components:{
@@ -157,7 +165,9 @@ export default {
         }
     },
     created () {
+        // this.fetchData();
         if (this.holdings.length > 99 ) this.pagination = true;
+        this.holding = this.holdings;
     },
     mounted () {
         this.docs = this.$store.state.tableDocs;
@@ -165,6 +175,36 @@ export default {
         this.defineYear();
     },
     methods: {
+        // getData () {
+        //     if (!this.holdings) {
+        //         this.getHoldings();
+        //     }
+        // },
+        // getHoldings () {
+        //     console.log('getHoldings')
+        //     let spaEr = this.$store.state.spa + this.$store.state.eR;
+        //     this.holding = this.$store.state.holdings.filter( h => {
+        //     h.iEe = h.iE[spaEr]
+        //     h.iCc = h.iC[spaEr]
+        //     h.iAa = h.iA[spaEr]
+        //     h.iBb = h.iB[spaEr]
+        //     h.iPrr = h.iPr[spaEr]
+        //     h.iCoo = h.iCo[spaEr]
+        //     h.iTt = h.iT[spaEr]
+        //     if(h.iEe > 0){
+        //         this.formatCurrency(h.iCoo);
+        //         this.formatCurrency(h.iPrr);
+        //         return h
+        //     }
+        //     })
+        // },
+        // fetchData () {
+        //     // this.error = this.post = null
+        //     // this.loading = true
+        //     this.getData();
+        //     console.log(this.$route.params.id, 'this.$route.params.id')
+        //     console.log(this.$route, 'this.$route')
+        // },
         getCon(column) {
             var x;
             var y;
@@ -291,9 +331,6 @@ export default {
         handleCurrentChange(val) {
             this.currentPage = val;
         },
-        clickLog() {
-            // console.log(data, 'data iPrr')
-        },
         // handleSizeChange(val) {
         //     console.log(`${val} items per page`);
         // },
@@ -304,7 +341,6 @@ export default {
             if (id === 'e') {
                 this.$store.state.holdEnt = data;
                 this.$emit('holdEntRow')
-                // this.$router.push({ name: 'entreprise', params:{hol:data[0].noH.toLowerCase(), nuH:data[0].nuH}})
             }
             if (id === 'c') {
                 var filteredData = []
@@ -323,7 +359,10 @@ export default {
                 this.$store.state.holdEntCont = filteredData
                 this.$store.state.parentBread = filteredData[0].noH.toLowerCase()
                 this.$emit('holdContRow')
-                this.$router.push({ name: 'contrats', params:{hol:this.$store.state.parentBread.toLowerCase(), nuH:data.nuH}})
+                // this.$router.push({ name: 'contrats', params:{nuH:data.nuH}})
+                console.log(data.nuH, 'data.nuH')
+                console.log(data, 'data')
+                this.$router.push({ name: 'contrats', params:{hol:this.$store.state.parentBread.toLowerCase(), nuH:data[0].nuH}})
             }
             if (id === 'a') {
                 var assurefilter = this.$store.state.assure
@@ -349,6 +388,7 @@ export default {
                 // console.log(filteredAssure, 'filteredAssure')
                 this.$store.state.parentBread = filteredAssure[0].noH.toLowerCase()
                 this.$emit('enterAssure')
+                // this.$router.push({ name: 'assures', params:{nuH: data[0].nuH}})
                 this.$router.push({ name: 'assures', params:{hol: this.$store.state.parentBread.toLowerCase(), nuH: data[0].nuH}})
             }
             if (id === 'cot') {
@@ -373,6 +413,7 @@ export default {
                 this.$store.state.filteredCotisations = filteredCotisation
                 this.$store.state.parentBread = filteredCotisation[0].noH
                 this.$emit('enterCotisation')
+                // this.$router.push({ name: 'cotisations', params:{nuH: this.$store.state.filteredCotisations[0].nuH.toLowerCase()} })
                 this.$router.push({ name: 'cotisations', params:{hol: this.$store.state.filteredCotisations[0].noH.toLowerCase(), nuH: this.$store.state.filteredCotisations[0].nuH.toLowerCase()} })
             }
         },

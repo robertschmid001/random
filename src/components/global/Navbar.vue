@@ -1,8 +1,8 @@
 <template>
-  <div id="my-navbar">
-    <el-aside width="auto" style="text-align:left;"  v-click-outside="closeEvent">
+  <div id="my-navbar" v-on:mouseover="isOpening" v-on:mouseleave="isClosing">
+    <el-aside width="auto" style="text-align:left;">
         <div class="image-wrapper">
-          <font-awesome-icon icon="bars" class="size2 collapse-icon" @click="changeCollapse"/>
+          <font-awesome-icon icon="bars" class="size2 collapse-icon"/>
         </div>
         <el-menu default-active="1" :router="true" :collapse="isCollapse" class="main-menu">
         <el-menu-item index="/Accueil" class="hover border" title="Accueil">
@@ -60,6 +60,12 @@ export default {
     }
   },
   methods: {
+    isClosing () {
+      return this.isCollapse = true
+    },
+      isOpening () {
+      return this.isCollapse = false
+    },
     changeExtr (data) {
       switch(data)
             {
@@ -78,14 +84,6 @@ export default {
                 default:
                     return ""
             }
-    },
-    changeCollapse () {
-      this.isCollapse = !this.isCollapse
-    },
-    closeEvent () {
-      if(this.isCollapse == false) {
-        this.isCollapse = true;
-      }
     }
   }
 }

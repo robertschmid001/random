@@ -180,7 +180,6 @@ export default {
 
       // Use only absolute numbers
       chart.numberFormatter.numberFormat = "#.#s";
-      chart.exporting.menu = new am4core.ExportMenu();
       // Create axes
       var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
       categoryAxis.dataFields.category = "age";
@@ -194,11 +193,26 @@ export default {
       valueAxis.renderer.minGridDistance = 10;
       valueAxis.renderer.baseGrid.strokeOpacity = 0.8;
       valueAxis.renderer.ticks.template.length = 5;
-      valueAxis.renderer.ticks.template.disabled = false;
+      valueAxis.renderer.ticks.template.disabled = true;
       valueAxis.renderer.ticks.template.strokeOpacity = 0.4;
       valueAxis.renderer.labels.template.adapter.add("text", function(text) {
         return text == "Femme" || text == "Homme" ? text : text + "";
       })
+
+      chart.exporting.menu = new am4core.ExportMenu();
+      chart.exporting.menu.align = "right";
+      chart.exporting.menu.verticalAlign = "top";
+
+      chart.exporting.menu.items = [
+          {
+              "label": "Télécharger",
+              "menu": [
+              { "type": "png", "label": "PNG" },
+              { "type": "jpg", "label": "JPG" },
+              { "label": "Print", "type": "print" }
+              ]
+          }
+      ];
 
       // Create series
       var male = chart.series.push(new am4charts.ColumnSeries());
@@ -295,7 +309,6 @@ export default {
 
             // Use only absolute numbers
       chart.numberFormatter.numberFormat = "#.#s";
-      chart.exporting.menu = new am4core.ExportMenu();
       // Create axes
       var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
       categoryAxis.dataFields.category = "age";
@@ -320,18 +333,32 @@ export default {
       //   chart.svgContainer.htmlElement.style.height = targetHeight + "px";
       // });
 
+      chart.exporting.menu = new am4core.ExportMenu();
+      chart.exporting.menu.align = "right";
+      chart.exporting.menu.verticalAlign = "top";
 
+      chart.exporting.menu.items = [
+          {
+              "label": "Télécharger",
+              "menu": [
+              { "type": "png", "label": "PNG" },
+              { "type": "jpg", "label": "JPG" },
+              { "label": "Print", "type": "print" }
+              ]
+          }
+      ];
       var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
       valueAxis.extraMin = 0.1;
       valueAxis.extraMax = 0.1;
       valueAxis.renderer.minGridDistance = 10;
       valueAxis.renderer.baseGrid.strokeOpacity = 0.8;
       valueAxis.renderer.ticks.template.length = 5;
-      valueAxis.renderer.ticks.template.disabled = false;
+      valueAxis.renderer.ticks.template.disabled = true;
       valueAxis.renderer.ticks.template.strokeOpacity = 0.4;
       valueAxis.renderer.labels.template.adapter.add("text", function(text) {
         return text == "Femme" || text == "Homme" ? text : text + "";
       })
+      // return text == "Femme" || text == "Homme" ? text : text + "";
 
 
       // Create series

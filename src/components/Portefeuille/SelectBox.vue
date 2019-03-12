@@ -19,6 +19,7 @@
                 <button class="button buttonDeco pointer" v-if="showComputed" @click="clickChart(selection)" >Créer les graphiques</button>
                 <button class="button export-button pointer"><download-excel class="exporter" :data = "selection" :fields = "getFields"> Exporter </download-excel></button>
                 <button class="button export-button pointer annuler" @click="clearSelection" >Annuler</button>
+                 <button class="button export-button pointer annuler" @click="log" >log</button>
             </div>
         </div>
     </div>
@@ -77,7 +78,7 @@ export default {
                 }
                 return json_fields
             }
-            if (this.current === 'entTable' || this.current === 'globEnt-table') {
+            if (this.current === 'globEnt-table' || this.current === 'entreprise-table') {
                  json_fields = {
                     'Holding': 'noH',
                     'N° holding': 'nuH',
@@ -305,6 +306,9 @@ export default {
         }
     },
     methods: {
+        log () {
+            console.log(this.selection, 'selection')
+        },
         clearSelection () {
             this.$emit('clear')
         },
@@ -412,8 +416,6 @@ export default {
                     return ""
             }
         },
-        log () {
-        },
         getName (data) {
             if ( data.n ) return data.noH + data.noC + ' ' + this.transLibelle(data.l);
             if ( data.f ) return data.noH + ' ' + data.noC + ' ' + data.f + ' ' + data.l;
@@ -461,7 +463,7 @@ h1 {
 }
 .bottom-pop {
   box-shadow: 0px 0px 25px -9px;
-  padding: 40px 50px;
+  padding: 15px 30px;
   position: absolute;
   bottom: 0px;
   z-index: 1;

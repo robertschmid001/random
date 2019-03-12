@@ -10,7 +10,7 @@
     <el-row>
         <el-col class="box" :xs="24" :sm="24" :md="24" :lg="16" :xl="16">
           <div class="white height-square xtrapadding  height300">
-              <h3 class="h3">Synthèse de mon Portefeuille Client</h3>
+              <h3 class="h3">Synthèse de mon Portefeuille Client {{new Date().getFullYear()}}</h3>
               <div class="content-text">
                 Consulter les données clefs de mon portefeuille clients (holdings, entreprises, contrats, cotisations, assurés)
                 et Créer un graphique sur-mesure en sélectionnant les données souhaitées de mon portefeuille.
@@ -129,11 +129,14 @@
         </div>
       </el-col>
     </el-row>
+    <presentation v-if="this.showpresa" @closePresa="closePresa"/>
+    <button @click="openMe">.</button>
   </div>
 </template>
 
 <script>
 import moment from 'moment'
+import Presentation from "./modals/presentation.vue";
 import _ from 'lodash';
 
 export default {
@@ -145,8 +148,12 @@ export default {
     return {
       info : this.$store.state.Main,
       isImp : false,
-      currentTab : this.$store.state.spa
+      currentTab : this.$store.state.spa,
+      showpresa: false
     }
+  },
+  components: {
+    "presentation": Presentation
   },
   computed: {
     getSpa () {
@@ -164,6 +171,12 @@ export default {
     // }
   },
   methods: {
+    closePresa () {
+      this.showpresa = false
+    },
+    openMe () {
+      this.showpresa = !this.showpresa
+    },
     formatCurrency (param) {
         if (param != null) {
             return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(param)
@@ -344,7 +357,7 @@ export default {
 }
 .extrIcon {
   height: 100%;
-  color: black;
+  color: #2c3e50;
 }
 .arrow {
   display: flex;

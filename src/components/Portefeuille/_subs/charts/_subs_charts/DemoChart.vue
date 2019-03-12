@@ -240,8 +240,22 @@ export default {
                 })
 
                 chart.fontSize = "13px"
-                chart.exporting.menu = new am4core.ExportMenu();
                 chart.startDuration = 0;
+
+                chart.exporting.menu = new am4core.ExportMenu();
+                chart.exporting.menu.align = "right";
+                chart.exporting.menu.verticalAlign = "top";
+
+                chart.exporting.menu.items = [
+                    {
+                        "label": "Télécharger",
+                        "menu": [
+                        { "type": "png", "label": "PNG" },
+                        { "type": "jpg", "label": "JPG" },
+                        { "label": "Print", "type": "print" }
+                        ]
+                    }
+                ];
 
                 // Add and configure Series
                 var pieSeries = chart.series.push(new am4charts.PieSeries3D());
@@ -272,8 +286,8 @@ export default {
                 label.x = am4core.percent(50);
                 label.horizontalCenter = "middle";
                 label.y = am4core.percent(30);
-                return 
-            
+                return
+
             } else {
                 this.TChartLy.forEach(e => {
                     chart.data.push(
@@ -297,7 +311,22 @@ export default {
                 })
 
                 chart.fontSize = "13px"
+
                 chart.exporting.menu = new am4core.ExportMenu();
+                chart.exporting.menu.align = "right";
+                chart.exporting.menu.verticalAlign = "top";
+
+                chart.exporting.menu.items = [
+                    {
+                        "label": "Télécharger",
+                        "menu": [
+                        { "type": "png", "label": "PNG" },
+                        { "type": "jpg", "label": "JPG" },
+                        { "label": "Print", "type": "print" }
+                        ]
+                    }
+                ];
+                // chart.exporting.menu = new am4core.ExportMenu();
                 // Add and configure Series
                 var pieSeries = chart.series.push(new am4charts.PieSeries3D());
                 pieSeries.dataFields.value = "Qté";
@@ -326,6 +355,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 h2 {
     text-align: center;
 }
@@ -338,6 +368,9 @@ h2 {
 }
 #chartdiv2 {
     padding-top: 20px;
+}
+.amcharts-amexport-item.amcharts-amexport-item-level-0 {
+    padding: 20px 10px!important;
 }
 .hello {
   width: 100%;

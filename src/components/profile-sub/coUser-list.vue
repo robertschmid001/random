@@ -1,11 +1,11 @@
 <template>
   <div id="coUser-list">
-    <div v-if="!isAdding">
+    <div v-if="!isShow">
         <div class="inner-header header-border">
             <el-row>
                 <el-col :span="2" class="md-txt align-left grey-text"><font-awesome-icon icon="times" class="close-icon pointer"  @click="close"/></el-col>
                 <el-col :span="12" class="md-txt align-left grey-text"><font-awesome-icon icon="user" class="profile-icon"/> Liste des utilisateurs habilités</el-col>
-                <el-col :span="10" class="md-txt align-right"><font-awesome-icon icon="user-plus" class="profile-icon"/><span class="hover pointer" @click="isAdding=true">Ajouter un utilisateur</span></el-col>
+                <el-col :span="10" class="md-txt align-right"><font-awesome-icon icon="user-plus" class="profile-icon"/><span class="hover pointer" @click="isShow=true">Ajouter un utilisateur</span></el-col>
             </el-row>
         </div>
         <div class="align-left inner-body-r md-txt">
@@ -14,7 +14,7 @@
                     <div class="input-box grey-text">
                         <span v-if="!user.edit">{{user.user_fname}}</span> <input v-else class="base-input" :placeholder="user.user_fname" v-model.trim.lazy="modifUser.forename"/><br>
                         <span v-if="!user.edit">{{user.user_lname}}</span> <input v-else class="base-input" :placeholder="user.user_lname" v-model.trim.lazy="modifUser.surname"/><br>
-                        <span v-if="!user.edit">{{telFormat(user.tel)}}</span> 
+                        <span v-if="!user.edit">{{telFormat(user.tel)}}</span>
                         <br>
                         <span>{{user.user_mail}}</span>
                         <br>
@@ -64,7 +64,6 @@
 <script>
 
 import axios from "axios"
-import { required, maxLength, email, numeric} from "vuelidate/lib/validators";
 
 export default {
   name: 'coUsers',
@@ -81,6 +80,7 @@ export default {
         },
         // showList: false,
         // isEditing: false,
+        isShow: false,
         isAdding: false,
         // passwordCheck: '',
         coCourtiers: [],
@@ -152,6 +152,7 @@ export default {
         if ( this.validate.nom == '' && this.validate.prenom == '' && this.validate.email  == '' && this.validate.tel  == '' ) this.addUser();
     },
     addUser () {
+        var that = this
             axios.post('https://courtier.cpms.fr/createCoUser',{
             mailCourtier: this.newUser.email,
             nomCourtier: this.newUser.surname,
@@ -160,7 +161,13 @@ export default {
         })
         .then(response => {
             if ( response.data.status.status === true) {
-                this.isAdding = false
+                that.coCourtiers.unshift({
+                    "user_fname": that.newUser.surname,
+                    "user_lname": that.newUser.forename,
+                    "user_email": that.newUser.email,
+                    "user_tel": that.newUser.tel,
+                })
+                this.isShow = false
                 this.$message({
                     type: 'success',
                     message: 'Vos modifications ont été prises en compte et seront traitées dans les plus brefs délais.',
@@ -176,7 +183,7 @@ export default {
         })
     },
     submit () {
-        this.isAdding = false
+        this.isShow = false
     },
     deleteUser (index, user) {
         axios.post('https://courtier.cpms.fr/deleteCoUser/'+ `${user.id}`
@@ -199,7 +206,7 @@ export default {
           })
     },
     cancelAdd () {
-        this.isAdding = false
+        this.isShow = false
     },
     openWarning(index, user) {
         this.$confirm('Souhaitez-vous supprimer cet utilisateur?', {

@@ -135,15 +135,6 @@ export default {
         var adding = this.isAdding
         return adding
     },
-    upCoCourtiers () {
-        var courtiers = []
-        courtiers = this.coCourtiers
-        return courtiers
-    },
-    coUsersList () {
-        var data = this.coCourtiers;
-        return data
-    }
   },
   methods: {
     passWordInit () {
@@ -214,12 +205,13 @@ export default {
         this.newTel = this.cabinet.tel
     },
     validateConfirm () {
+        var reg = new RegExp('^[0-9]+$');
+        var checkTel = reg.test(this.newTel);
+
         if (this.cabinet.user_type === 'root') {
             this.validate.cp = '';
             this.validate.tel = '';
             this.validate.adresse = '';
-            var reg = new RegExp('^[0-9]+$');
-            var checkTel = reg.test(this.newTel);
             var checkCp = reg.test(this.newAd4);
             
             if ( this.newAd1.length === 0) this.validate.adresse = 'Merci de saisir une adresse'
@@ -231,8 +223,6 @@ export default {
             this.validate.cp = '';
             this.validate.tel = '';
             this.validate.adresse = '';
-            var reg = new RegExp('^[0-9]+$');
-            var checkTel = reg.test(this.newTel);
 
             if ( this.newTel.length !== 10 || this.newTel.length == 0 || !checkTel) this.validate.tel = 'Veuillez saisir un numéro de téléphone à 10 chiffres'
             if ( this.validate.cp == '' && this.validate.tel == '' && this.validate.adresse  == '' ) return this.confirmCo();

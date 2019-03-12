@@ -174,7 +174,9 @@ export default {
         return filtered
     },
     transTeletrans (data) {
-        return this.$store.state.translation.connecte[data]
+        var trans = this.$store.state.translation.connecte[data]
+        if ( trans === 'Défaut d’attestation RO'  ) return 'Non connectés'
+        return trans
     },
     getAdresse () {
         var add = this.assInfo

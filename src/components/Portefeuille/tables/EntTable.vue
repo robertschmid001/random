@@ -78,8 +78,13 @@ export default {
       amount:0,
       year: '',
       lastYear: '',
-      entreprise: this.holdEntreprise,
-      first: 0
+      first: 0,
+      entreprises: this.holdEntreprise
+    }
+  },
+  watch: {
+    holdEntreprise: function (val) {
+      this.entreprises = val
     }
   },
   components: {
@@ -105,11 +110,11 @@ export default {
       var x;
       var y;
 
-      if (!this.entreprise || this.entreprise.length === 0){
+      if (!this.entreprises || this.entreprises.length === 0){
         data = this.$store.state.holdEnt
         this.pagination = false
       } else {
-        data = this.entreprise
+        data = this.entreprises
       }
 
       if (this.first === 0) {
@@ -158,18 +163,46 @@ export default {
     }
   },
   methods: {
+        // getEnt () {
+        //     console.log('getEnt')
+        //     console.log(this.entreprises, 'entreprises')
+        //     if (this.entreprises.length === 0) {
+        //       console.log('in')
+        //       console.log(this.$store.state.holdings, 'this.$store.state.holdings')
+        //       const filtered = this.$store.state.holdings.filter(d => {
+        //         d.entreprises.forEach(e => {
+        //           console.log('in ent', d.nuH , this.$route.params.nuH  )
+        //           if (d.nuH === this.$route.params.nuH ) {
+        //             console.log('nuh = nuh')
+        //             return e
+        //           }
+        //         })
+        //       })
+        //       console.log(this.entreprises,'this.entreprises')
+        //       console.log(filtered,'filtered')
+        //       return this.entreprises = filtered
+        //     } else return
+        // },
+    fetchData () {
+        // this.error = this.post = null
+        // this.loading = true
+        // this.getEnt();
+        console.log(this.holdEntreprise, 'holdEntreprise')
+        console.log(this.$route.params, 'this.$route.params')
+        console.log(this.$route, 'this.$route')
+    },
     getCon(column) {
         var x;
         var y;
         if (column.prop === 'noH') {
             if (column.order === 'ascending') {
-            this.entreprise.sort(function (a, b) {
+            this.entreprises.sort(function (a, b) {
                 x = a.noH
                 y = b.noH
                 return x < y ? 1 : x > y ? -1 : 0
             })
             } else {
-            this.entreprise.sort(function (a, b) {
+            this.entreprises.sort(function (a, b) {
                 x = a.noH
                 y = b.noH
                 return x > y ? 1 : x < y ? -1 : 0
@@ -178,13 +211,13 @@ export default {
         }
         if (column.prop === 'noC') {
             if (column.order === 'ascending') {
-            this.entreprise.sort(function (a, b) {
+            this.entreprises.sort(function (a, b) {
                 x = a.noC
                 y = b.noC
                 return x < y ? 1 : x > y ? -1 : 0
             })
             } else {
-            this.entreprise.sort(function (a, b) {
+            this.entreprises.sort(function (a, b) {
                 x = a.noC
                 y = b.noC
                 return x > y ? 1 : x < y ? -1 : 0
@@ -193,13 +226,13 @@ export default {
         }
         if (column.prop === 'iCc') {
             if (column.order === 'ascending') {
-            this.entreprise.sort(function (a, b) {
+            this.entreprises.sort(function (a, b) {
                 x = a.iCc
                 y = b.iCc
                 return x < y ? 1 : x > y ? -1 : 0
             })
             } else {
-            this.entreprise.sort(function (a, b) {
+            this.entreprises.sort(function (a, b) {
                 x = a.iCc
                 y = b.iCc
                 return x > y ? 1 : x < y ? -1 : 0
@@ -208,13 +241,13 @@ export default {
         }
         if (column.prop === 'iAa') {
             if (column.order === 'ascending') {
-            this.entreprise.sort(function (a, b) {
+            this.entreprises.sort(function (a, b) {
                 x = a.iAa
                 y = b.iAa
                 return x < y ? 1 : x > y ? -1 : 0
             })
             } else {
-            this.entreprise.sort(function (a, b) {
+            this.entreprises.sort(function (a, b) {
                 x = a.iAa
                 y = b.iAa
                 return x > y ? 1 : x < y ? -1 : 0
@@ -223,13 +256,13 @@ export default {
         }
         if (column.prop === 'iTt') {
             if (column.order === 'ascending') {
-            this.entreprise.sort(function (a, b) {
+            this.entreprises.sort(function (a, b) {
                 x = a.iTt
                 y = b.iTt
                 return x < y ? 1 : x > y ? -1 : 0
             })
             } else {
-            this.entreprise.sort(function (a, b) {
+            this.entreprises.sort(function (a, b) {
                 x = a.iTt
                 y = b.iTt
                 return x > y ? 1 : x < y ? -1 : 0
@@ -307,6 +340,7 @@ export default {
       })
       this.$store.state.filteredAssures = filteredAssure
       this.$emit('enterAssure')
+      // this.$router.push({ name: 'assures',params: {nuH: param.nuH, nuC: param.nuC}})
       this.$router.push({ name: 'assures', params:{hol: param.noH.toLowerCase(), nuH: param.nuH, ent: param.noC.toLowerCase(), nuC: param.nuC}})
     },
     cotFormating1 (data) {
@@ -338,6 +372,7 @@ export default {
       this.$store.state.holdEntCont = filteredData
       this.$store.state.parentBread = filteredData[0].noH.toLowerCase()
       this.$emit('holdContRow')
+      // this.$router.push({ name: 'contrats', params:{ nuH:filteredData[0].nuH, nuC:data.nuC}})
       this.$router.push({ name: 'contrats', params:{hol:this.$store.state.parentBread, nuH:filteredData[0].nuH, ent:filteredData[0].noC.toLowerCase(), nuC:data.nuC}})
     },
     cotRowData (data) {
@@ -370,6 +405,7 @@ export default {
       this.$store.state.filteredCotisations = filteredCotisation
       this.$store.state.parentBread = filteredCotisation[0].noC.toLowerCase()
       this.$emit('enterCotisation')
+      // this.$router.push({ name: 'cotisations', params:{ nuH:this.$store.state.filteredCotisations[0].nuH, nuC: this.$store.state.filteredCotisations[0].nuC }})
       this.$router.push({ name: 'cotisations', params:{hol: this.$store.state.filteredCotisations[0].noH.toLowerCase(), nuH:this.$store.state.filteredCotisations[0].nuH, ent: this.$store.state.filteredCotisations[0].noC.toLowerCase(), nuC: this.$store.state.filteredCotisations[0].nuC }})
     },
     toggleSelection(rows) {
@@ -394,6 +430,7 @@ export default {
     }
   },
   created () {
+    this.fetchData();
   },
 }
 </script>
